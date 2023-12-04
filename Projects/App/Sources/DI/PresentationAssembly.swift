@@ -6,13 +6,13 @@ import Domain
 
 public struct PresentationAssembly: Assembly {
     public func assemble(container: Swinject.Container) {
-        container.register(RandomCatViewModel.self) { resolver in
-            let usecase = resolver.resolve(RandomCatUsecase.self)!
-            return RandomCatViewModel(usecase: usecase)
+        container.register(ShoppingListViewModel.self) { resolver in
+            let usecase = resolver.resolve(ShoppingListUsecase.self)!
+            return ShoppingListViewModel(usecase: usecase)
         }
-        container.register(RandomCatView.self) { resolver in
-            let viewModel = resolver.resolve(RandomCatViewModel.self)!
-            return RandomCatView(viewModel: viewModel)
+        container.register(ShoppingListView.self) { resolver in
+            let viewModel = resolver.resolve(ShoppingListViewModel.self)!
+            return ShoppingListView(viewModel: viewModel)
         }
     }
 }
