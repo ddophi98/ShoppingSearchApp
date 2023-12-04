@@ -12,7 +12,7 @@ final public class DefaultImageDatasource: ImageDatasource {
     
     public init() { }
     
-    private let moyaProvider = MoyaWrapper<ImageAPI>()
+    private let moyaProvider = MoyaWrapper<SearchAPI>()
     
     public func loadCatImage() -> AnyPublisher<[CatImageDTO], Error> {
         moyaProvider.call(target: .catImage)
