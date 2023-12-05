@@ -3,11 +3,11 @@
 import Foundation
 
 public struct ShoppingResultVO {
-    let lastBuildDate: String
-    let total: Int
-    let start: Int
-    let display: Int
-    let items: [ShoppingItemVO]
+    public let lastBuildDate: String
+    public let total: Int
+    public let start: Int
+    public let display: Int
+    public let items: [ShoppingItemVO]
     
     public init(lastBuildDate: String, total: Int, start: Int, display: Int, items: [ShoppingItemVO]) {
         self.lastBuildDate = lastBuildDate
@@ -19,20 +19,20 @@ public struct ShoppingResultVO {
 }
 
 public struct ShoppingItemVO: Codable {
-    let title: String
-    let link: String
-    let image: String
-    let lprice: Int
-    let hprice: Int
-    let mallName: String
-    let productId: Int
-    let productType: Int
-    let brand: String
-    let maker: String
-    let category1: String
-    let category2: String
-    let category3: String
-    let category4: String
+    public let title: String
+    public let link: String
+    public let image: String
+    public let lprice: Int
+    public let hprice: Int
+    public let mallName: String
+    public let productId: Int
+    public let productType: Int
+    public let brand: String
+    public let maker: String
+    public let category1: String
+    public let category2: String
+    public let category3: String
+    public let category4: String
     
     public init(title: String, link: String, image: String, lprice: Int, hprice: Int, mallName: String, productId: Int, productType: Int, brand: String, maker: String, category1: String, category2: String, category3: String, category4: String) {
         self.title = title
