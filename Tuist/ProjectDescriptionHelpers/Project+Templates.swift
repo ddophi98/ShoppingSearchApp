@@ -18,8 +18,8 @@ public extension Project {
         let settings: Settings = .settings(
             base: [:],
             configurations: [
-                .debug(name: .debug),
-                .release(name: .release)
+                .debug(name: .debug, xcconfig: .relativeToRoot("Config.xcconfig")),
+                .release(name: .release, xcconfig: .relativeToRoot("Config.xcconfig"))
             ], defaultSettings: .recommended)
 
         let appTarget = Target(
