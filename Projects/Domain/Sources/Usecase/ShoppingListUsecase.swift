@@ -9,17 +9,19 @@ public protocol ShoppingListUsecase {
 }
 
 public final class DefaultShoppingResultUsecase: ShoppingListUsecase {
-    private let repository: SearchRepository
+    private let searchRepository: SearchRepository
+    private let imageRepository: ImageRepository
     
-    public init(repository: SearchRepository) {
-        self.repository = repository
+    public init(searchRepository: SearchRepository, imageRepository: ImageRepository) {
+        self.searchRepository = searchRepository
+        self.imageRepository = imageRepository
     }
     
     public func searchShopping(query: String, display: Int) -> AnyPublisher<ShoppingResultVO, Error> {
-        repository.searchShopping(query: query, display: display)
+        searchRepository.searchShopping(query: query, display: display)
     }
     
     public func downloadImage(url: String) -> AnyPublisher<Data, Error> {
-        repository.downloadImage(url: url)
+        imageRepository.downloadImage(url: url)
     }
 }

@@ -16,8 +16,4 @@ final public class DefaultSearchRepository: SearchRepository {
             .map { $0.toVO() }
             .eraseToAnyPublisher()
     }
-    
-    public func downloadImage(url: String) -> AnyPublisher<Data, Error> {
-        dataSource.downloadImage(url: url)
-    }
 }

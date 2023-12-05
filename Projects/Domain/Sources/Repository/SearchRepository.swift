@@ -5,5 +5,4 @@ import Foundation
 
 public protocol SearchRepository {
     func searchShopping(query: String, display: Int) -> AnyPublisher<ShoppingResultVO, Error>
-    func downloadImage(url: String) -> AnyPublisher<Data, Error>
 }
