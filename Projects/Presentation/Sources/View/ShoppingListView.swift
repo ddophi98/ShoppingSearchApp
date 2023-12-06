@@ -22,7 +22,9 @@ public class ShoppingListView: UIViewController {
         var tableView = UITableView()
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.register(ShoppingListBlockB.self, forCellReuseIdentifier: ShoppingListBlockB.id)
+        tableView.separatorInset = .init(top: 0, left: 10, bottom: 0, right: 10)
+        tableView.register(ShoppingListBlock1.self, forCellReuseIdentifier: ShoppingListBlock1.id)
+        tableView.register(ShoppingListBlock2.self, forCellReuseIdentifier: ShoppingListBlock2.id)
         return tableView
     }()
     
@@ -53,18 +55,30 @@ public class ShoppingListView: UIViewController {
 
 extension ShoppingListView: UITableViewDataSource {
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        return 1 + (viewModel.allItems?.count ?? 0)
     }
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: ShoppingListBlockB.id, for: indexPath) as! ShoppingListBlockB
-        cell.setViewModel(viewModel: viewModel)
-        return cell
+        if indexPath.row == 0 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: ShoppingListBlock2.id, for: indexPath) as! ShoppingListBlock2
+            cell.setViewModel(viewModel: viewModel)
+            return cell
+        } else {
+            guard let item = viewModel.allItems?[indexPath.row-1] else { return UITableViewCell() }
+            let cell = tableView.dequeueReusableCell(withIdentifier: ShoppingListBlock1.id, for: indexPath) as! ShoppingListBlock1
+            cell.setViewModel(viewModel: viewModel)
+            cell.setCell(imageURL: item.image, title: item.title, price: item.lprice)
+            return cell
+        }
     }
 }
 
 extension ShoppingListView: UITableViewDelegate {
     public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return ShoppingListCellB.cellHeight + 50
+        if indexPath.row == 0 {
+            return ShoppingListCellForBlock2.cellHeight + 100
+        } else {
+            return 250
+        }
     }
 }

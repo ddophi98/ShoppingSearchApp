@@ -3,9 +3,9 @@
 import UIKit
 import SnapKit
 
-public class ShoppingListBlockB: UITableViewCell {
+public class ShoppingListBlock2: UITableViewCell {
     
-    static let id = "ShoppingListBlockB"
+    static let id = "ShoppingListBlock2"
     private var viewModel: ShoppingListViewModel?
     
     override public init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -30,18 +30,19 @@ public class ShoppingListBlockB: UITableViewCell {
             let layout = UICollectionViewFlowLayout()
             layout.scrollDirection = .horizontal
             layout.minimumLineSpacing = 8.0
-            layout.itemSize = .init(width: ShoppingListCellB.cellWidth, height: ShoppingListCellB.cellHeight)
+            layout.itemSize = .init(width: ShoppingListCellForBlock2.cellWidth, height: ShoppingListCellForBlock2.cellHeight)
             return layout
         }()
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewFlowLayout)
         collectionView.dataSource = self
         collectionView.showsHorizontalScrollIndicator = false
-        collectionView.register(ShoppingListCellB.self, forCellWithReuseIdentifier: ShoppingListCellB.id)
+        collectionView.backgroundColor = .clear
+        collectionView.register(ShoppingListCellForBlock2.self, forCellWithReuseIdentifier: ShoppingListCellForBlock2.id)
         return collectionView
     }()
     
     private func setBinding(viewModel: ShoppingListViewModel) {
-        viewModel.$shoppingResultVO
+        viewModel.$top5Items
             .receive(on: DispatchQueue.main)
             .sink { [weak self] shoppingResultVO in
                 self?.collectionView.reloadData()
@@ -50,17 +51,18 @@ public class ShoppingListBlockB: UITableViewCell {
     }
     
     private func setView() {
+        backgroundColor = .systemGray6
         addSubview(title)
         contentView.addSubview(collectionView)
     }
     
     private func setLayout() {
         title.snp.makeConstraints { make in
-            make.top.equalToSuperview()
+            make.top.equalToSuperview().offset(20)
             make.centerX.equalToSuperview()
         }
         collectionView.snp.makeConstraints { make in
-            make.top.equalTo(title.snp.bottom)
+            make.top.equalTo(title.snp.bottom).offset(20)
             make.leading.trailing.bottom.equalToSuperview()
         }
     }
@@ -71,17 +73,17 @@ public class ShoppingListBlockB: UITableViewCell {
     }
 }
 
-extension ShoppingListBlockB: UICollectionViewDataSource {
+extension ShoppingListBlock2: UICollectionViewDataSource {
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel?.shoppingResultVO?.items.count ?? 0
+        return viewModel?.top5Items?.count ?? 0
     }
     
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let item = viewModel?.shoppingResultVO?.items[indexPath.row],
-              let viewModel = viewModel
+        guard let viewModel = viewModel,
+              let item = viewModel.top5Items?[indexPath.row]
         else { return UICollectionViewCell() }
         
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ShoppingListCellB.id, for: indexPath) as! ShoppingListCellB
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ShoppingListCellForBlock2.id, for: indexPath) as! ShoppingListCellForBlock2
         cell.setViewModel(viewModel: viewModel)
         cell.setCell(imageURL: item.image, title: item.title, price: item.lprice)
         return cell
