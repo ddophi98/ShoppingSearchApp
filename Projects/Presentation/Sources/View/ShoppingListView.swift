@@ -18,9 +18,11 @@ public class ShoppingListView: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private lazy var collectionView: UITableView = {
+    private lazy var tableView: UITableView = {
         var tableView = UITableView()
         tableView.dataSource = self
+        tableView.delegate = self
+        tableView.register(ShoppingListBlockB.self, forCellReuseIdentifier: ShoppingListBlockB.id)
         return tableView
     }()
     
@@ -39,7 +41,6 @@ public class ShoppingListView: UIViewController {
     }
     
     private func setView() {
-        view.backgroundColor = .white
         view.addSubview(tableView)
     }
     
@@ -52,14 +53,18 @@ public class ShoppingListView: UIViewController {
 
 extension ShoppingListView: UITableViewDataSource {
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.shoppingResultVO?.items.count ?? 0
+        return 1
     }
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let item = viewModel.shoppingResultVO?.items[indexPath.row] else { return UITableViewCell() }
-        
-        let cell = ShoppingListCellA(viewModel: viewModel)
-        cell.setCell(imageURL: item.image, title: item.title, lowPrice: item.lprice, highPrice: item.hprice)
+        let cell = tableView.dequeueReusableCell(withIdentifier: ShoppingListBlockB.id, for: indexPath) as! ShoppingListBlockB
+        cell.setViewModel(viewModel: viewModel)
         return cell
+    }
+}
+
+extension ShoppingListView: UITableViewDelegate {
+    public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return ShoppingListCellB.cellHeight + 50
     }
 }
