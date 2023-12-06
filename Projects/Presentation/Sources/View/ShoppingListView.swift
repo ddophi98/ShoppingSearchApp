@@ -9,26 +9,30 @@ public class ShoppingListView: UIViewController {
     public init(viewModel: ShoppingListViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
+        setView()
+        setLayout()
+        setBinding()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private lazy var tableView: UITableView = {
+    private lazy var collectionView: UITableView = {
         var tableView = UITableView()
+        tableView.dataSource = self
         return tableView
     }()
     
-    public override func viewDidLoad() {
-        setView()
-        setLayout()
-        setBinding()
+    public override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        viewModel.searchShopping(query: "무선이어폰", display: 10)
     }
     
     private func setBinding() {
         viewModel.$shoppingResultVO
-            .sink { [weak self] _ in
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] shoppingResultVO in
                 self?.tableView.reloadData()
             }
             .store(in: &viewModel.cancellable)
@@ -43,11 +47,6 @@ public class ShoppingListView: UIViewController {
         tableView.snp.makeConstraints { make in
             make.leading.trailing.top.bottom.equalToSuperview()
         }
-    }
-    
-    public override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        viewModel.searchShopping(query: "무선이어폰", display: 10)
     }
 }
 

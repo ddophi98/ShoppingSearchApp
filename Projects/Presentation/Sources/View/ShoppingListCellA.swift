@@ -9,16 +9,18 @@ public class ShoppingListCellA: UITableViewCell {
     
     init(viewModel: ShoppingListViewModel) {
         self.viewModel = viewModel
-        super.init()
+        super.init(style: .default, reuseIdentifier: "ShoppingListCellA")
+        setView()
+        setLayout()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    
     lazy private var thumbnail: UIImageView = {
         let thumbnail = UIImageView()
+        thumbnail.contentMode = .scaleAspectFit
         return thumbnail
     }()
     
