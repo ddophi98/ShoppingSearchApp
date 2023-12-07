@@ -3,11 +3,11 @@
 import UIKit
 import SnapKit
 
-final public class MyBasketView: UIViewController {
+final public class BasketView: UIViewController {
     
-    private let viewModel: MyBaseketViewModel
+    private let viewModel: BasketViewModel
     
-    public init(viewModel: MyBaseketViewModel) {
+    public init(viewModel: BasketViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
         setView()

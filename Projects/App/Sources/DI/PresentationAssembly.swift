@@ -14,16 +14,25 @@ public struct PresentationAssembly: Assembly {
             let viewModel = resolver.resolve(ShoppingListViewModel.self)!
             return ShoppingListView(viewModel: viewModel)
         }
-        container.register(MyBaseketViewModel.self) { resolver in
-            return MyBaseketViewModel()
+        container.register(BasketViewModel.self) { resolver in
+            let usecase = resolver.resolve(BasketUsecase.self)!
+            return BasketViewModel(usecase: usecase)
         }
-        container.register(MyBasketView.self) { resolver in
-            let viewModel = resolver.resolve(MyBaseketViewModel.self)!
-            return MyBasketView(viewModel: viewModel)
+        container.register(BasketView.self) { resolver in
+            let viewModel = resolver.resolve(BasketViewModel.self)!
+            return BasketView(viewModel: viewModel)
+        }
+        container.register(DetailViewModel.self) { resolver in
+            let usecase = resolver.resolve(DetailUsecase.self)!
+            return DetailViewModel(usecase: usecase)
+        }
+        container.register(DetailView.self) { resolver in
+            let viewModel = resolver.resolve(DetailViewModel.self)!
+            return DetailView(viewModel: viewModel)
         }
         container.register(TabView.self) { resolver in
             let firstView = resolver.resolve(ShoppingListView.self)!
-            let secondView = resolver.resolve(MyBasketView.self)!
+            let secondView = resolver.resolve(BasketView.self)!
             return TabView(firstView: firstView, secondView: secondView)
         }
     }

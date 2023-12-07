@@ -10,5 +10,11 @@ public struct DomainAssembly: Assembly {
             let imageRepository = resolver.resolve(ImageRepository.self)!
             return DefaultShoppingResultUsecase(searchRepository: searchRepository, imageRepository: imageRepository)
         }
+        container.register(BasketUsecase.self) { resolver in
+            return DefaultBasketUsecase()
+        }
+        container.register(DetailUsecase.self) { resolver in
+            return DefaultDetailUsecase()
+        }
     }
 }
