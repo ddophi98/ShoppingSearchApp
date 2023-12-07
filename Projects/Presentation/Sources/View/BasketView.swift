@@ -35,4 +35,8 @@ final public class BasketView: UIViewController {
             make.centerY.equalToSuperview()
         }
     }
+    
+    public func setCoordinator(_ coordinator: Coordinator) {
+        viewModel.coordinator = coordinator
+    }
 }

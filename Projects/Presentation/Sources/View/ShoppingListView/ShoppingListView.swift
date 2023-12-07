@@ -51,6 +51,10 @@ final public class ShoppingListView: UIViewController {
             make.leading.trailing.top.bottom.equalToSuperview()
         }
     }
+    
+    public func setCoordinator(_ coordinator: Coordinator) {
+        viewModel.coordinator = coordinator
+    }
 }
 
 extension ShoppingListView: UITableViewDataSource {
@@ -79,6 +83,13 @@ extension ShoppingListView: UITableViewDelegate {
             return ShoppingListCellForBlock2.cellHeight + 100
         } else {
             return 250
+        }
+    }
+    
+    public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if indexPath.row > 0 {
+            guard let item = viewModel.allItems?[indexPath.row-1] else { return }
+            viewModel.moveToDetailView(item: item)
         }
     }
 }

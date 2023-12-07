@@ -3,6 +3,7 @@
 import Swinject
 import Presentation
 import Domain
+import UIKit
 
 public struct PresentationAssembly: Assembly {
     public func assemble(container: Swinject.Container) {
@@ -31,9 +32,15 @@ public struct PresentationAssembly: Assembly {
             return DetailView(viewModel: viewModel)
         }
         container.register(TabView.self) { resolver in
-            let firstView = resolver.resolve(ShoppingListView.self)!
-            let secondView = resolver.resolve(BasketView.self)!
-            return TabView(firstView: firstView, secondView: secondView)
+            let firstNavigationController = UINavigationController()
+            let firstCoordinator = MainCoordinator(navigationController: firstNavigationController, container: container)
+            firstCoordinator.initFirstTab()
+            
+            let secondNavigationController = UINavigationController()
+            let secondCoordinator = MainCoordinator(navigationController: secondNavigationController, container: container)
+            secondCoordinator.initSecondTab()
+            
+            return TabView(firstView: firstNavigationController, secondView: secondNavigationController)
         }
     }
 }

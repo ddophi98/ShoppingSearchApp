@@ -35,4 +35,8 @@ final public class ShoppingListViewModel: BaseViewModel {
     func downloadImage(url: String) -> AnyPublisher<Data, Error> {
         usecase.downloadImage(url: url)
     }
+    
+    func moveToDetailView(item: ShoppingItemVO) {
+        coordinator?.moveToDetailView(item: item)
+    }
 }

@@ -40,4 +40,8 @@ final public class DetailView: UIViewController {
     private func setBinding() {
         
     }
+    
+    public func setCoordinator(_ coordinator: Coordinator) {
+        viewModel.coordinator = coordinator
+    }
 }

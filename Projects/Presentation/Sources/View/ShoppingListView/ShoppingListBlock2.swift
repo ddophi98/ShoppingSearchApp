@@ -51,9 +51,11 @@ final public class ShoppingListBlock2: UITableViewCell {
     }
     
     private func setView() {
+        selectionStyle = .none
         backgroundColor = .systemGray6
         addSubview(title)
         contentView.addSubview(collectionView)
+        
     }
     
     private func setLayout() {
@@ -89,3 +91,4 @@ extension ShoppingListBlock2: UICollectionViewDataSource {
         return cell
     }
 }
+
