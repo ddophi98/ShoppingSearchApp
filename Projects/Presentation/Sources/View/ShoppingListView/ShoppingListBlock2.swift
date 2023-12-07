@@ -87,7 +87,7 @@ extension ShoppingListBlock2: UICollectionViewDataSource {
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ShoppingListCellForBlock2.id, for: indexPath) as! ShoppingListCellForBlock2
         cell.setViewModel(viewModel: viewModel)
-        cell.setCell(imageURL: item.image, title: item.title, price: item.lprice)
+        cell.setCell(idx: indexPath.row, imageURL: item.image, title: item.title, price: item.lprice)
         return cell
     }
 }

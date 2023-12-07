@@ -9,6 +9,7 @@ final public class ShoppingListCellForBlock2: UICollectionViewCell {
     static let cellHeight = 300.0
     static let cellWidth = 300.0
     private var viewModel: ShoppingListViewModel?
+    private var idx: Int?
     
     override public init(frame: CGRect) {
         super.init(frame: frame)
@@ -45,6 +46,7 @@ final public class ShoppingListCellForBlock2: UICollectionViewCell {
         addSubview(thumbnail)
         addSubview(title)
         addSubview(price)
+        addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tapped(_:))))
     }
     
     private func setLayout() {
@@ -64,8 +66,16 @@ final public class ShoppingListCellForBlock2: UICollectionViewCell {
         }
     }
     
-    func setCell(imageURL: String, title: String, price: Int) {
+    @objc private func tapped(_ sender: UITapGestureRecognizer) {
+        guard let idx = idx,
+              let item = viewModel?.top5Items?[idx] else { return }
+        viewModel?.moveToDetailView(item: item)
+    }
+    
+    func setCell(idx: Int, imageURL: String, title: String, price: Int) {
         guard let viewModel = viewModel else { return }
+        
+        self.idx = idx
         self.title.text = title.removeHtml()
         self.price.text = "\(price)원"
         viewModel.downloadImage(url: imageURL)
