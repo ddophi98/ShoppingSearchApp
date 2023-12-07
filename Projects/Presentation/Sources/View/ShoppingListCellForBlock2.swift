@@ -3,7 +3,7 @@
 import UIKit
 import SnapKit
 
-public class ShoppingListCellForBlock2: UICollectionViewCell {
+final public class ShoppingListCellForBlock2: UICollectionViewCell {
    
     static let id = "ShoppingListCellForBlock2"
     static let cellHeight = 300.0

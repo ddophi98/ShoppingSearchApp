@@ -3,7 +3,7 @@
 import UIKit
 import SnapKit
 
-public class ShoppingListBlock2: UITableViewCell {
+final public class ShoppingListBlock2: UITableViewCell {
     
     static let id = "ShoppingListBlock2"
     private var viewModel: ShoppingListViewModel?

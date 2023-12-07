@@ -3,7 +3,7 @@
 import UIKit
 import SnapKit
 
-public class ShoppingListView: UIViewController {
+final public class ShoppingListView: UIViewController {
     private let viewModel: ShoppingListViewModel
     
     public init(viewModel: ShoppingListViewModel) {
