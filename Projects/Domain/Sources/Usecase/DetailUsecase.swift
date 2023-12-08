@@ -4,7 +4,7 @@ public protocol DetailUsecase {
     
 }
 
-public class DefaultDetailUsecase: DetailUsecase {
+final public class DefaultDetailUsecase: DetailUsecase {
     
     public init() { }
 }

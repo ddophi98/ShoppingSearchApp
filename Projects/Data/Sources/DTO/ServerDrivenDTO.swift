@@ -3,14 +3,77 @@
 import Domain
 
 /*
- https://gist.githubusercontent.com/ddophi98/14535628aa282fb22a1284d3bebc5a83/raw/a7bc11eeb7f8ad1f5b8e04cdb2a887bac29f5cae/JsonForServerDrivenUI
+ {
+    "blocks":[
+       {
+          "blockType":"RecentlyViewed",
+          "content":[
+             {
+                "title":"불멍 무드등 벽난로 불타는 LED 조명 무선 집들이 크리스마스",
+                "image":"https://shopping-phinf.pstatic.net/main_8274220/82742201419.9.jpg",
+                "price":12500
+             },
+             {
+                "title":"얼모스트블루 블러쉬 체크 머플러",
+                "image":"https://shopping-phinf.pstatic.net/main_2928744/29287448076.20231017124855.jpg",
+                "price":21824
+             },
+             {
+                "title":"스타벅스 DT 스탠리 스트로 텀블러 591ml",
+                "image":"https://shopping-phinf.pstatic.net/main_1945030/19450308684.20190729143224.jpg",
+                "price":13000
+             }
+          ]
+       },
+       {
+          "blockType":"WishList",
+          "content":[
+             {
+                "title":"Apple 에어팟 프로 2세대 (MQD83KH/A)",
+                "price":284910
+             },
+             {
+                "title":"얼모스트블루 블러쉬 체크 머플러",
+                "price":21824
+             },
+             {
+                "title":"스타벅스 DT 스탠리 스트로 텀블러 591ml",
+                "price":13000
+             },
+             {
+                "title":"불멍 무드등 벽난로 불타는 LED 조명 무선 집들이 크리스마스",
+                "price":12500
+             },
+             {
+                "title":"삼성전자 게이밍 키보드 게이밍키보드 유선",
+                "price":24300
+             },
+             {
+                "title":"카카오 프렌즈 라이언＆춘식이 USB 이글루 가습기 500ml (블루)",
+                "price":31900
+             },
+             {
+                "title":"카카오 마우스패드 춘식이 죠르디 예쁜 귀여운 장패드 춘식이",
+                "price":16900
+             }
+          ]
+       },
+       {
+          "blockType":"Advertisement",
+          "content":{
+             "image":"https://shopping-phinf.pstatic.net/main_2180030/21800304853.20200205110947.jpg?type=f640",
+             "text":"이번 겨울은 라이언 무드등과 함께 지내보세요! 방도 마음도 따뜻하게 비춰줍니다."
+          }
+       }
+    ]
+ }
  */
 
-struct ServerDrivenDTO: Decodable {
+public struct ServerDrivenDTO: Decodable {
     let blocks: [ServerDrivenBlockDTO]
 }
 
-struct ServerDrivenBlockDTO: Decodable {
+public struct ServerDrivenBlockDTO: Decodable {
     let blockType: String
     let content: ServerDrivenContentDTO?
     
@@ -19,14 +82,14 @@ struct ServerDrivenBlockDTO: Decodable {
         case content
     }
     
-    init(from decoder: Decoder) throws {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         blockType = try container.decode(String.self, forKey: .blockType)
         content = try ServerDrivenContentDTO(blockType: blockType, container: container)
     }
 }
 
-enum ServerDrivenContentDTO {
+public enum ServerDrivenContentDTO {
     case RecentlyViewed([RecentlyViewedDTO])
     case WishList([WishListDTO])
     case Advertisement(AdvertisementDTO)
@@ -59,7 +122,7 @@ enum ServerDrivenContentDTO {
     }
 }
 
-struct RecentlyViewedDTO: Decodable {
+public struct RecentlyViewedDTO: Decodable {
     let title: String?
     let image: String?
     let price: Int?
@@ -73,7 +136,7 @@ struct RecentlyViewedDTO: Decodable {
     }
 }
 
-struct WishListDTO: Decodable {
+public struct WishListDTO: Decodable {
     let title: String?
     let price: Int?
     
@@ -85,7 +148,7 @@ struct WishListDTO: Decodable {
     }
 }
 
-struct AdvertisementDTO: Decodable {
+public struct AdvertisementDTO: Decodable {
     let image: String?
     let text: String?
     

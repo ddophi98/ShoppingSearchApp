@@ -8,4 +8,8 @@ final public class BasketViewModel: BaseViewModel {
     public init(usecase: BasketUsecase) {
         self.usecase = usecase
     }
+    
+    public func getBasketContents() {
+        
+    }
 }

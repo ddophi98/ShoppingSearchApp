@@ -8,7 +8,7 @@ public protocol ShoppingListUsecase {
     func downloadImage(url: String) -> AnyPublisher<Data, Error>
 }
 
-public final class DefaultShoppingResultUsecase: ShoppingListUsecase {
+final public class DefaultShoppingResultUsecase: ShoppingListUsecase {
     private let searchRepository: SearchRepository
     private let imageRepository: ImageRepository
     
