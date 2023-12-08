@@ -3,9 +3,9 @@
 import UIKit
 import SnapKit
 
-final public class ShoppingListBlock1: UITableViewCell {
+final public class TopFiveBlock: UITableViewCell {
     
-    static let id = "ShoppingListBlock1"
+    static let id = "TopFiveBlock"
     private var viewModel: ShoppingListViewModel?
     
     override public init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {

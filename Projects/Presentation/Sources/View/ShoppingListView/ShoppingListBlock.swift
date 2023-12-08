@@ -3,9 +3,9 @@
 import UIKit
 import SnapKit
 
-final public class ShoppingListBlock2: UITableViewCell {
+final public class ShoppingListBlock: UITableViewCell {
     
-    static let id = "ShoppingListBlock2"
+    static let id = "ShoppingListBlock"
     private var viewModel: ShoppingListViewModel?
     
     override public init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -30,14 +30,14 @@ final public class ShoppingListBlock2: UITableViewCell {
             let layout = UICollectionViewFlowLayout()
             layout.scrollDirection = .horizontal
             layout.minimumLineSpacing = 8.0
-            layout.itemSize = .init(width: ShoppingListCellForBlock2.cellWidth, height: ShoppingListCellForBlock2.cellHeight)
+            layout.itemSize = .init(width: ShoppingListCell.cellWidth, height: ShoppingListCell.cellHeight)
             return layout
         }()
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewFlowLayout)
         collectionView.dataSource = self
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.backgroundColor = .clear
-        collectionView.register(ShoppingListCellForBlock2.self, forCellWithReuseIdentifier: ShoppingListCellForBlock2.id)
+        collectionView.register(ShoppingListCell.self, forCellWithReuseIdentifier: ShoppingListCell.id)
         return collectionView
     }()
     
@@ -75,7 +75,7 @@ final public class ShoppingListBlock2: UITableViewCell {
     }
 }
 
-extension ShoppingListBlock2: UICollectionViewDataSource {
+extension ShoppingListBlock: UICollectionViewDataSource {
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return viewModel?.top5Items?.count ?? 0
     }
@@ -85,7 +85,7 @@ extension ShoppingListBlock2: UICollectionViewDataSource {
               let item = viewModel.top5Items?[indexPath.row]
         else { return UICollectionViewCell() }
         
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ShoppingListCellForBlock2.id, for: indexPath) as! ShoppingListCellForBlock2
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ShoppingListCell.id, for: indexPath) as! ShoppingListCell
         cell.setViewModel(viewModel: viewModel)
         cell.setCell(idx: indexPath.row, imageURL: item.image, title: item.title, price: item.lprice)
         return cell
