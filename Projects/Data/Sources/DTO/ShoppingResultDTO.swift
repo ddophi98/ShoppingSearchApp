@@ -30,7 +30,7 @@
 
 import Domain
 
-public struct ShoppingResultDTO: Codable {
+public struct ShoppingResultDTO: Decodable {
     let lastBuildDate: String?
     let total: Int?
     let start: Int?
@@ -49,7 +49,7 @@ public struct ShoppingResultDTO: Codable {
     }
 }
 
-public struct ShoppingItemDTO: Codable {
+public struct ShoppingItemDTO: Decodable {
     let title: String?
     let link: String?
     let image: String?
