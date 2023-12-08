@@ -23,8 +23,8 @@ final public class ShoppingListView: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.separatorInset = .init(top: 0, left: 10, bottom: 0, right: 10)
-        tableView.register(TopFiveBlock.self, forCellReuseIdentifier: TopFiveBlock.id)
         tableView.register(ShoppingListBlock.self, forCellReuseIdentifier: ShoppingListBlock.id)
+        tableView.register(TopFiveBlock.self, forCellReuseIdentifier: TopFiveBlock.id)
         return tableView
     }()
     
@@ -64,12 +64,12 @@ extension ShoppingListView: UITableViewDataSource {
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.row == 0 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: ShoppingListBlock.id, for: indexPath) as! ShoppingListBlock
+            let cell = tableView.dequeueReusableCell(withIdentifier: TopFiveBlock.id, for: indexPath) as! TopFiveBlock
             cell.setViewModel(viewModel: viewModel)
             return cell
         } else {
             guard let item = viewModel.allItems?[indexPath.row-1] else { return UITableViewCell() }
-            let cell = tableView.dequeueReusableCell(withIdentifier: TopFiveBlock.id, for: indexPath) as! TopFiveBlock
+            let cell = tableView.dequeueReusableCell(withIdentifier: ShoppingListBlock.id, for: indexPath) as! ShoppingListBlock
             cell.setViewModel(viewModel: viewModel)
             cell.setCell(imageURL: item.image, title: item.title, price: item.lprice)
             return cell
@@ -80,7 +80,7 @@ extension ShoppingListView: UITableViewDataSource {
 extension ShoppingListView: UITableViewDelegate {
     public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.row == 0 {
-            return ShoppingListCell.cellHeight + 100
+            return TopFiveCell.cellHeight + 100
         } else {
             return 250
         }

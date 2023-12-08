@@ -3,9 +3,9 @@
 import UIKit
 import SnapKit
 
-final public class ShoppingListCell: UICollectionViewCell {
+final public class TopFiveCell: UICollectionViewCell {
    
-    static let id = "ShoppingListCell"
+    static let id = "TopFiveCell"
     static let cellHeight = 300.0
     static let cellWidth = 300.0
     private var viewModel: ShoppingListViewModel?
