@@ -4,14 +4,14 @@ import Foundation
 
 public enum ServerDrivenContentVO {
     case RecentlyViewed([RecentlyViewedVO])
-    case WishList([WishListVO])
+    case WishList(WishListVO)
     case Advertisement(AdvertisementVO)
 }
 
 public struct RecentlyViewedVO {
-    let title: String
-    let image: String
-    let price: Int
+    public let title: String
+    public let image: String
+    public let price: Int
     
     public init(title: String, image: String, price: Int) {
         self.title = title
@@ -21,8 +21,8 @@ public struct RecentlyViewedVO {
 }
 
 public struct WishListVO {
-    let title: String
-    let price: Int
+    public let title: String
+    public let price: Int
     
     public init(title: String, price: Int) {
         self.title = title
@@ -31,8 +31,8 @@ public struct WishListVO {
 }
 
 public struct AdvertisementVO {
-    let image: String
-    let text: String
+    public let image: String
+    public let text: String
     
     public init(image: String, text: String) {
         self.image = image

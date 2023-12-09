@@ -27,36 +27,52 @@ import Domain
        },
        {
           "blockType":"WishList",
-          "content":[
-             {
+          "content":{
                 "title":"Apple 에어팟 프로 2세대 (MQD83KH/A)",
                 "price":284910
-             },
-             {
+           }
+       },
+       {
+          "blockType":"WishList",
+          "content":{
                 "title":"얼모스트블루 블러쉬 체크 머플러",
                 "price":21824
-             },
-             {
+           }
+       },
+       {
+          "blockType":"WishList",
+          "content":{
                 "title":"스타벅스 DT 스탠리 스트로 텀블러 591ml",
                 "price":13000
-             },
-             {
+           }
+       },
+       {
+          "blockType":"WishList",
+          "content":{
                 "title":"불멍 무드등 벽난로 불타는 LED 조명 무선 집들이 크리스마스",
                 "price":12500
-             },
-             {
+           }
+       },
+       {
+          "blockType":"WishList",
+          "content":{
                 "title":"삼성전자 게이밍 키보드 게이밍키보드 유선",
                 "price":24300
-             },
-             {
+           }
+       },
+       {
+          "blockType":"WishList",
+          "content":{
                 "title":"카카오 프렌즈 라이언＆춘식이 USB 이글루 가습기 500ml (블루)",
                 "price":31900
-             },
-             {
+           }
+       },
+       {
+          "blockType":"WishList",
+          "content":{
                 "title":"카카오 마우스패드 춘식이 죠르디 예쁜 귀여운 장패드 춘식이",
                 "price":16900
-             }
-          ]
+           }
        },
        {
           "blockType":"Advertisement",
@@ -91,7 +107,7 @@ public struct ServerDrivenBlockDTO: Decodable {
 
 public enum ServerDrivenContentDTO {
     case RecentlyViewed([RecentlyViewedDTO])
-    case WishList([WishListDTO])
+    case WishList(WishListDTO)
     case Advertisement(AdvertisementDTO)
     
     init?(blockType: String, container: KeyedDecodingContainer<ServerDrivenBlockDTO.CodingKeys>) throws {
@@ -100,7 +116,7 @@ public enum ServerDrivenContentDTO {
             let content = try container.decode([RecentlyViewedDTO].self, forKey: .content)
             self = .RecentlyViewed(content)
         case "WishList":
-            let content = try container.decode([WishListDTO].self, forKey: .content)
+            let content = try container.decode(WishListDTO.self, forKey: .content)
             self = .WishList(content)
         case "Advertisement":
             let content = try container.decode(AdvertisementDTO.self, forKey: .content)
@@ -114,8 +130,8 @@ public enum ServerDrivenContentDTO {
         switch self {
         case .RecentlyViewed(let recentlyViewedDTOs):
             return .RecentlyViewed(recentlyViewedDTOs.map { $0.toVO() })
-        case .WishList(let wishListDTOs):
-            return .WishList(wishListDTOs.map { $0.toVO() })
+        case .WishList(let wishListDTO):
+            return .WishList(wishListDTO.toVO() )
         case .Advertisement(let advertisementDTO):
             return .Advertisement(advertisementDTO.toVO())
         }

@@ -11,8 +11,9 @@ public struct DomainAssembly: Assembly {
             return DefaultShoppingResultUsecase(searchRepository: searchRepository, imageRepository: imageRepository)
         }
         container.register(BasketUsecase.self) { resolver in
-            let repository = resolver.resolve(ServerDrivenRepository.self)!
-            return DefaultBasketUsecase(repository: repository)
+            let serverDrivenRepository = resolver.resolve(ServerDrivenRepository.self)!
+            let imageRepository = resolver.resolve(ImageRepository.self)!
+            return DefaultBasketUsecase(serverDrivenRepository: serverDrivenRepository, imageRepository: imageRepository)
         }
         container.register(DetailUsecase.self) { resolver in
             return DefaultDetailUsecase()

@@ -2,11 +2,13 @@
 
 import UIKit
 import SnapKit
+import Domain
 
 final public class TopFiveBlock: UITableViewCell {
     
     static let id = "TopFiveBlock"
     private var viewModel: ShoppingListViewModel?
+    private var items: [ShoppingItemVO]?
     
     override public init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -20,7 +22,7 @@ final public class TopFiveBlock: UITableViewCell {
     
     lazy private var title: UILabel = {
         let title = UILabel()
-        title.text = "Top 5 Products"
+        title.text = "Top 5 상품"
         title.font = .systemFont(ofSize: 30)
         return title
     }()
@@ -44,10 +46,10 @@ final public class TopFiveBlock: UITableViewCell {
     private func setBinding(viewModel: ShoppingListViewModel) {
         viewModel.$top5Items
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] shoppingResultVO in
+            .sink { [weak self] _ in
                 self?.collectionView.reloadData()
             }
-            .store(in: &viewModel.cancellable)
+            .store(in: &viewModel.cancellables)
     }
     
     private func setView() {
@@ -73,16 +75,20 @@ final public class TopFiveBlock: UITableViewCell {
         self.viewModel = viewModel
         setBinding(viewModel: viewModel)
     }
+    
+    func setItems(items: [ShoppingItemVO]) {
+        self.items = items
+    }
 }
 
 extension TopFiveBlock: UICollectionViewDataSource {
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel?.top5Items?.count ?? 0
+        return items?.count ?? 0
     }
     
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let viewModel = viewModel,
-              let item = viewModel.top5Items?[indexPath.row]
+              let item = items?[indexPath.row]
         else { return UICollectionViewCell() }
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TopFiveCell.id, for: indexPath) as! TopFiveCell

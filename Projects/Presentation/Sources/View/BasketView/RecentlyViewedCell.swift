@@ -3,12 +3,12 @@
 import UIKit
 import SnapKit
 
-final public class TopFiveCell: UICollectionViewCell {
+final public class RecentlyViewedCell: UICollectionViewCell {
    
-    static let id = "TopFiveCell"
+    static let id = "RecentlyViewedCell"
     static let cellHeight = 300.0
     static let cellWidth = 300.0
-    private var viewModel: ShoppingListViewModel?
+    private var viewModel: BasketViewModel?
     private var idx: Int?
     
     override public init(frame: CGRect) {
@@ -67,9 +67,7 @@ final public class TopFiveCell: UICollectionViewCell {
     }
     
     @objc private func tapped(_ sender: UITapGestureRecognizer) {
-        guard let idx = idx,
-              let item = viewModel?.top5Items?[idx] else { return }
-        viewModel?.moveToDetailView(item: item)
+        
     }
     
     func setCell(idx: Int, imageURL: String, title: String, price: Int) {
@@ -93,7 +91,7 @@ final public class TopFiveCell: UICollectionViewCell {
             .store(in: &viewModel.cancellables)
     }
     
-    func setViewModel(viewModel: ShoppingListViewModel) {
+    func setViewModel(viewModel: BasketViewModel) {
         self.viewModel = viewModel
     }
 }

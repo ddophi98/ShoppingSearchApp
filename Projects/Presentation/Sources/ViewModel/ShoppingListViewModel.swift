@@ -6,7 +6,6 @@ import Foundation
 
 final public class ShoppingListViewModel: BaseViewModel {
     @Published private(set) var shoppingResultVO: ShoppingResultVO?
-    @Published private(set) var allItems: [ShoppingItemVO]?
     @Published private(set) var top5Items: [ShoppingItemVO]?
     public let usecase: ShoppingListUsecase
     
@@ -26,10 +25,9 @@ final public class ShoppingListViewModel: BaseViewModel {
                 }
             } receiveValue: { [weak self] shoppingResultVO in
                 self?.shoppingResultVO = shoppingResultVO
-                self?.allItems = shoppingResultVO.items
                 self?.top5Items = Array(shoppingResultVO.items.prefix(upTo: 5))
             }
-            .store(in: &cancellable)
+            .store(in: &cancellables)
     }
     
     func downloadImage(url: String) -> AnyPublisher<Data, Error> {

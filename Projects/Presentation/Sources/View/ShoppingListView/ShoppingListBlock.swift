@@ -79,7 +79,7 @@ final public class ShoppingListBlock: UITableViewCell {
             } receiveValue: { [weak self] data in
                 self?.thumbnail.image = UIImage(data: data)
             }
-            .store(in: &viewModel.cancellable)
+            .store(in: &viewModel.cancellables)
     }
     
     func setViewModel(viewModel: ShoppingListViewModel) {
