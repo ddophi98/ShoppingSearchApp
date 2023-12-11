@@ -3,13 +3,16 @@
 import UIKit
 import SnapKit
 
-final public class ShoppingListBlock: UITableViewCell {
-    
-    static let id = "ShoppingListBlock"
+final public class TopFiveProductsCell: UICollectionViewCell {
+   
+    static let id = "TopFiveCell"
+    static let cellHeight = 300.0
+    static let cellWidth = 300.0
     private var viewModel: ShoppingListViewModel?
+    private var idx: Int?
     
-    override public init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
+    override public init(frame: CGRect) {
+        super.init(frame: frame)
         setView()
         setLayout()
     }
@@ -26,45 +29,53 @@ final public class ShoppingListBlock: UITableViewCell {
     
     lazy private var title: UILabel = {
         let title = UILabel()
-        title.textAlignment = .left
+        title.textAlignment = .center
         title.font = .systemFont(ofSize: 20)
         return title
     }()
     
     lazy private var price: UILabel = {
         let price = UILabel()
-        price.textAlignment = .left
+        price.textAlignment = .center
         price.textColor = .gray
         price.font = .systemFont(ofSize: 18)
         return price
     }()
     
     private func setView() {
-        selectionStyle = .none
         addSubview(thumbnail)
         addSubview(title)
         addSubview(price)
+        addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tapped(_:))))
     }
     
     private func setLayout() {
         thumbnail.snp.makeConstraints { make in
-            make.leading.equalToSuperview().offset(10)
-            make.centerY.equalToSuperview()
+            make.top.equalToSuperview()
+            make.centerX.equalToSuperview()
             make.width.height.equalTo(200)
         }
         title.snp.makeConstraints { make in
-            make.leading.equalTo(thumbnail.snp.trailing).offset(20)
-            make.width.equalTo(150)
-            make.centerY.equalToSuperview()
+            make.top.equalTo(thumbnail.snp.bottom).offset(20)
+            make.width.equalTo(200)
+            make.centerX.equalToSuperview()
         }
         price.snp.makeConstraints { make in
-            make.leading.equalTo(thumbnail.snp.trailing).offset(20)
             make.top.equalTo(title.snp.bottom).offset(20)
+            make.centerX.equalToSuperview()
         }
     }
     
-    func setCell(imageURL: String, title: String, price: Int) {
+    @objc private func tapped(_ sender: UITapGestureRecognizer) {
+//        guard let idx = idx,
+//              let item = viewModel?.top5Items?[idx] else { return }
+//        viewModel?.moveToDetailView(item: item)
+    }
+    
+    func setCell(idx: Int, imageURL: String, title: String, price: Int) {
         guard let viewModel = viewModel else { return }
+        
+        self.idx = idx
         self.title.text = title.removeHtml()
         self.price.text = "\(price)원"
         viewModel.downloadImage(url: imageURL)
