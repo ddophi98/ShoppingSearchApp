@@ -23,55 +23,50 @@ final public class ShoppingListView: UIViewController {
         switch self.viewModel.sections[section] {
         case .AllProducts:
             // item
-            let itemInset: CGFloat = 2.5
             let itemSize = NSCollectionLayoutSize(
                 widthDimension: .fractionalWidth(1.0),
                 heightDimension: .fractionalHeight(1.0)
             )
             let item = NSCollectionLayoutItem(layoutSize: itemSize)
-            item.contentInsets = NSDirectionalEdgeInsets(top: itemInset, leading: itemInset, bottom: itemInset, trailing: itemInset)
             
             // Group
             let groupSize = NSCollectionLayoutSize(
                 widthDimension: .fractionalWidth(1.0),
-                heightDimension: .fractionalHeight(1.0)
+                heightDimension: .fractionalHeight(1.0 / 4.0)
             )
             let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
             
             // Section
             let section = NSCollectionLayoutSection(group: group)
-            section.contentInsets = NSDirectionalEdgeInsets(top: itemInset, leading: itemInset, bottom: itemInset, trailing: itemInset)
             return section
+            
         case .TopFiveProducts:
             // item
-            let itemInset: CGFloat = 2.5
             let itemSize = NSCollectionLayoutSize(
                 widthDimension: .fractionalWidth(1.0),
                 heightDimension: .fractionalHeight(1.0)
             )
             let item = NSCollectionLayoutItem(layoutSize: itemSize)
-            item.contentInsets = NSDirectionalEdgeInsets(top: itemInset, leading: itemInset, bottom: itemInset, trailing: itemInset)
             
             // Group
             let groupSize = NSCollectionLayoutSize(
                 widthDimension: .fractionalWidth(1.0),
-                heightDimension: .fractionalHeight(1.0)
+                heightDimension: .absolute(300)
             )
             let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
             
             // Section
             let section = NSCollectionLayoutSection(group: group)
-            section.contentInsets = NSDirectionalEdgeInsets(top: itemInset, leading: itemInset, bottom: itemInset, trailing: itemInset)
-            section.orthogonalScrollingBehavior = .continuous
+            section.orthogonalScrollingBehavior = .groupPaging
             return section
             
         }
     }
     
-    
-    lazy private var collectionView: UICollectionView = {
+    private lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewLayout)
         collectionView.dataSource = self
+        collectionView.delegate = self
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.backgroundColor = .clear
         collectionView.register(AllProductsBlock.self, forCellWithReuseIdentifier: AllProductsBlock.id)
@@ -94,6 +89,7 @@ final public class ShoppingListView: UIViewController {
     }
     
     private func setView() {
+        view.backgroundColor = .white
         view.addSubview(collectionView)
     }
     
@@ -138,23 +134,15 @@ extension ShoppingListView: UICollectionViewDataSource {
             return cell
         }
     }
-    
-    
 }
 
-extension ShoppingListView: UITableViewDelegate {
-    public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if indexPath.row == 0 {
-            return TopFiveProductsBlock.cellHeight + 100
-        } else {
-            return 250
-        }
-    }
-    
-    public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.row > 0 {
-            guard let item = viewModel.shoppingResultVO?.items[indexPath.row-1] else { return }
-            viewModel.moveToDetailView(item: item)
+extension ShoppingListView: UICollectionViewDelegate {
+    public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        switch viewModel.sections[indexPath.section] {
+        case .AllProducts(let items):
+            viewModel.moveToDetailView(item: items[indexPath.item])
+        case .TopFiveProducts(let items):
+            viewModel.moveToDetailView(item: items[indexPath.item])
         }
     }
 }
