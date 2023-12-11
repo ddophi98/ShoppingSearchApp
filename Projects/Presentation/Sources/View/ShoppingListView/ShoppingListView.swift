@@ -19,20 +19,63 @@ final public class ShoppingListView: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    private lazy var collectionViewLayout = UICollectionViewCompositionalLayout { (section, env) -> NSCollectionLayoutSection? in
+        switch self.viewModel.sections[section] {
+        case .AllProducts:
+            // item
+            let itemInset: CGFloat = 2.5
+            let itemSize = NSCollectionLayoutSize(
+                widthDimension: .fractionalWidth(1.0),
+                heightDimension: .fractionalHeight(1.0)
+            )
+            let item = NSCollectionLayoutItem(layoutSize: itemSize)
+            item.contentInsets = NSDirectionalEdgeInsets(top: itemInset, leading: itemInset, bottom: itemInset, trailing: itemInset)
+            
+            // Group
+            let groupSize = NSCollectionLayoutSize(
+                widthDimension: .fractionalWidth(1.0),
+                heightDimension: .fractionalHeight(1.0)
+            )
+            let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
+            
+            // Section
+            let section = NSCollectionLayoutSection(group: group)
+            section.contentInsets = NSDirectionalEdgeInsets(top: itemInset, leading: itemInset, bottom: itemInset, trailing: itemInset)
+            return section
+        case .TopFiveProducts:
+            // item
+            let itemInset: CGFloat = 2.5
+            let itemSize = NSCollectionLayoutSize(
+                widthDimension: .fractionalWidth(1.0),
+                heightDimension: .fractionalHeight(1.0)
+            )
+            let item = NSCollectionLayoutItem(layoutSize: itemSize)
+            item.contentInsets = NSDirectionalEdgeInsets(top: itemInset, leading: itemInset, bottom: itemInset, trailing: itemInset)
+            
+            // Group
+            let groupSize = NSCollectionLayoutSize(
+                widthDimension: .fractionalWidth(1.0),
+                heightDimension: .fractionalHeight(1.0)
+            )
+            let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+            
+            // Section
+            let section = NSCollectionLayoutSection(group: group)
+            section.contentInsets = NSDirectionalEdgeInsets(top: itemInset, leading: itemInset, bottom: itemInset, trailing: itemInset)
+            section.orthogonalScrollingBehavior = .continuous
+            return section
+            
+        }
+    }
+    
+    
     lazy private var collectionView: UICollectionView = {
-        let collectionViewFlowLayout: UICollectionViewFlowLayout = {
-            let layout = UICollectionViewFlowLayout()
-            layout.scrollDirection = .vertical
-            layout.minimumLineSpacing = 8.0
-            layout.itemSize = .init(width: TopFiveProductsCell.cellWidth, height: TopFiveProductsCell.cellHeight)
-            return layout
-        }()
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewFlowLayout)
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewLayout)
         collectionView.dataSource = self
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.backgroundColor = .clear
         collectionView.register(AllProductsBlock.self, forCellWithReuseIdentifier: AllProductsBlock.id)
-        collectionView.register(TopFiveProductsCell.self, forCellWithReuseIdentifier: TopFiveProductsCell.id)
+        collectionView.register(TopFiveProductsBlock.self, forCellWithReuseIdentifier: TopFiveProductsBlock.id)
         return collectionView
     }()
     
@@ -89,7 +132,7 @@ extension ShoppingListView: UICollectionViewDataSource {
             return cell
         case .TopFiveProducts(let items):
             let item = items[indexPath.item]
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TopFiveProductsCell.id, for: indexPath) as! TopFiveProductsCell
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TopFiveProductsBlock.id, for: indexPath) as! TopFiveProductsBlock
             cell.setViewModel(viewModel: viewModel)
             cell.setCell(idx: indexPath.item, imageURL: item.image, title: item.title, price: item.lprice)
             return cell
@@ -102,7 +145,7 @@ extension ShoppingListView: UICollectionViewDataSource {
 extension ShoppingListView: UITableViewDelegate {
     public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.row == 0 {
-            return TopFiveProductsCell.cellHeight + 100
+            return TopFiveProductsBlock.cellHeight + 100
         } else {
             return 250
         }
