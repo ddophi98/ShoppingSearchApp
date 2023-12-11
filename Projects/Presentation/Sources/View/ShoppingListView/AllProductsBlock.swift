@@ -3,13 +3,13 @@
 import UIKit
 import SnapKit
 
-final public class ShoppingListBlock: UITableViewCell {
+final public class AllProductsBlock: UICollectionViewCell {
     
-    static let id = "ShoppingListBlock"
+    static let id = "AllProductsBlock"
     private var viewModel: ShoppingListViewModel?
     
-    override public init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
+    override public init(frame: CGRect) {
+        super.init(frame: frame)
         setView()
         setLayout()
     }
@@ -40,7 +40,6 @@ final public class ShoppingListBlock: UITableViewCell {
     }()
     
     private func setView() {
-        selectionStyle = .none
         addSubview(thumbnail)
         addSubview(title)
         addSubview(price)

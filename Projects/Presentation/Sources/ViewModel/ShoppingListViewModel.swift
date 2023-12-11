@@ -6,11 +6,17 @@ import Foundation
 
 final public class ShoppingListViewModel: BaseViewModel {
     @Published private(set) var shoppingResultVO: ShoppingResultVO?
-    @Published private(set) var top5Items: [ShoppingItemVO]?
+    @Published private(set) var sections = [ShoppingListSection]()
+    
     public let usecase: ShoppingListUsecase
     
     public init(usecase: ShoppingListUsecase) {
         self.usecase = usecase
+    }
+    
+    enum ShoppingListSection {
+        case TopFiveProducts([ShoppingItemVO])
+        case AllProducts([ShoppingItemVO])
     }
     
     func searchShopping(query: String, display: Int) {
@@ -25,7 +31,10 @@ final public class ShoppingListViewModel: BaseViewModel {
                 }
             } receiveValue: { [weak self] shoppingResultVO in
                 self?.shoppingResultVO = shoppingResultVO
-                self?.top5Items = Array(shoppingResultVO.items.prefix(upTo: 5))
+                self?.sections = [
+                    .TopFiveProducts(Array(shoppingResultVO.items.prefix(upTo: 5))),
+                    .AllProducts(shoppingResultVO.items)
+                ]
             }
             .store(in: &cancellables)
     }

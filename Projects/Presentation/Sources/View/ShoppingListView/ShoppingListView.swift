@@ -19,14 +19,59 @@ final public class ShoppingListView: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private lazy var tableView: UITableView = {
-        var tableView = UITableView()
-        tableView.dataSource = self
-        tableView.delegate = self
-        tableView.separatorInset = .init(top: 0, left: 10, bottom: 0, right: 10)
-        tableView.register(ShoppingListBlock.self, forCellReuseIdentifier: ShoppingListBlock.id)
-        tableView.register(TopFiveBlock.self, forCellReuseIdentifier: TopFiveBlock.id)
-        return tableView
+    private lazy var collectionViewLayout = UICollectionViewCompositionalLayout { (section, env) -> NSCollectionLayoutSection? in
+        switch self.viewModel.sections[section] {
+        case .AllProducts:
+            // item
+            let itemSize = NSCollectionLayoutSize(
+                widthDimension: .fractionalWidth(1.0),
+                heightDimension: .fractionalHeight(1.0)
+            )
+            let item = NSCollectionLayoutItem(layoutSize: itemSize)
+            
+            // Group
+            let groupSize = NSCollectionLayoutSize(
+                widthDimension: .fractionalWidth(1.0),
+                heightDimension: .fractionalHeight(1.0 / 4.0)
+            )
+            let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
+            
+            // Section
+            let section = NSCollectionLayoutSection(group: group)
+            return section
+            
+        case .TopFiveProducts:
+            // item
+            let itemSize = NSCollectionLayoutSize(
+                widthDimension: .fractionalWidth(1.0),
+                heightDimension: .fractionalHeight(1.0)
+            )
+            let item = NSCollectionLayoutItem(layoutSize: itemSize)
+            
+            // Group
+            let groupSize = NSCollectionLayoutSize(
+                widthDimension: .fractionalWidth(1.0),
+                heightDimension: .absolute(300)
+            )
+            let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+            
+            // Section
+            let section = NSCollectionLayoutSection(group: group)
+            section.orthogonalScrollingBehavior = .groupPaging
+            return section
+            
+        }
+    }
+    
+    private lazy var collectionView: UICollectionView = {
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewLayout)
+        collectionView.dataSource = self
+        collectionView.delegate = self
+        collectionView.showsHorizontalScrollIndicator = false
+        collectionView.backgroundColor = .clear
+        collectionView.register(AllProductsBlock.self, forCellWithReuseIdentifier: AllProductsBlock.id)
+        collectionView.register(TopFiveProductsBlock.self, forCellWithReuseIdentifier: TopFiveProductsBlock.id)
+        return collectionView
     }()
     
     public override func viewDidAppear(_ animated: Bool) {
@@ -35,20 +80,21 @@ final public class ShoppingListView: UIViewController {
     }
     
     private func setBinding() {
-        viewModel.$shoppingResultVO
+        viewModel.$sections
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
-                self?.tableView.reloadData()
+                self?.collectionView.reloadData()
             }
             .store(in: &viewModel.cancellables)
     }
     
     private func setView() {
-        view.addSubview(tableView)
+        view.backgroundColor = .white
+        view.addSubview(collectionView)
     }
     
     private func setLayout() {
-        tableView.snp.makeConstraints { make in
+        collectionView.snp.makeConstraints { make in
             make.leading.trailing.top.bottom.equalToSuperview()
         }
     }
@@ -58,41 +104,45 @@ final public class ShoppingListView: UIViewController {
     }
 }
 
-extension ShoppingListView: UITableViewDataSource {
-    public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1 + (viewModel.shoppingResultVO?.items.count ?? 0)
+extension ShoppingListView: UICollectionViewDataSource {
+    public func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return viewModel.sections.count
     }
     
-    public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if indexPath.row == 0 {
-            guard let top5Items = viewModel.top5Items else { return UITableViewCell() }
-            let cell = tableView.dequeueReusableCell(withIdentifier: TopFiveBlock.id, for: indexPath) as! TopFiveBlock
-            cell.setViewModel(viewModel: viewModel)
-            cell.setItems(items: top5Items)
-            return cell
-        } else {
-            guard let item = viewModel.shoppingResultVO?.items[indexPath.row-1] else { return UITableViewCell() }
-            let cell = tableView.dequeueReusableCell(withIdentifier: ShoppingListBlock.id, for: indexPath) as! ShoppingListBlock
+    public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        switch viewModel.sections[section] {
+        case .AllProducts(let items):
+            return items.count
+        case .TopFiveProducts(let items):
+            return items.count
+        }
+    }
+    
+    public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        switch viewModel.sections[indexPath.section] {
+        case .AllProducts(let items):
+            let item = items[indexPath.item]
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: AllProductsBlock.id, for: indexPath) as! AllProductsBlock
             cell.setViewModel(viewModel: viewModel)
             cell.setCell(imageURL: item.image, title: item.title, price: item.lprice)
+            return cell
+        case .TopFiveProducts(let items):
+            let item = items[indexPath.item]
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TopFiveProductsBlock.id, for: indexPath) as! TopFiveProductsBlock
+            cell.setViewModel(viewModel: viewModel)
+            cell.setCell(idx: indexPath.item, imageURL: item.image, title: item.title, price: item.lprice)
             return cell
         }
     }
 }
 
-extension ShoppingListView: UITableViewDelegate {
-    public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if indexPath.row == 0 {
-            return TopFiveCell.cellHeight + 100
-        } else {
-            return 250
-        }
-    }
-    
-    public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.row > 0 {
-            guard let item = viewModel.shoppingResultVO?.items[indexPath.row-1] else { return }
-            viewModel.moveToDetailView(item: item)
+extension ShoppingListView: UICollectionViewDelegate {
+    public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        switch viewModel.sections[indexPath.section] {
+        case .AllProducts(let items):
+            viewModel.moveToDetailView(item: items[indexPath.item])
+        case .TopFiveProducts(let items):
+            viewModel.moveToDetailView(item: items[indexPath.item])
         }
     }
 }

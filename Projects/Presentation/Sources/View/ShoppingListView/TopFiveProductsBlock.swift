@@ -3,9 +3,9 @@
 import UIKit
 import SnapKit
 
-final public class TopFiveCell: UICollectionViewCell {
+final public class TopFiveProductsBlock: UICollectionViewCell {
    
-    static let id = "TopFiveCell"
+    static let id = "TopFiveProductsBlock"
     static let cellHeight = 300.0
     static let cellWidth = 300.0
     private var viewModel: ShoppingListViewModel?
@@ -46,7 +46,6 @@ final public class TopFiveCell: UICollectionViewCell {
         addSubview(thumbnail)
         addSubview(title)
         addSubview(price)
-        addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tapped(_:))))
     }
     
     private func setLayout() {
@@ -64,12 +63,6 @@ final public class TopFiveCell: UICollectionViewCell {
             make.top.equalTo(title.snp.bottom).offset(20)
             make.centerX.equalToSuperview()
         }
-    }
-    
-    @objc private func tapped(_ sender: UITapGestureRecognizer) {
-        guard let idx = idx,
-              let item = viewModel?.top5Items?[idx] else { return }
-        viewModel?.moveToDetailView(item: item)
     }
     
     func setCell(idx: Int, imageURL: String, title: String, price: Int) {
