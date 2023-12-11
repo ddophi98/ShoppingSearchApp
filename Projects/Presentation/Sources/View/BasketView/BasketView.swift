@@ -51,11 +51,11 @@ final public class BasketView: UIViewController {
     private func setLayout() {
         viewTitle.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalToSuperview().offset(20)
+            make.top.equalTo(view.safeAreaLayoutGuide)
         }
         tableView.snp.makeConstraints { make in
-            make.top.equalTo(viewTitle).offset(20)
-            make.leading.trailing.bottom.equalToSuperview()
+            make.top.equalTo(viewTitle.snp.bottom).offset(20)
+            make.leading.trailing.bottom.equalTo(view.safeAreaLayoutGuide)
         }
     }
     
@@ -106,7 +106,9 @@ extension BasketView: UITableViewDelegate {
         switch content {
         case .RecentlyViewed:
             return RecentlyViewedCell.cellHeight + 100
-        default:
+        case .WishList:
+            return 90
+        case .Advertisement:
             return 250
         }
     }

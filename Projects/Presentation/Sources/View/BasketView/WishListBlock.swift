@@ -40,16 +40,15 @@ final public class WishListBlock: UITableViewCell {
     private func setLayout() {
         title.snp.makeConstraints { make in
             make.leading.equalToSuperview().offset(10)
-            make.centerY.equalToSuperview()
+            make.top.equalToSuperview().offset(20)
         }
         price.snp.makeConstraints { make in
-            make.leading.equalTo(title.snp.trailing).offset(20)
-            make.centerY.equalToSuperview()
+            make.leading.equalToSuperview().offset(10)
+            make.top.equalTo(title.snp.bottom).offset(10)
         }
     }
     
     func setCell(title: String, price: Int) {
-        guard let viewModel = viewModel else { return }
         self.title.text = title
         self.price.text = "\(price)원"
     }
