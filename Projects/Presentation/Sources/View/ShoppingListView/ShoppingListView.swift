@@ -35,9 +35,18 @@ final public class ShoppingListView: UIViewController {
                 heightDimension: .fractionalHeight(1.0 / 4.0)
             )
             let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
+            group.contentInsets = .init(top: 0, leading: 10, bottom: 0, trailing: 0)
             
             // Section
             let section = NSCollectionLayoutSection(group: group)
+            section.contentInsets = .init(top: 30, leading: 0, bottom: 30, trailing: 0)
+            section.boundarySupplementaryItems = [
+                NSCollectionLayoutBoundarySupplementaryItem(
+                    layoutSize: .init(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(30)),
+                    elementKind: UICollectionView.elementKindSectionHeader,
+                    alignment: .top
+                )
+            ]
             return section
             
         case .TopFiveProducts:
@@ -58,6 +67,14 @@ final public class ShoppingListView: UIViewController {
             // Section
             let section = NSCollectionLayoutSection(group: group)
             section.orthogonalScrollingBehavior = .groupPaging
+            section.contentInsets = .init(top: 30, leading: 0, bottom: 30, trailing: 0)
+            section.boundarySupplementaryItems = [
+                NSCollectionLayoutBoundarySupplementaryItem(
+                    layoutSize: .init(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(30)),
+                    elementKind: UICollectionView.elementKindSectionHeader,
+                    alignment: .top
+                )
+            ]
             return section
             
         }
@@ -71,6 +88,7 @@ final public class ShoppingListView: UIViewController {
         collectionView.backgroundColor = .clear
         collectionView.register(AllProductsBlock.self, forCellWithReuseIdentifier: AllProductsBlock.id)
         collectionView.register(TopFiveProductsBlock.self, forCellWithReuseIdentifier: TopFiveProductsBlock.id)
+        collectionView.register(Header.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: Header.id)
         return collectionView
     }()
     
@@ -144,5 +162,18 @@ extension ShoppingListView: UICollectionViewDelegate {
         case .TopFiveProducts(let items):
             viewModel.moveToDetailView(item: items[indexPath.item])
         }
+    }
+    
+    public func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: Header.id, for: indexPath) as! Header
+        
+        switch viewModel.sections[indexPath.section] {
+        case .AllProducts:
+            header.setHeader("모든 상품")
+        case .TopFiveProducts:
+            header.setHeader("상위 5개 상품")
+        }
+        
+        return header
     }
 }

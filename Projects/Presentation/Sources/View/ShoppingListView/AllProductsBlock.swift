@@ -47,7 +47,7 @@ final public class AllProductsBlock: UICollectionViewCell {
     
     private func setLayout() {
         thumbnail.snp.makeConstraints { make in
-            make.leading.equalToSuperview().offset(10)
+            make.leading.equalToSuperview()
             make.centerY.equalToSuperview()
             make.width.height.equalTo(200)
         }
