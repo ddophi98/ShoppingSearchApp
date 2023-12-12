@@ -19,6 +19,15 @@ final public class ShoppingListView: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    private lazy var searchBox: UITextField = {
+        let searchBox = UITextField()
+        searchBox.placeholder = "찾고 싶은 상품을 입력해주세요"
+        searchBox.borderStyle = .roundedRect
+        searchBox.clearButtonMode = .whileEditing
+        searchBox.delegate = self
+        return searchBox
+    }()
+    
     private lazy var collectionViewLayout = UICollectionViewCompositionalLayout { (section, env) -> NSCollectionLayoutSection? in
         switch self.viewModel.sections[section] {
         case .AllProducts:
@@ -108,17 +117,35 @@ final public class ShoppingListView: UIViewController {
     
     private func setView() {
         view.backgroundColor = .white
+        view.addSubview(searchBox)
         view.addSubview(collectionView)
     }
     
     private func setLayout() {
+        searchBox.snp.makeConstraints { make in
+            make.top.equalTo(view.safeAreaLayoutGuide)
+            make.leading.equalToSuperview().offset(30)
+            make.trailing.equalToSuperview().offset(-30)
+            make.height.equalTo(50)
+        }
         collectionView.snp.makeConstraints { make in
-            make.leading.trailing.top.bottom.equalToSuperview()
+            make.leading.trailing.equalToSuperview()
+            make.top.equalTo(searchBox.snp.bottom).offset(40)
+            make.bottom.equalTo(view.safeAreaLayoutGuide)
         }
     }
     
     public func setCoordinator(_ coordinator: Coordinator) {
         viewModel.coordinator = coordinator
+    }
+}
+
+extension ShoppingListView: UITextFieldDelegate {
+    public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        guard let query = textField.text else { return true }
+        viewModel.searchShopping(query: query, display: 10)
+        searchBox.resignFirstResponder()
+        return true
     }
 }
 

@@ -39,26 +39,30 @@ final public class AllProductsBlock: UICollectionViewCell {
         return price
     }()
     
+    lazy private var stackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.spacing = 8
+        return stackView
+    }()
+    
     private func setView() {
         addSubview(thumbnail)
-        addSubview(title)
-        addSubview(price)
+        addSubview(stackView)
+        stackView.addArrangedSubview(title)
+        stackView.addArrangedSubview(price)
     }
     
     private func setLayout() {
         thumbnail.snp.makeConstraints { make in
             make.leading.equalToSuperview()
             make.centerY.equalToSuperview()
-            make.width.height.equalTo(200)
+            make.width.height.equalTo(100)
         }
-        title.snp.makeConstraints { make in
+        stackView.snp.makeConstraints { make in
             make.leading.equalTo(thumbnail.snp.trailing).offset(20)
-            make.width.equalTo(150)
+            make.trailing.equalToSuperview().offset(-20)
             make.centerY.equalToSuperview()
-        }
-        price.snp.makeConstraints { make in
-            make.leading.equalTo(thumbnail.snp.trailing).offset(20)
-            make.top.equalTo(title.snp.bottom).offset(20)
         }
     }
     

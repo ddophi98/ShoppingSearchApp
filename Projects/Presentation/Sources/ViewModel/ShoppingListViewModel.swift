@@ -21,7 +21,6 @@ final public class ShoppingListViewModel: BaseViewModel {
     
     func searchShopping(query: String, display: Int) {
         usecase.searchShopping(query: query, display: display)
-            .receive(on: DispatchQueue.main)
             .sink { completion in
                 switch completion {
                 case .failure(let error):
@@ -31,10 +30,11 @@ final public class ShoppingListViewModel: BaseViewModel {
                 }
             } receiveValue: { [weak self] shoppingResultVO in
                 self?.shoppingResultVO = shoppingResultVO
-                self?.sections = [
-                    .TopFiveProducts(Array(shoppingResultVO.items.prefix(upTo: 5))),
-                    .AllProducts(shoppingResultVO.items)
-                ]
+                self?.sections.removeAll()
+                if shoppingResultVO.items.count >= 5 {
+                    self?.sections.append(.TopFiveProducts(Array(shoppingResultVO.items.prefix(upTo: 5))))
+                }
+                self?.sections.append(.AllProducts(shoppingResultVO.items))
             }
             .store(in: &cancellables)
     }
