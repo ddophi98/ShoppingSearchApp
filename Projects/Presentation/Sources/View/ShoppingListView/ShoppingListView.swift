@@ -101,11 +101,6 @@ final public class ShoppingListView: UIViewController {
         return collectionView
     }()
     
-    public override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        viewModel.searchShopping(query: "무선이어폰", display: 10)
-    }
-    
     private func setBinding() {
         viewModel.$sections
             .receive(on: DispatchQueue.main)
@@ -142,9 +137,9 @@ final public class ShoppingListView: UIViewController {
 
 extension ShoppingListView: UITextFieldDelegate {
     public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        view.endEditing(true)
         guard let query = textField.text else { return true }
         viewModel.searchShopping(query: query, display: 10)
-        searchBox.resignFirstResponder()
         return true
     }
 }
