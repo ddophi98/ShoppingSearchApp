@@ -111,7 +111,7 @@ final public class ShoppingListView: UIViewController {
         collectionView.backgroundColor = .clear
         collectionView.register(AllProductsBlock.self, forCellWithReuseIdentifier: AllProductsBlock.id)
         collectionView.register(TopFiveProductsBlock.self, forCellWithReuseIdentifier: TopFiveProductsBlock.id)
-        collectionView.register(Header.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: Header.id)
+        collectionView.register(ShoppingListHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: ShoppingListHeader.id)
         return collectionView
     }()
     
@@ -212,7 +212,7 @@ extension ShoppingListView: UICollectionViewDelegate {
     }
     
     public func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: Header.id, for: indexPath) as! Header
+        let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: ShoppingListHeader.id, for: indexPath) as! ShoppingListHeader
         
         switch viewModel.sections[indexPath.section] {
         case .AllProducts:

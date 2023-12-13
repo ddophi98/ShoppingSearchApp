@@ -2,8 +2,8 @@
 
 import UIKit
 
-final public class Header: UICollectionReusableView {
-    static let id = "Header"
+final public class ShoppingListHeader: UICollectionReusableView {
+    static let id = "ShoppingListHeader"
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
