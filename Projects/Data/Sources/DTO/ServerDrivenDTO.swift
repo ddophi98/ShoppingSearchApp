@@ -22,6 +22,16 @@ import Domain
                 "title":"스타벅스 DT 스탠리 스트로 텀블러 591ml",
                 "image":"https://shopping-phinf.pstatic.net/main_1945030/19450308684.20190729143224.jpg",
                 "price":13000
+             },
+             {
+                "title":"카카오 캐릭터 춘식이 장패드",
+                "image":"https://shopping-phinf.pstatic.net/main_8672770/86727706634.4.jpg",
+                "price":13800
+             },
+             {
+                "title":"PLAYMAX 포치타 체인소맨",
+                "image":"https://shopping-phinf.pstatic.net/main_8668822/86688228006.2.jpg",
+                "price":43000
              }
           ]
        },

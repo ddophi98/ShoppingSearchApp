@@ -19,13 +19,27 @@ final public class ShoppingListView: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    lazy private var viewTitle: UILabel = {
+        let viewTitle = UILabel()
+        viewTitle.text = "상품검색"
+        viewTitle.font = .boldSystemFont(ofSize: 30)
+        return viewTitle
+    }()
+    
     private lazy var searchBox: UITextField = {
         let searchBox = UITextField()
         searchBox.placeholder = "찾고 싶은 상품을 입력해주세요"
+        searchBox.font = .systemFont(ofSize: 15)
         searchBox.borderStyle = .roundedRect
         searchBox.clearButtonMode = .whileEditing
         searchBox.delegate = self
         return searchBox
+    }()
+    
+    private lazy var line: UIView = {
+        let line = UIView()
+        line.backgroundColor = .systemGray4
+        return line
     }()
     
     private lazy var collectionViewLayout = UICollectionViewCompositionalLayout { (section, env) -> NSCollectionLayoutSection? in
@@ -48,7 +62,7 @@ final public class ShoppingListView: UIViewController {
             
             // Section
             let section = NSCollectionLayoutSection(group: group)
-            section.contentInsets = .init(top: 30, leading: 0, bottom: 30, trailing: 0)
+            section.contentInsets = .init(top: 60, leading: 0, bottom: 30, trailing: 0)
             section.boundarySupplementaryItems = [
                 NSCollectionLayoutBoundarySupplementaryItem(
                     layoutSize: .init(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(30)),
@@ -76,7 +90,7 @@ final public class ShoppingListView: UIViewController {
             // Section
             let section = NSCollectionLayoutSection(group: group)
             section.orthogonalScrollingBehavior = .groupPaging
-            section.contentInsets = .init(top: 30, leading: 0, bottom: 30, trailing: 0)
+            section.contentInsets = .init(top: 60, leading: 0, bottom: 30, trailing: 0)
             section.boundarySupplementaryItems = [
                 NSCollectionLayoutBoundarySupplementaryItem(
                     layoutSize: .init(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(30)),
@@ -112,13 +126,19 @@ final public class ShoppingListView: UIViewController {
     
     private func setView() {
         view.backgroundColor = .white
+        view.addSubview(viewTitle)
         view.addSubview(searchBox)
         view.addSubview(collectionView)
+        view.addSubview(line)
     }
     
     private func setLayout() {
-        searchBox.snp.makeConstraints { make in
+        viewTitle.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
             make.top.equalTo(view.safeAreaLayoutGuide)
+        }
+        searchBox.snp.makeConstraints { make in
+            make.top.equalTo(viewTitle.snp.bottom).offset(20)
             make.leading.equalToSuperview().offset(30)
             make.trailing.equalToSuperview().offset(-30)
             make.height.equalTo(50)
@@ -127,6 +147,11 @@ final public class ShoppingListView: UIViewController {
             make.leading.trailing.equalToSuperview()
             make.top.equalTo(searchBox.snp.bottom).offset(40)
             make.bottom.equalTo(view.safeAreaLayoutGuide)
+        }
+        line.snp.makeConstraints { make in
+            make.leading.trailing.equalToSuperview()
+            make.bottom.equalTo(collectionView.snp.top)
+            make.height.equalTo(0.5)
         }
     }
     

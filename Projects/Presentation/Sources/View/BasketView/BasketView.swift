@@ -22,8 +22,14 @@ final public class BasketView: UIViewController {
     lazy private var viewTitle: UILabel = {
         let viewTitle = UILabel()
         viewTitle.text = "장바구니"
-        viewTitle.font = .systemFont(ofSize: 30)
+        viewTitle.font = .boldSystemFont(ofSize: 30)
         return viewTitle
+    }()
+    
+    private lazy var line: UIView = {
+        let line = UIView()
+        line.backgroundColor = .systemGray4
+        return line
     }()
     
     lazy private var tableView: UITableView = {
@@ -45,6 +51,7 @@ final public class BasketView: UIViewController {
     private func setView() {
         view.backgroundColor = .white
         view.addSubview(viewTitle)
+        view.addSubview(line)
         view.addSubview(tableView)
     }
     
@@ -52,6 +59,11 @@ final public class BasketView: UIViewController {
         viewTitle.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.top.equalTo(view.safeAreaLayoutGuide)
+        }
+        line.snp.makeConstraints { make in
+            make.leading.trailing.equalToSuperview()
+            make.bottom.equalTo(tableView.snp.top)
+            make.height.equalTo(0.5)
         }
         tableView.snp.makeConstraints { make in
             make.top.equalTo(viewTitle.snp.bottom).offset(20)
@@ -83,18 +95,18 @@ extension BasketView: UITableViewDataSource {
         switch content {
         case .RecentlyViewed(let recentlyViewedVOs):
             let cell = tableView.dequeueReusableCell(withIdentifier: RecentlyViewedBlock.id) as! RecentlyViewedBlock
-            cell.setItems(items: recentlyViewedVOs)
             cell.setViewModel(viewModel: viewModel)
+            cell.setItems(items: recentlyViewedVOs)
             return cell
         case .WishList(let wishListVO):
             let cell = tableView.dequeueReusableCell(withIdentifier: WishListBlock.id) as! WishListBlock
-            cell.setCell(title: wishListVO.title, price: wishListVO.price)
             cell.setViewModel(viewModel: viewModel)
+            cell.setCell(title: wishListVO.title, price: wishListVO.price)
             return cell
         case .Advertisement(let advertisementVO):
             let cell = tableView.dequeueReusableCell(withIdentifier: AdvertisementBlock.id) as! AdvertisementBlock
-            cell.setCell(imageURL: advertisementVO.image, title: advertisementVO.text)
             cell.setViewModel(viewModel: viewModel)
+            cell.setCell(imageURL: advertisementVO.image, title: advertisementVO.text)
             return cell
         }
     }
@@ -107,7 +119,7 @@ extension BasketView: UITableViewDelegate {
         case .RecentlyViewed:
             return RecentlyViewedCell.cellHeight + 100
         case .WishList:
-            return 90
+            return 80
         case .Advertisement:
             return 250
         }

@@ -6,8 +6,8 @@ import SnapKit
 final public class RecentlyViewedCell: UICollectionViewCell {
    
     static let id = "RecentlyViewedCell"
-    static let cellHeight = 300.0
-    static let cellWidth = 300.0
+    static let cellHeight = 150.0
+    static let cellWidth = 100.0
     private var viewModel: BasketViewModel?
     private var idx: Int?
     
@@ -30,7 +30,7 @@ final public class RecentlyViewedCell: UICollectionViewCell {
     lazy private var title: UILabel = {
         let title = UILabel()
         title.textAlignment = .center
-        title.font = .systemFont(ofSize: 20)
+        title.font = .systemFont(ofSize: 15)
         return title
     }()
     
@@ -38,7 +38,7 @@ final public class RecentlyViewedCell: UICollectionViewCell {
         let price = UILabel()
         price.textAlignment = .center
         price.textColor = .gray
-        price.font = .systemFont(ofSize: 18)
+        price.font = .systemFont(ofSize: 13)
         return price
     }()
     
@@ -46,30 +46,25 @@ final public class RecentlyViewedCell: UICollectionViewCell {
         addSubview(thumbnail)
         addSubview(title)
         addSubview(price)
-        addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tapped(_:))))
     }
     
     private func setLayout() {
         thumbnail.snp.makeConstraints { make in
             make.top.equalToSuperview()
             make.centerX.equalToSuperview()
-            make.width.height.equalTo(200)
+            make.width.height.equalTo(RecentlyViewedCell.cellWidth - 20)
         }
         title.snp.makeConstraints { make in
             make.top.equalTo(thumbnail.snp.bottom).offset(20)
-            make.width.equalTo(200)
+            make.width.equalTo(RecentlyViewedCell.cellWidth)
             make.centerX.equalToSuperview()
         }
         price.snp.makeConstraints { make in
-            make.top.equalTo(title.snp.bottom).offset(20)
+            make.top.equalTo(title.snp.bottom).offset(10)
             make.centerX.equalToSuperview()
         }
     }
-    
-    @objc private func tapped(_ sender: UITapGestureRecognizer) {
-        
-    }
-    
+
     func setCell(idx: Int, imageURL: String, title: String, price: Int) {
         guard let viewModel = viewModel else { return }
         

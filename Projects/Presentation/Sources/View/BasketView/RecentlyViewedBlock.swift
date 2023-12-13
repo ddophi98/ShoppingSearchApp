@@ -23,7 +23,7 @@ final public class RecentlyViewedBlock: UITableViewCell {
     lazy private var title: UILabel = {
         let title = UILabel()
         title.text = "최근 본 상품"
-        title.font = .systemFont(ofSize: 30)
+        title.font = .systemFont(ofSize: 20)
         return title
     }()
     
@@ -31,8 +31,9 @@ final public class RecentlyViewedBlock: UITableViewCell {
         let collectionViewFlowLayout: UICollectionViewFlowLayout = {
             let layout = UICollectionViewFlowLayout()
             layout.scrollDirection = .horizontal
-            layout.minimumLineSpacing = 8.0
+            layout.minimumLineSpacing = 20.0
             layout.itemSize = .init(width: RecentlyViewedCell.cellWidth, height: RecentlyViewedCell.cellHeight)
+            layout.sectionInset = .init(top: 0, left: 30, bottom: 0, right: 30)
             return layout
         }()
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewFlowLayout)

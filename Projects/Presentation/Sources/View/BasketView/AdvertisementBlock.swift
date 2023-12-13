@@ -16,6 +16,13 @@ final public class AdvertisementBlock: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    lazy private var advertisementLabel: UILabel = {
+        let label = UILabel()
+        label.font = .boldSystemFont(ofSize: 18)
+        label.text = "⚠️ 광고"
+        return label
+    }()
+    
     lazy private var thumbnail: UIImageView = {
         let thumbnail = UIImageView()
         thumbnail.contentMode = .scaleAspectFit
@@ -25,25 +32,33 @@ final public class AdvertisementBlock: UITableViewCell {
     lazy private var title: UILabel = {
         let title = UILabel()
         title.textAlignment = .left
-        title.font = .systemFont(ofSize: 20)
+        title.font = .systemFont(ofSize: 15)
+        title.numberOfLines = 3
         return title
     }()
     
     private func setView() {
+        backgroundColor = .systemMint
         selectionStyle = .none
+        addSubview(advertisementLabel)
         addSubview(thumbnail)
         addSubview(title)
     }
     
     private func setLayout() {
+        advertisementLabel.snp.makeConstraints { make in
+            make.leading.equalToSuperview().offset(10)
+            make.top.equalToSuperview().offset(15)
+        }
+        
         thumbnail.snp.makeConstraints { make in
             make.leading.equalToSuperview().offset(10)
             make.centerY.equalToSuperview()
-            make.width.height.equalTo(200)
+            make.width.height.equalTo(150)
         }
         title.snp.makeConstraints { make in
-            make.leading.equalTo(thumbnail.snp.trailing).offset(20)
-            make.width.equalTo(150)
+            make.leading.equalTo(thumbnail.snp.trailing).offset(10)
+            make.width.equalTo(200)
             make.centerY.equalToSuperview()
         }
     }

@@ -19,7 +19,7 @@ final public class WishListBlock: UITableViewCell {
     lazy private var title: UILabel = {
         let title = UILabel()
         title.textAlignment = .left
-        title.font = .systemFont(ofSize: 20)
+        title.font = .systemFont(ofSize: 15)
         return title
     }()
     
@@ -27,7 +27,7 @@ final public class WishListBlock: UITableViewCell {
         let price = UILabel()
         price.textAlignment = .left
         price.textColor = .gray
-        price.font = .systemFont(ofSize: 18)
+        price.font = .systemFont(ofSize: 13)
         return price
     }()
     

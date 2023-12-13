@@ -17,13 +17,13 @@ final public class Header: UICollectionReusableView {
     
     private lazy var title: UILabel = {
         let title = UILabel()
-        title.font = .boldSystemFont(ofSize: 30)
+        title.font = .boldSystemFont(ofSize: 20)
         return title
     }()
     
     private lazy var line: UIView = {
         let line = UIView()
-        line.backgroundColor = .gray
+        line.backgroundColor = .systemGray2
         return line
     }()
     
@@ -34,15 +34,14 @@ final public class Header: UICollectionReusableView {
     
     private func setLayout() {
         title.snp.makeConstraints { make in
-            make.leading.equalToSuperview().offset(30)
-            make.trailing.equalToSuperview().offset(-30)
-            make.top.equalToSuperview()
+            make.leading.equalToSuperview().offset(10)
+            make.trailing.equalToSuperview().offset(-10)
+            make.top.equalToSuperview().offset(30)
         }
         line.snp.makeConstraints { make in
-            make.leading.equalToSuperview()
+            make.leading.trailing.equalToSuperview()
             make.top.equalTo(title.snp.bottom).offset(8)
             make.height.equalTo(0.5)
-            make.width.equalToSuperview()
         }
     }
     

@@ -14,11 +14,11 @@ extension ServerDrivenAPI: TargetType {
             return URL(string: "https://gist.githubusercontent.com/")!
         }
     }
-    
+
     var path: String {
         switch self {
         case .basket:
-            return "ddophi98/14535628aa282fb22a1284d3bebc5a83/raw/daa6bd83de74f176b9956458c069a11db7f81bf8/JsonForServerDrivenUI"
+            return "ddophi98/14535628aa282fb22a1284d3bebc5a83/raw/6b44b6fdf0e9e6fe8579dd5d48ec3686dab156cd/JsonForServerDrivenUI"
         }
     }
     
