@@ -27,7 +27,7 @@ class MainCoordinator: Coordinator {
     }
     
     func moveToDetailView(item: ShoppingItemVO) {
-        let detailView = container.resolve(DetailView.self)!
+        let detailView = container.resolve(DetailView.self, argument: item)!
         detailView.setCoordinator(self)
         navigationController.pushViewController(detailView, animated: true)
     }

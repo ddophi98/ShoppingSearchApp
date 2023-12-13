@@ -16,7 +16,8 @@ public struct DomainAssembly: Assembly {
             return DefaultBasketUsecase(serverDrivenRepository: serverDrivenRepository, imageRepository: imageRepository)
         }
         container.register(DetailUsecase.self) { resolver in
-            return DefaultDetailUsecase()
+            let repository = resolver.resolve(ImageRepository.self)!
+            return DefaultDetailUsecase(repository: repository)
         }
     }
 }

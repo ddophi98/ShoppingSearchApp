@@ -23,12 +23,12 @@ public struct PresentationAssembly: Assembly {
             let viewModel = resolver.resolve(BasketViewModel.self)!
             return BasketView(viewModel: viewModel)
         }
-        container.register(DetailViewModel.self) { resolver in
+        container.register(DetailViewModel.self) { (resolver, item: ShoppingItemVO) in
             let usecase = resolver.resolve(DetailUsecase.self)!
-            return DetailViewModel(usecase: usecase)
+            return DetailViewModel(usecase: usecase, item: item)
         }
-        container.register(DetailView.self) { resolver in
-            let viewModel = resolver.resolve(DetailViewModel.self)!
+        container.register(DetailView.self) { (resolver, item: ShoppingItemVO) in
+            let viewModel = resolver.resolve(DetailViewModel.self, argument: item)!
             return DetailView(viewModel: viewModel)
         }
         container.register(TabView.self) { resolver in
