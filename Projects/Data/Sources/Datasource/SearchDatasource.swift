@@ -4,7 +4,7 @@ import Combine
 import Foundation
 
 public protocol SearchDatasource {
-    func searchShopping(query: String, display: Int) -> AnyPublisher<ShoppingResultDTO, Error>
+    func searchShopping(query: String) -> AnyPublisher<ShoppingResultDTO, Error>
 }
 
 final public class DefaultSearchDatasource: SearchDatasource {
@@ -13,7 +13,16 @@ final public class DefaultSearchDatasource: SearchDatasource {
     
     private let moyaProvider = MoyaWrapper<SearchAPI>()
     
-    public func searchShopping(query: String, display: Int) -> AnyPublisher<ShoppingResultDTO, Error> {
-        moyaProvider.call(target: .shopping(query: query, display: display))
+    public func searchShopping(query: String) -> AnyPublisher<ShoppingResultDTO, Error> {
+        let cacheKey = NSString(string: query)
+        if let cachedJSON = CacheManager.jsonCache.object(forKey: cacheKey) {
+            return Just(Data(referencing: cachedJSON))
+                .decode(type: ShoppingResultDTO.self, decoder: JSONDecoder())
+                .eraseToAnyPublisher()
+        } else {
+            return moyaProvider.call(target: .shopping(query: query)) { jsonData in
+                CacheManager.jsonCache.setObject(NSData(data: jsonData), forKey: cacheKey)
+            }
+        }
     }
 }

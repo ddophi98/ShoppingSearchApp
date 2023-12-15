@@ -11,8 +11,8 @@ final public class DefaultSearchRepository: SearchRepository {
         self.dataSource = dataSource
     }
     
-    public func searchShopping(query: String, display: Int) -> AnyPublisher<ShoppingResultVO, Error> {
-        dataSource.searchShopping(query: query, display: display)
+    public func searchShopping(query: String) -> AnyPublisher<ShoppingResultVO, Error> {
+        dataSource.searchShopping(query: query)
             .map { $0.toVO() }
             .eraseToAnyPublisher()
     }

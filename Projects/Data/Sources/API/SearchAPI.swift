@@ -8,7 +8,7 @@ import Foundation
  */
 
 enum SearchAPI {
-    case shopping(query: String, display: Int)
+    case shopping(query: String)
 }
 
 extension SearchAPI: TargetType {
@@ -35,10 +35,10 @@ extension SearchAPI: TargetType {
     
     var task: Moya.Task {
         switch self {
-        case .shopping(let query, let display):
+        case .shopping(let query):
             return .requestParameters(parameters: [
                 "query" : query,
-                "display": display
+                "display": 10
             ], encoding: URLEncoding.queryString)
         }
     }

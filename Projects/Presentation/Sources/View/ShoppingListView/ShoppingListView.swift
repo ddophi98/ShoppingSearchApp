@@ -164,7 +164,7 @@ extension ShoppingListView: UITextFieldDelegate {
     public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         view.endEditing(true)
         guard let query = textField.text else { return true }
-        viewModel.searchShopping(query: query, display: 10)
+        viewModel.searchShopping(query: query)
         return true
     }
 }

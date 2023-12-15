@@ -4,7 +4,7 @@ import Combine
 import Foundation
 
 public protocol ShoppingListUsecase {
-    func searchShopping(query: String, display: Int) -> AnyPublisher<ShoppingResultVO, Error>
+    func searchShopping(query: String) -> AnyPublisher<ShoppingResultVO, Error>
     func downloadImage(url: String) -> AnyPublisher<Data, Error>
     func setImageCache(url: String, data: Data)
 }
@@ -18,8 +18,8 @@ final public class DefaultShoppingResultUsecase: ShoppingListUsecase {
         self.imageRepository = imageRepository
     }
     
-    public func searchShopping(query: String, display: Int) -> AnyPublisher<ShoppingResultVO, Error> {
-        searchRepository.searchShopping(query: query, display: display)
+    public func searchShopping(query: String) -> AnyPublisher<ShoppingResultVO, Error> {
+        searchRepository.searchShopping(query: query)
     }
     
     public func downloadImage(url: String) -> AnyPublisher<Data, Error> {

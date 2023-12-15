@@ -19,8 +19,8 @@ final public class ShoppingListViewModel: BaseViewModel {
         case AllProducts([ShoppingItemVO])
     }
     
-    func searchShopping(query: String, display: Int) {
-        usecase.searchShopping(query: query, display: display)
+    func searchShopping(query: String) {
+        usecase.searchShopping(query: query)
             .sink { completion in
                 switch completion {
                 case .failure(let error):
