@@ -4,8 +4,7 @@ import Moya
 import Combine
 import CombineMoya
 
-class MoyaWrapper<Provider: TargetType>: MoyaProvider<Provider> {
-    
+final class MoyaWrapper<Provider: TargetType>: MoyaProvider<Provider> {
     func call<Value>(target: Provider) -> AnyPublisher<Value, Error> where Value: Decodable {
         return self.requestPublisher(target)
             .map(Value.self)

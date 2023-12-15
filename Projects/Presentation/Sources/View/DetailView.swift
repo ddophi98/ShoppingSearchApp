@@ -78,7 +78,9 @@ final public class DetailView: UIViewController {
                     break
                 }
             } receiveValue: { [weak self] data in
-                self?.thumbnail.image = UIImage(data: data)
+                guard let self = self else { return }
+                self.thumbnail.image = UIImage(data: data)
+                self.viewModel.setImageCache(url: self.viewModel.item.image, data: data)
             }
             .store(in: &viewModel.cancellables)
     }

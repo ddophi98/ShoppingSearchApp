@@ -16,4 +16,8 @@ public final class DetailViewModel: BaseViewModel {
     func downloadImage(url: String) -> AnyPublisher<Data, Error> {
         usecase.downloadImage(url: url)
     }
+    
+    func setImageCache(url: String, data: Data) {
+        usecase.setImageCache(url: url, data: data)
+    }
 }

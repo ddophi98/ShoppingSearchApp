@@ -6,6 +6,7 @@ import Foundation
 public protocol ShoppingListUsecase {
     func searchShopping(query: String, display: Int) -> AnyPublisher<ShoppingResultVO, Error>
     func downloadImage(url: String) -> AnyPublisher<Data, Error>
+    func setImageCache(url: String, data: Data)
 }
 
 final public class DefaultShoppingResultUsecase: ShoppingListUsecase {
@@ -23,5 +24,9 @@ final public class DefaultShoppingResultUsecase: ShoppingListUsecase {
     
     public func downloadImage(url: String) -> AnyPublisher<Data, Error> {
         imageRepository.downloadImage(url: url)
+    }
+    
+    public func setImageCache(url: String, data: Data) {
+        imageRepository.setImageCache(url: url, data: data)
     }
 }

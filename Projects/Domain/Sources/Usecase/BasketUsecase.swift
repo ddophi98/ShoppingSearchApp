@@ -6,6 +6,7 @@ import Foundation
 public protocol BasketUsecase {
     func getBasketContents() -> AnyPublisher<[ServerDrivenContentVO], Error>
     func downloadImage(url: String) -> AnyPublisher<Data, Error>
+    func setImageCache(url: String, data: Data)
 }
 
 final public class DefaultBasketUsecase: BasketUsecase {
@@ -24,5 +25,9 @@ final public class DefaultBasketUsecase: BasketUsecase {
     
     public func downloadImage(url: String) -> AnyPublisher<Data, Error> {
         imageRepository.downloadImage(url: url)
+    }
+    
+    public func setImageCache(url: String, data: Data) {
+        imageRepository.setImageCache(url: url, data: data)
     }
 }

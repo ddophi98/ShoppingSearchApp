@@ -5,6 +5,7 @@ import Foundation
 
 public protocol DetailUsecase {
     func downloadImage(url: String) -> AnyPublisher<Data, Error>
+    func setImageCache(url: String, data: Data)
 }
 
 final public class DefaultDetailUsecase: DetailUsecase {
@@ -17,5 +18,9 @@ final public class DefaultDetailUsecase: DetailUsecase {
     
     public func downloadImage(url: String) -> AnyPublisher<Data, Error> {
         repository.downloadImage(url: url)
+    }
+    
+    public func setImageCache(url: String, data: Data) {
+        repository.setImageCache(url: url, data: data)
     }
 }

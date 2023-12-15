@@ -5,4 +5,5 @@ import Foundation
 
 public protocol ImageRepository {
     func downloadImage(url: String) -> AnyPublisher<Data, Error>
+    func setImageCache(url: String, data: Data)
 }

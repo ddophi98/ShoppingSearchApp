@@ -46,4 +46,8 @@ final public class ShoppingListViewModel: BaseViewModel {
     func moveToDetailView(item: ShoppingItemVO) {
         coordinator?.moveToDetailView(item: item)
     }
+    
+    func setImageCache(url: String, data: Data) {
+        usecase.setImageCache(url: url, data: data)
+    }
 }

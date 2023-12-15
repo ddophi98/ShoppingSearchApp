@@ -82,6 +82,7 @@ final public class TopFiveProductsBlock: UICollectionViewCell {
                 }
             } receiveValue: { [weak self] data in
                 self?.thumbnail.image = UIImage(data: data)
+                viewModel.setImageCache(url: imageURL, data: data)
             }
             .store(in: &viewModel.cancellables)
     }
