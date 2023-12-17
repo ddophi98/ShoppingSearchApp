@@ -33,3 +33,13 @@
 #### MVVM
 - Combine 프레임워크를 통해 ViewModel의 데이터가 변경될 시 View가 자동적으로 업데이트되도록 했습니다.
 - Data Binding으로 View와 ViewModel 사이의 의존성을 줄일 수 있습니다.
+
+## Server Driven UI
+<img width="500" src="https://github.com/ddophi98/ShoppingSearchApp/assets/72330884/4048d22e-5310-4ae4-b626-ad2bfd377ed8">
+
+- 서버에서 보내주는 Response에 맞춰서 UI가 동적으로 변경되도록 할 수 있습니다.   
+  ex) 현재 화면에서는 광고의 위치를 동적으로 조정할 수 있습니다.
+- 이를 응용한다면 뷰의 위치뿐만 아니라 글씨 크기, 색상 등도 Response로 내려주고 동적으로 업데이트할 수 있습니다.
+- 클라이언트측에서 직접 UI를 수정할 경우, 오래 걸리는 앱 심사와 유저가 앱 업데이트를 하지 않는 문제를 극복하기 위해 해당 기술을 활용할 수 있습니다.
+
+
