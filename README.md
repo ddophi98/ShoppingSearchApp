@@ -1,6 +1,6 @@
 ## ShoppingSearchApp
 
-<img width="400" src="https://github.com/ddophi98/ShoppingSearchApp/assets/72330884/9dde49d5-d612-4261-b7df-8d8385c96631"> 
+<img width="500" src="https://github.com/ddophi98/ShoppingSearchApp/assets/72330884/bc6af6e7-ef6c-486c-b91b-bdf0756500a8"> 
 
 - 배운 개발 기술들을 실제로 적용해보기 위해 만든 프로젝트
 - UIKit, Tuist, Clean Architecture, 모듈화, MVVM, Server Driven UI, Caching, DI, Coordinator 패턴
@@ -42,4 +42,18 @@
 - 이를 응용한다면 뷰의 위치뿐만 아니라 글씨 크기, 색상 등도 Response로 내려주고 동적으로 업데이트할 수 있습니다.
 - 클라이언트측에서 직접 UI를 수정할 경우, 오래 걸리는 앱 심사와 유저가 앱 업데이트를 하지 않는 문제를 극복하기 위해 해당 기술을 활용할 수 있습니다.
 
+## TableView, CollectionView
+가로 스크롤, 세로 스크롤이 공존하는 화면을 만들고자 했고 두가지 방법을 시도했습니다.
 
+#### 상품검색 화면
+<img width="1000" src="https://github.com/ddophi98/ShoppingSearchApp/assets/72330884/b723d2ec-4524-41c6-ad50-0e7c86846d4c">
+
+- 첫번째 방법은 CollectionView만 사용하면서 특정 섹션에 orthogonalScrollingBehavior 속성을 줬습니다.
+- CollectionView만 사용해서 만들 수 있기에 비교적 간단했고 특정 섹션만 스크롤 방향을 변경할 수 있다는 것이 편리했습니다.
+
+#### 장바구니 화면
+<img width="1000" src="https://github.com/ddophi98/ShoppingSearchApp/assets/72330884/77f9ffb4-c0e6-4a76-8670-0a6301f05d95">
+
+- 두번째 방법은 TableView를 먼저 정의하고, TableView의 Cell 중 하나를 CollectionView로 정의하는 방식이었습니다.   
+- 이후 CollectionView의 scrollDirection 속성을 horizontal로 지정했습니다.   
+- TableView, CollectionView를 모두 정의해야했기에 비교적 복잡했고, scrollDirection은 CollectionView의 모든 섹션에 적용되어버리는 제한 사항이 존재합니다.
