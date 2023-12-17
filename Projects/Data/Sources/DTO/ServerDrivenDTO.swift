@@ -50,6 +50,13 @@ import Domain
            }
        },
        {
+          "blockType":"Advertisement",
+          "content":{
+             "image":"https://shopping-phinf.pstatic.net/main_2180030/21800304853.20200205110947.jpg?type=f640",
+             "text":"이번 겨울은 라이언 무드등과 함께 지내보세요! 방도 마음도 따뜻하게 비춰줍니다."
+          }
+       },
+       {
           "blockType":"WishList",
           "content":{
                 "title":"스타벅스 DT 스탠리 스트로 텀블러 591ml",
@@ -83,13 +90,6 @@ import Domain
                 "title":"카카오 마우스패드 춘식이 죠르디 예쁜 귀여운 장패드 춘식이",
                 "price":16900
            }
-       },
-       {
-          "blockType":"Advertisement",
-          "content":{
-             "image":"https://shopping-phinf.pstatic.net/main_2180030/21800304853.20200205110947.jpg?type=f640",
-             "text":"이번 겨울은 라이언 무드등과 함께 지내보세요! 방도 마음도 따뜻하게 비춰줍니다."
-          }
        }
     ]
  }

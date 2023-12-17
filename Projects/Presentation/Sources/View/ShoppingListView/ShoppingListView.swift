@@ -36,7 +36,13 @@ final public class ShoppingListView: UIViewController {
         return searchBox
     }()
     
-    private lazy var line: UIView = {
+    private lazy var topLine: UIView = {
+        let line = UIView()
+        line.backgroundColor = .systemGray4
+        return line
+    }()
+    
+    private lazy var bottomLine: UIView = {
         let line = UIView()
         line.backgroundColor = .systemGray4
         return line
@@ -83,7 +89,7 @@ final public class ShoppingListView: UIViewController {
             // Group
             let groupSize = NSCollectionLayoutSize(
                 widthDimension: .fractionalWidth(1.0),
-                heightDimension: .absolute(300)
+                heightDimension: .absolute(200)
             )
             let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
             
@@ -129,7 +135,8 @@ final public class ShoppingListView: UIViewController {
         view.addSubview(viewTitle)
         view.addSubview(searchBox)
         view.addSubview(collectionView)
-        view.addSubview(line)
+        view.addSubview(topLine)
+        view.addSubview(bottomLine)
     }
     
     private func setLayout() {
@@ -148,9 +155,14 @@ final public class ShoppingListView: UIViewController {
             make.top.equalTo(searchBox.snp.bottom).offset(40)
             make.bottom.equalTo(view.safeAreaLayoutGuide)
         }
-        line.snp.makeConstraints { make in
+        topLine.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview()
             make.bottom.equalTo(collectionView.snp.top)
+            make.height.equalTo(0.5)
+        }
+        bottomLine.snp.makeConstraints { make in
+            make.leading.trailing.equalToSuperview()
+            make.top.equalTo(collectionView.snp.bottom)
             make.height.equalTo(0.5)
         }
     }

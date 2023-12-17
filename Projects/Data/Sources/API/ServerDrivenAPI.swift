@@ -18,7 +18,7 @@ extension ServerDrivenAPI: TargetType {
     var path: String {
         switch self {
         case .basket:
-            return "ddophi98/14535628aa282fb22a1284d3bebc5a83/raw/6b44b6fdf0e9e6fe8579dd5d48ec3686dab156cd/JsonForServerDrivenUI"
+            return "ddophi98/14535628aa282fb22a1284d3bebc5a83/raw/03e1a370779df0ea9e2a47d0f88e0205eda48a0e/JsonForServerDrivenUI"
         }
     }
     

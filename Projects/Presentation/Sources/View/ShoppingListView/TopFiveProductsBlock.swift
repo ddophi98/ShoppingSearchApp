@@ -6,8 +6,6 @@ import SnapKit
 final public class TopFiveProductsBlock: UICollectionViewCell {
    
     static let id = "TopFiveProductsBlock"
-    static let cellHeight = 300.0
-    static let cellWidth = 300.0
     private var viewModel: ShoppingListViewModel?
     private var idx: Int?
     
@@ -52,7 +50,7 @@ final public class TopFiveProductsBlock: UICollectionViewCell {
         thumbnail.snp.makeConstraints { make in
             make.top.equalToSuperview()
             make.centerX.equalToSuperview()
-            make.width.height.equalTo(200)
+            make.width.height.equalTo(150)
         }
         title.snp.makeConstraints { make in
             make.top.equalTo(thumbnail.snp.bottom).offset(20)

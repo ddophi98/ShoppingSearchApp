@@ -21,7 +21,7 @@ public class TabView: UITabBarController {
     private func setTab() {
         self.viewControllers = [firstView, secondView]
         firstView.tabBarItem = UITabBarItem(
-            title: "물건검색",
+            title: "상품검색",
             image: UIImage(systemName: "magnifyingglass.circle"),
             selectedImage: UIImage(systemName: "magnifyingglass.circle.fill")
         )

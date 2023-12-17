@@ -47,18 +47,18 @@ final public class AdvertisementBlock: UITableViewCell {
     
     private func setLayout() {
         advertisementLabel.snp.makeConstraints { make in
-            make.leading.equalToSuperview().offset(10)
+            make.leading.equalToSuperview().offset(15)
             make.top.equalToSuperview().offset(15)
         }
         
         thumbnail.snp.makeConstraints { make in
-            make.leading.equalToSuperview().offset(10)
-            make.centerY.equalToSuperview()
-            make.width.height.equalTo(150)
+            make.leading.equalToSuperview().offset(15)
+            make.top.equalTo(advertisementLabel.snp.bottom).offset(10)
+            make.width.height.equalTo(100)
         }
         title.snp.makeConstraints { make in
-            make.leading.equalTo(thumbnail.snp.trailing).offset(10)
-            make.width.equalTo(200)
+            make.leading.equalTo(thumbnail.snp.trailing).offset(15)
+            make.trailing.equalToSuperview().offset(-10)
             make.centerY.equalToSuperview()
         }
     }

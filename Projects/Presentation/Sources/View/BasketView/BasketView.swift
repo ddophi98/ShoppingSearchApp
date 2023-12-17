@@ -26,7 +26,13 @@ final public class BasketView: UIViewController {
         return viewTitle
     }()
     
-    private lazy var line: UIView = {
+    private lazy var topLine: UIView = {
+        let line = UIView()
+        line.backgroundColor = .systemGray4
+        return line
+    }()
+    
+    private lazy var bottomLine: UIView = {
         let line = UIView()
         line.backgroundColor = .systemGray4
         return line
@@ -51,7 +57,8 @@ final public class BasketView: UIViewController {
     private func setView() {
         view.backgroundColor = .white
         view.addSubview(viewTitle)
-        view.addSubview(line)
+        view.addSubview(topLine)
+        view.addSubview(bottomLine)
         view.addSubview(tableView)
     }
     
@@ -60,14 +67,19 @@ final public class BasketView: UIViewController {
             make.centerX.equalToSuperview()
             make.top.equalTo(view.safeAreaLayoutGuide)
         }
-        line.snp.makeConstraints { make in
+        tableView.snp.makeConstraints { make in
+            make.top.equalTo(viewTitle.snp.bottom).offset(20)
+            make.leading.trailing.bottom.equalTo(view.safeAreaLayoutGuide)
+        }
+        topLine.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview()
             make.bottom.equalTo(tableView.snp.top)
             make.height.equalTo(0.5)
         }
-        tableView.snp.makeConstraints { make in
-            make.top.equalTo(viewTitle.snp.bottom).offset(20)
-            make.leading.trailing.bottom.equalTo(view.safeAreaLayoutGuide)
+        bottomLine.snp.makeConstraints { make in
+            make.leading.trailing.equalToSuperview()
+            make.top.equalTo(tableView.snp.bottom)
+            make.height.equalTo(0.5)
         }
     }
     
@@ -121,7 +133,7 @@ extension BasketView: UITableViewDelegate {
         case .WishList:
             return 80
         case .Advertisement:
-            return 250
+            return 170
         }
     }
 }
