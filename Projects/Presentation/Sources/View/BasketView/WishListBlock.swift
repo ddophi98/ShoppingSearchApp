@@ -40,6 +40,7 @@ final public class WishListBlock: UITableViewCell {
     private func setLayout() {
         title.snp.makeConstraints { make in
             make.leading.equalToSuperview().offset(10)
+            make.trailing.equalToSuperview().offset(-10)
             make.top.equalToSuperview().offset(20)
         }
         price.snp.makeConstraints { make in
