@@ -2,7 +2,7 @@
 
 <img width="500" src="https://github.com/ddophi98/ShoppingSearchApp/assets/72330884/bc6af6e7-ef6c-486c-b91b-bdf0756500a8"> 
 
-- 배운 개발 기술들을 실제로 적용해보기 위해 만든 프로젝트
+- 배운 개발 기술들을 실제로 적용해보기 위해 만든 프로젝트입니다.
 - UIKit, Tuist, Clean Architecture, 모듈화, MVVM, Server Driven UI, Caching, DI, Coordinator 패턴
 
 ## Clean Architecture + MVVM
@@ -57,3 +57,17 @@
 - 두번째 방법은 TableView를 먼저 정의하고, TableView의 Cell 중 하나를 CollectionView로 정의하는 방식이었습니다.   
 - 이후 CollectionView의 scrollDirection 속성을 horizontal로 지정했습니다.   
 - TableView, CollectionView를 모두 정의해야했기에 비교적 복잡했고, scrollDirection은 CollectionView의 모든 섹션에 적용되어버리는 제한 사항이 존재합니다.
+
+## 캐싱
+<img width="500" src="https://github.com/ddophi98/ShoppingSearchApp/assets/72330884/6e0e5070-ae36-42eb-b295-fb614dd0c6e8">
+
+
+#### 이미지 캐싱
+- 같은 URL이라면 같은 이미지인 경우가 대다수이기 때문에, 빠르게 이미지를 가져오기 위해 이미지 캐싱을 하게 됐습니다.
+- 이미지 URL을 키 값으로 사용하여, 해당 키가 존재하면 네트워크 통신 대신 캐시에서 가져오도록 구현했습니다.
+- 디스크에 이미지가 쌓여서 용량이 과도하게 늘어나는 일을 막기 위해서는 메모리 캐시가 적절하다고 생각하여 NSCache를 사용했습니다.
+
+#### JSON 캐싱
+- 물건을 검색하는 경우, 시간이 몇분 지나지 않았다면 서버로부터 같은 Response가 내려올 가능성이 크다고 생각했기 때문에, 빠르게 응답을 처리하기 위해 JSON 캐싱을 하게 됐습니다.
+- 검색어를 키 값으로 사용하여, 해당 키가 존재하면 네트워크 통신 대신 캐시에서 가져오도록 구현했습니다.
+- 물건 검색은 시간이 지나면 결과가 변할 수 있기에, 영구적으로 보관하는 디스크 캐시보다는 메모리 캐시가 적절하다고 생각하여 NSCache를 사용했습니다.
