@@ -11,9 +11,7 @@ final public class DefaultLoggingRepository: LoggingRepository {
         self.dataSource = dataSource
     }
     
-    public func shotLog(_ scheme: LoggingSchemeVO) {
+    public func shotLog(_ scheme: LoggingScheme) {
         dataSource.shotLog(scheme.toDTO())
     }
-    
-    
 }

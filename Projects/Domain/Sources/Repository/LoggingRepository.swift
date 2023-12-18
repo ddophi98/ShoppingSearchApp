@@ -3,5 +3,5 @@
 import Foundation
 
 public protocol LoggingRepository {
-    func shotLog(_ scheme: LoggingSchemeVO)
+    func shotLog(_ scheme: LoggingScheme)
 }

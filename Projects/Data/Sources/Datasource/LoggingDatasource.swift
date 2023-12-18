@@ -11,7 +11,7 @@ final public class DefaultLoggingDatasource: LoggingDatasource {
     
     public init() { }
 
-    private let logger = Logger(appVersion: "1.0", osVersion: "iOS")
+    private let logger = Logger()
     
     public func shotLog(_ scheme: String) {
         logger.shotLog(scheme)
