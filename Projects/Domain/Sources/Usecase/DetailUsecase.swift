@@ -6,6 +6,9 @@ import Foundation
 public protocol DetailUsecase {
     func downloadImage(url: String) -> AnyPublisher<Data, Error>
     func setImageCache(url: String, data: Data)
+    
+    // --- logging ---
+    func loggingViewAppeared()
 }
 
 final public class DefaultDetailUsecase: DetailUsecase {
@@ -24,5 +27,11 @@ final public class DefaultDetailUsecase: DetailUsecase {
     
     public func setImageCache(url: String, data: Data) {
         imageRepository.setImageCache(url: url, data: data)
+    }
+    
+    // --- logging ---
+    public func loggingViewAppeared() {
+        let scheme = DetailViewAppeared.Builder().build()
+        loggingRepository.shotLog(scheme)
     }
 }

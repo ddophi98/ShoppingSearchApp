@@ -7,6 +7,9 @@ public protocol BasketUsecase {
     func getBasketContents() -> AnyPublisher<[ServerDrivenContentVO], Error>
     func downloadImage(url: String) -> AnyPublisher<Data, Error>
     func setImageCache(url: String, data: Data)
+    
+    // --- logging ---
+    func loggingViewAppeared()
 }
 
 final public class DefaultBasketUsecase: BasketUsecase {
@@ -31,5 +34,11 @@ final public class DefaultBasketUsecase: BasketUsecase {
     
     public func setImageCache(url: String, data: Data) {
         imageRepository.setImageCache(url: url, data: data)
+    }
+    
+    // --- logging ---
+    public func loggingViewAppeared() {
+        let scheme = BasketViewAppeared.Builder().build()
+        loggingRepository.shotLog(scheme)
     }
 }

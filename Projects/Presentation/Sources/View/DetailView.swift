@@ -19,6 +19,11 @@ final public class DetailView: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    public override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        viewModel.loggingViewAppeared()
+    }
+    
     lazy private var productTitle: UILabel = {
         let productTitle = UILabel()
         productTitle.textAlignment = .center

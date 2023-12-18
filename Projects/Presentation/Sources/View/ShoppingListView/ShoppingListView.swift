@@ -19,6 +19,11 @@ final public class ShoppingListView: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    public override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        viewModel.loggingViewAppeared()
+    }
+    
     lazy private var viewTitle: UILabel = {
         let viewTitle = UILabel()
         viewTitle.text = "상품검색"
@@ -217,9 +222,9 @@ extension ShoppingListView: UICollectionViewDelegate {
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         switch viewModel.sections[indexPath.section] {
         case .AllProducts(let items):
-            viewModel.moveToDetailView(item: items[indexPath.item])
+            viewModel.moveToDetailView(item: items[indexPath.item], position: "모든상품", index: indexPath.item)
         case .TopFiveProducts(let items):
-            viewModel.moveToDetailView(item: items[indexPath.item])
+            viewModel.moveToDetailView(item: items[indexPath.item], position: "상위5개상품", index: indexPath.item)
         }
     }
     

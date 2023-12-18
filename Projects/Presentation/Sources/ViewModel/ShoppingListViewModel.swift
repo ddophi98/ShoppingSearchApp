@@ -20,6 +20,7 @@ final public class ShoppingListViewModel: BaseViewModel {
     }
     
     func searchShopping(query: String) {
+        loggingProductSearched(query: query)
         usecase.searchShopping(query: query)
             .sink { completion in
                 switch completion {
@@ -43,11 +44,25 @@ final public class ShoppingListViewModel: BaseViewModel {
         usecase.downloadImage(url: url)
     }
     
-    func moveToDetailView(item: ShoppingItemVO) {
+    func moveToDetailView(item: ShoppingItemVO, position: String, index: Int) {
+        loggingProductTapped(productName: item.title.removeHtml(), productPrice: item.lprice, productPosition: position, productIndex: index)
         coordinator?.moveToDetailView(item: item)
     }
     
     func setImageCache(url: String, data: Data) {
         usecase.setImageCache(url: url, data: data)
+    }
+    
+    // --- logging ---
+    func loggingViewAppeared() {
+        usecase.loggingViewAppeared()
+    }
+    
+    private func loggingProductSearched(query: String) {
+        usecase.loggingProductSearched(query: query)
+    }
+    
+    private func loggingProductTapped(productName: String, productPrice: Int, productPosition: String, productIndex: Int) {
+        usecase.loggingProductTapped(productName: productName, productPrice: productPrice, productPosition: productPosition, productIndex: productIndex)
     }
 }

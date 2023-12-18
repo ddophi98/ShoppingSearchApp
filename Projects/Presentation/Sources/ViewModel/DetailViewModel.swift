@@ -20,4 +20,9 @@ public final class DetailViewModel: BaseViewModel {
     func setImageCache(url: String, data: Data) {
         usecase.setImageCache(url: url, data: data)
     }
+    
+    // --- logging ---
+    func loggingViewAppeared() {
+        usecase.loggingViewAppeared()
+    }
 }

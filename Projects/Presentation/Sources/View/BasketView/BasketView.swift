@@ -19,6 +19,12 @@ final public class BasketView: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    public override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        viewModel.loggingViewAppeared()
+        viewModel.getBasketContents()
+    }
+    
     lazy private var viewTitle: UILabel = {
         let viewTitle = UILabel()
         viewTitle.text = "장바구니"
@@ -48,12 +54,7 @@ final public class BasketView: UIViewController {
         tableView.separatorInset = .init(top: 0, left: 10, bottom: 0, right: 10)
         return tableView
     }()
-    
-    public override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        viewModel.getBasketContents()
-    }
-    
+
     private func setView() {
         view.backgroundColor = .white
         view.addSubview(viewTitle)
