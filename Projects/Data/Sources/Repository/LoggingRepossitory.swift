@@ -1,0 +1,19 @@
+// Copyright © 2023 com.template. All rights reserved.
+
+import Combine
+import Domain
+import Foundation
+
+final public class DefaultLoggingRepository: LoggingRepository {
+    private let dataSource: LoggingDatasource
+    
+    public init(dataSource: LoggingDatasource) {
+        self.dataSource = dataSource
+    }
+    
+    public func shotLog(_ scheme: LoggingSchemeVO) {
+        dataSource.shotLog(scheme.toDTO())
+    }
+    
+    
+}

@@ -12,10 +12,12 @@ public protocol ShoppingListUsecase {
 final public class DefaultShoppingResultUsecase: ShoppingListUsecase {
     private let searchRepository: SearchRepository
     private let imageRepository: ImageRepository
+    private let loggingRepository: LoggingRepository
     
-    public init(searchRepository: SearchRepository, imageRepository: ImageRepository) {
+    public init(searchRepository: SearchRepository, imageRepository: ImageRepository, loggingRepository: LoggingRepository) {
         self.searchRepository = searchRepository
         self.imageRepository = imageRepository
+        self.loggingRepository = loggingRepository
     }
     
     public func searchShopping(query: String) -> AnyPublisher<ShoppingResultVO, Error> {

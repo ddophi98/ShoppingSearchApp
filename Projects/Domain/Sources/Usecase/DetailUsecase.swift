@@ -10,17 +10,19 @@ public protocol DetailUsecase {
 
 final public class DefaultDetailUsecase: DetailUsecase {
     
-    private let repository: ImageRepository
+    private let imageRepository: ImageRepository
+    private let loggingRepository: LoggingRepository
     
-    public init(repository: ImageRepository) {
-        self.repository = repository
+    public init(imageRepository: ImageRepository, loggingRepository: LoggingRepository) {
+        self.imageRepository = imageRepository
+        self.loggingRepository = loggingRepository
     }
     
     public func downloadImage(url: String) -> AnyPublisher<Data, Error> {
-        repository.downloadImage(url: url)
+        imageRepository.downloadImage(url: url)
     }
     
     public func setImageCache(url: String, data: Data) {
-        repository.setImageCache(url: url, data: data)
+        imageRepository.setImageCache(url: url, data: data)
     }
 }

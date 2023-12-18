@@ -15,6 +15,13 @@ public struct DataAssembly: Assembly {
         container.register(ServerDrivenDatasource.self) { _ in
             return DefaultServerDrivenDatasource()
         }
+        container.register(LoggingDatasource.self) { _ in
+            return DefaultLoggingDatasource()
+        }
+        container.register(LoggingRepository.self) { resolver in
+            let datasource = resolver.resolve(LoggingDatasource.self)!
+            return DefaultLoggingRepository(dataSource: datasource)
+        }
         container.register(SearchRepository.self) { resolver in
             let datasource = resolver.resolve(SearchDatasource.self)!
             return DefaultSearchRepository(dataSource: datasource)

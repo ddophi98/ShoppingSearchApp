@@ -13,10 +13,12 @@ final public class DefaultBasketUsecase: BasketUsecase {
     
     private let serverDrivenRepository: ServerDrivenRepository
     private let imageRepository: ImageRepository
+    private let loggingRepository: LoggingRepository
     
-    public init(serverDrivenRepository: ServerDrivenRepository, imageRepository: ImageRepository) {
+    public init(serverDrivenRepository: ServerDrivenRepository, imageRepository: ImageRepository, loggingRepository: LoggingRepository) {
         self.serverDrivenRepository = serverDrivenRepository
         self.imageRepository = imageRepository
+        self.loggingRepository = loggingRepository
     }
     
     public func getBasketContents() -> AnyPublisher<[ServerDrivenContentVO], Error> {

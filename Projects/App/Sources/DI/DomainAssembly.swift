@@ -8,16 +8,19 @@ public struct DomainAssembly: Assembly {
         container.register(ShoppingListUsecase.self) { resolver in
             let searchRepository = resolver.resolve(SearchRepository.self)!
             let imageRepository = resolver.resolve(ImageRepository.self)!
-            return DefaultShoppingResultUsecase(searchRepository: searchRepository, imageRepository: imageRepository)
+            let loggingRepository = resolver.resolve(LoggingRepository.self)!
+            return DefaultShoppingResultUsecase(searchRepository: searchRepository, imageRepository: imageRepository, loggingRepository: loggingRepository)
         }
         container.register(BasketUsecase.self) { resolver in
             let serverDrivenRepository = resolver.resolve(ServerDrivenRepository.self)!
             let imageRepository = resolver.resolve(ImageRepository.self)!
-            return DefaultBasketUsecase(serverDrivenRepository: serverDrivenRepository, imageRepository: imageRepository)
+            let loggingRepository = resolver.resolve(LoggingRepository.self)!
+            return DefaultBasketUsecase(serverDrivenRepository: serverDrivenRepository, imageRepository: imageRepository, loggingRepository: loggingRepository)
         }
         container.register(DetailUsecase.self) { resolver in
-            let repository = resolver.resolve(ImageRepository.self)!
-            return DefaultDetailUsecase(repository: repository)
+            let imageRepository = resolver.resolve(ImageRepository.self)!
+            let loggingRepository = resolver.resolve(LoggingRepository.self)!
+            return DefaultDetailUsecase(imageRepository: imageRepository, loggingRepository: loggingRepository)
         }
     }
 }
