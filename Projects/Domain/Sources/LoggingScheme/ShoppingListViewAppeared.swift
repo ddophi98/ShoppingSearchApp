@@ -6,7 +6,7 @@ public struct ShoppingListViewAppeared: LoggingScheme {
     public var logVersion: Float = 1.0
     public var eventName: String = "ViewAppeared"
     public var screenName: String = "ShoppingList"
-    public var logData: [String : String] = [:]
+    public var logData: Array<(String, String)> = []
     
     private init() { }
     

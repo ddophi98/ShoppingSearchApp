@@ -6,20 +6,20 @@ public struct ShoppingProductTapped: LoggingScheme {
     public var logVersion: Float = 1.0
     public var eventName: String = "Product Tapped"
     public var screenName: String = "ShoppingList"
-    public var logData: [String : String] = [:]
+    public var logData: Array<(String, String)> = []
     
     private init(productName: String?, productPrice: Int?, productPosition: String?, productIndex: Int?) {
         if let productName = productName {
-            logData["productName"] = productName
+            logData.append(("productName", productName))
         }
         if let productPrice = productPrice {
-            logData["productPrice"] = String(productPrice)
+            logData.append(("productPrice", String(productPrice)))
         }
         if let productPosition = productPosition {
-            logData["productPosition"] = productPosition
+            logData.append(("productPosition", productPosition))
         }
         if let productIndex = productIndex {
-            logData["productIndex"] = String(productIndex)
+            logData.append(("productIndex", String(productIndex)))
         }
     }
     

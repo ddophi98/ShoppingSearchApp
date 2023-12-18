@@ -6,11 +6,11 @@ public struct ShoppingProductSearched: LoggingScheme {
     public var logVersion: Float = 1.0
     public var eventName: String = "Searched"
     public var screenName: String = "ShoppingList"
-    public var logData: [String : String] = [:]
+    public var logData: Array<(String, String)> = []
     
     private init(query: String?) {
         if let query = query {
-            logData["query"] = query
+            logData.append(("query", query))
         }
     }
     
