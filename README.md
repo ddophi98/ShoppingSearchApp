@@ -6,7 +6,7 @@
 - 기술스택: UIKit, Tuist, Clean Architecture, 모듈화, MVVM, Server Driven UI, Caching, DI, Coordinator 패턴
 
 ## Clean Architecture + MVVM
-<img width="700" src="https://github.com/ddophi98/ShoppingSearchApp/assets/72330884/a2cb2b17-f78f-406a-9bb8-586a3ba42d3b">
+<img width="700" src="https://github.com/ddophi98/ShoppingSearchApp/assets/72330884/35cdd37c-dca2-4cd4-87fa-0ca00565ea36">
 
 #### 계층별 역할 분리
     Data 계층 : 서버 또는 로컬 저장소로부터 데이터를 가져오고, DTO를 VO로 변환하는 역할을 합니다.
@@ -59,7 +59,7 @@
 - TableView, CollectionView를 모두 정의해야했기에 비교적 복잡했고, scrollDirection은 CollectionView의 모든 섹션에 적용되어버리는 제한 사항이 존재합니다.
 
 ## 캐싱
-<img width="500" src="https://github.com/ddophi98/ShoppingSearchApp/assets/72330884/6e0e5070-ae36-42eb-b295-fb614dd0c6e8">
+<img width="500" src="https://github.com/ddophi98/ShoppingSearchApp/assets/72330884/efa67b78-60e0-4275-99b8-46b0aed6d6fb">
 
 
 #### 이미지 캐싱
