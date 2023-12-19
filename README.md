@@ -6,11 +6,11 @@
 - 기술스택: UIKit, Tuist, Clean Architecture, 모듈화, MVVM, Server Driven UI, Caching, DI, Coordinator 패턴
 
 ## 목차
-- [Clean Architecture + MVVM](##Clean-Architecture-+-MVVM)
-- [Server Driven UI](##Server-Driven-UI)
-- [TableView, CollectionView](##TableView,-CollectionView)
-- [캐싱](##캐싱)
-- [로깅](##로깅)
+- [Clean Architecture + MVVM](#clean-architecture--mvvm)
+- [Server Driven UI](#server-driven-ui)
+- [TableView, CollectionView](#tableview-collectionview)
+- [캐싱](#캐싱)
+- [로깅](#로깅)
 
 
 ## Clean Architecture + MVVM
