@@ -82,7 +82,7 @@
 - 물건 검색은 시간이 지나면 결과가 변할 수 있기에, 영구적으로 보관하는 디스크 캐시보다는 메모리 캐시가 적절하다고 생각하여 NSCache를 사용했습니다.
 
 ## Logging
-<img width="700" src="https://github.com/ddophi98/ShoppingSearchApp/assets/72330884/129a5e5b-a5b2-4e15-a341-71ab33d074bd">
+<img width="700" src="https://github.com/ddophi98/ShoppingSearchApp/assets/72330884/4a452664-d33a-4a20-9c05-17123df63755">
 
 #### 로그
 - 로깅은 앱에서 일어나는 각종 이벤트에 대해 로그를 남기는 것입니다.
