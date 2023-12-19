@@ -63,9 +63,9 @@
 #### 장바구니 화면
 <img width="1000" src="https://github.com/ddophi98/ShoppingSearchApp/assets/72330884/77f9ffb4-c0e6-4a76-8670-0a6301f05d95">
 
-- 두번째 방법은 TableView를 먼저 정의하고, TableView의 Cell 중 하나를 CollectionView로 정의하는 방식이었습니다.   
+- 두번째 방법은 TableView를 먼저 정의하고, TableView의 Cell 중 하나를 CollectionView로 정의하는 것이었습니다.   
 - CollectionView에서는 UICollectionViewFlowLayout를 사용하면서 scrollDirection 속성을 horizontal로 지정했습니다.   
-- TableView, CollectionView를 모두 정의해야했기에 비교적 복잡했고, scrollDirection은 CollectionView의 모든 섹션에 적용되어버리는 제한 사항이 존재합니다.
+- TableView, CollectionView를 모두 정의해야했기에 비교적 복잡했고, scrollDirection은 CollectionView의 모든 섹션에 적용되어버리는 제한 사항이 존재했습니다.
 
 ## Caching
 <img width="500" src="https://github.com/ddophi98/ShoppingSearchApp/assets/72330884/efa67b78-60e0-4275-99b8-46b0aed6d6fb">
