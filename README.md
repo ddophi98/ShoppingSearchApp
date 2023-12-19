@@ -1,4 +1,4 @@
-## ShoppingSearchApp
+# ShoppingSearchApp
 
 <img width="500" src="https://github.com/ddophi98/ShoppingSearchApp/assets/72330884/bc6af6e7-ef6c-486c-b91b-bdf0756500a8"> 
 
