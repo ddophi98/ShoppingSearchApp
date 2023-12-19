@@ -5,6 +5,14 @@
 - 배운 개발 기술들을 실제로 적용해보기 위해 만든 프로젝트입니다.
 - 기술스택: UIKit, Tuist, Clean Architecture, 모듈화, MVVM, Server Driven UI, Caching, DI, Coordinator 패턴
 
+## 목차
+- [Clean Architecture + MVVM](##Clean-Architecture-+-MVVM)
+- [Server Driven UI](##Server-Driven-UI)
+- [TableView, CollectionView](##TableView,-CollectionView)
+- [캐싱](##캐싱)
+- [로깅](##로깅)
+
+
 ## Clean Architecture + MVVM
 <img width="700" src="https://github.com/ddophi98/ShoppingSearchApp/assets/72330884/3878668d-cc93-4f54-895a-81aaa0a611fb">
 
@@ -72,7 +80,7 @@
 - 검색어를 키 값으로 사용하여, 해당 키가 존재하면 네트워크 통신 대신 캐시에서 가져오도록 구현했습니다.
 - 물건 검색은 시간이 지나면 결과가 변할 수 있기에, 영구적으로 보관하는 디스크 캐시보다는 메모리 캐시가 적절하다고 생각하여 NSCache를 사용했습니다.
 
-# 로깅
+## 로깅
 <img width="700" src="https://github.com/ddophi98/ShoppingSearchApp/assets/72330884/129a5e5b-a5b2-4e15-a341-71ab33d074bd">
 
 #### 로그
