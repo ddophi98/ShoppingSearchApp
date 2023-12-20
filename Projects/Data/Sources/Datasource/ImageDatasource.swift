@@ -24,6 +24,9 @@ final public class DefaultImageDatasource: ImageDatasource {
     }
     
     public func setImageCache(url: NSString, data: NSData) {
-        CacheManager.imageCache.setObject(data, forKey: url)
+        let cacheKey = NSString(string: url)
+        if CacheManager.imageCache.object(forKey: cacheKey) == nil {
+            CacheManager.imageCache.setObject(data, forKey: url)
+        }
     }
 }
