@@ -22,7 +22,9 @@ final public class BasketView: UIViewController {
     public override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         viewModel.loggingViewAppeared()
+        viewModel.loggingTTI(point: .drawView)
         viewModel.getBasketContents()
+        viewModel.loggingTTI(point: .sendRequest)
     }
     
     lazy private var viewTitle: UILabel = {
@@ -89,6 +91,7 @@ final public class BasketView: UIViewController {
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
                 self?.tableView.reloadData()
+                self?.viewModel.loggingTTI(point: .bindData)
             }
             .store(in: &viewModel.cancellables)
     }

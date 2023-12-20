@@ -24,10 +24,10 @@ public struct ShoppingProductTapped: LoggingScheme {
     }
     
     public class Builder {
-        var productName: String?
-        var productPrice: Int?
-        var productPosition: String?
-        var productIndex: Int?
+        private var productName: String?
+        private var productPrice: Int?
+        private var productPosition: String?
+        private var productIndex: Int?
         
         public func setProductName(_ productName: String) -> Builder {
             self.productName = productName

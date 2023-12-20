@@ -15,7 +15,7 @@ public struct ShoppingProductSearched: LoggingScheme {
     }
     
     public class Builder {
-        var query: String?
+        private var query: String?
         
         public func setQuery(_ query: String) -> Builder {
             self.query = query

@@ -6,7 +6,10 @@ import Foundation
 
 final public class BasketViewModel: BaseViewModel {
     private let usecase: BasketUsecase
+    
     @Published private(set) var contents = [ServerDrivenContentVO]()
+    private var logsForTTI = Dictionary<TTIPoint, Date>()
+    private var didSendTTILog = false
     
     public init(usecase: BasketUsecase) {
         self.usecase = usecase
@@ -24,6 +27,7 @@ final public class BasketViewModel: BaseViewModel {
                 }
             } receiveValue: { [weak self] contents in
                 self?.contents = contents
+                self?.loggingTTI(point: .receiveResponse)
             }
             .store(in: &cancellables)
     }
@@ -39,5 +43,17 @@ final public class BasketViewModel: BaseViewModel {
     // --- logging ---
     func loggingViewAppeared() {
         usecase.loggingViewAppeared()
+    }
+    
+    func loggingTTI(point: TTIPoint) {
+        if didSendTTILog {
+            return
+        }
+        
+        logsForTTI[point] = Date()
+        if point == .drawCoreComponent {
+            usecase.loggingTTI(logs: logsForTTI)
+            didSendTTILog = true
+        }
     }
 }

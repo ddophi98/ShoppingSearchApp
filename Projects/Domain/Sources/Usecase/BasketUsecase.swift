@@ -10,6 +10,7 @@ public protocol BasketUsecase {
     
     // --- logging ---
     func loggingViewAppeared()
+    func loggingTTI(logs: Dictionary<TTIPoint, Date>)
 }
 
 final public class DefaultBasketUsecase: BasketUsecase {
@@ -39,6 +40,22 @@ final public class DefaultBasketUsecase: BasketUsecase {
     // --- logging ---
     public func loggingViewAppeared() {
         let scheme = BasketViewAppeared.Builder().build()
+        loggingRepository.shotLog(scheme)
+    }
+    
+    public func loggingTTI(logs: Dictionary<TTIPoint, Date>) {
+        guard let drawViewTime = logs[.drawView],
+              let sendRequestTime = logs[.sendRequest],
+              let receiveResponseTime = logs[.receiveResponse],
+              let bindDataTime = logs[.bindData],
+              let drawCoreComponentTime = logs[.drawCoreComponent] else { return }
+        
+        let scheme = BasketViewTTI.Builder()
+            .setTimeBetweenDrawViewAndSendRequest(sendRequestTime.timeIntervalSince(drawViewTime))
+            .setTimeBetweenSendRequestAndReceiveResponse(receiveResponseTime.timeIntervalSince(sendRequestTime))
+            .setTimeBetweenReceiveResponseAndBindData(bindDataTime.timeIntervalSince(receiveResponseTime))
+            .setTimeBetweenBindDataAndDrawCoreComponent(drawCoreComponentTime.timeIntervalSince(bindDataTime))
+            .build()
         loggingRepository.shotLog(scheme)
     }
 }
