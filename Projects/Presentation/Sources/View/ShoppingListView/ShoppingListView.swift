@@ -19,9 +19,15 @@ final public class ShoppingListView: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    public override func viewDidLoad() {
+        super.viewDidLoad()
+        viewModel.loggingTTI(point: .loadView)
+    }
+    
     public override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         viewModel.loggingViewAppeared()
+        viewModel.loggingTTI(point: .drawView)
     }
     
     lazy private var viewTitle: UILabel = {
@@ -131,6 +137,7 @@ final public class ShoppingListView: UIViewController {
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
                 self?.collectionView.reloadData()
+                self?.viewModel.loggingTTI(point: .bindData)
             }
             .store(in: &viewModel.cancellables)
     }
@@ -182,6 +189,7 @@ extension ShoppingListView: UITextFieldDelegate {
         view.endEditing(true)
         guard let query = textField.text else { return true }
         viewModel.searchShopping(query: query)
+        viewModel.loggingTTI(point: .sendRequest)
         return true
     }
 }

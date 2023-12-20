@@ -12,6 +12,7 @@ public protocol ShoppingListUsecase {
     func loggingViewAppeared()
     func loggingProductSearched(query: String)
     func loggingProductTapped(productName: String, productPrice: Int, productPosition: String, productIndex: Int)
+    func loggingTTI(logs: Dictionary<TTIPoint, Date>)
 }
 
 final public class DefaultShoppingResultUsecase: ShoppingListUsecase {
@@ -56,6 +57,24 @@ final public class DefaultShoppingResultUsecase: ShoppingListUsecase {
             .setProductPrice(productPrice)
             .setProductPosition(productPosition)
             .setProductIndex(productIndex)
+            .build()
+        loggingRepository.shotLog(scheme)
+    }
+    
+    public func loggingTTI(logs: Dictionary<TTIPoint, Date>) {
+        guard let loadViewTime = logs[.loadView],
+              let drawViewTime = logs[.drawView],
+              let sendRequestTime = logs[.sendRequest],
+              let receiveResponseTime = logs[.receiveResponse],
+              let bindDataTime = logs[.bindData],
+              let drawCoreComponentTime = logs[.drawCoreComponent] else { return }
+        
+        let scheme = ShoppingListViewTTI.Builder()
+            .setTimeBetweenLoadViewAndDrawView(drawViewTime.timeIntervalSince(loadViewTime))
+            .setTimeBetweenDrawViewAndSendRequest(sendRequestTime.timeIntervalSince(drawViewTime))
+            .setTimeBetweenSendRequestAndReceiveResponse(receiveResponseTime.timeIntervalSince(sendRequestTime))
+            .setTimeBetweenReceiveResponseAndBindData(bindDataTime.timeIntervalSince(receiveResponseTime))
+            .setTimeBetweenBindDataAndDrawCoreComponent(drawCoreComponentTime.timeIntervalSince(bindDataTime))
             .build()
         loggingRepository.shotLog(scheme)
     }

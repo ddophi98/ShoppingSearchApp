@@ -3,6 +3,7 @@
 import Foundation
 
 public enum TTIPoint {
+    case loadView
     case drawView
     case sendRequest
     case receiveResponse

@@ -44,13 +44,15 @@ final public class DefaultBasketUsecase: BasketUsecase {
     }
     
     public func loggingTTI(logs: Dictionary<TTIPoint, Date>) {
-        guard let drawViewTime = logs[.drawView],
+        guard let loadViewTime = logs[.loadView],
+              let drawViewTime = logs[.drawView],
               let sendRequestTime = logs[.sendRequest],
               let receiveResponseTime = logs[.receiveResponse],
               let bindDataTime = logs[.bindData],
               let drawCoreComponentTime = logs[.drawCoreComponent] else { return }
         
         let scheme = BasketViewTTI.Builder()
+            .setTimeBetweenLoadViewAndDrawView(drawViewTime.timeIntervalSince(loadViewTime))
             .setTimeBetweenDrawViewAndSendRequest(sendRequestTime.timeIntervalSince(drawViewTime))
             .setTimeBetweenSendRequestAndReceiveResponse(receiveResponseTime.timeIntervalSince(sendRequestTime))
             .setTimeBetweenReceiveResponseAndBindData(bindDataTime.timeIntervalSince(receiveResponseTime))

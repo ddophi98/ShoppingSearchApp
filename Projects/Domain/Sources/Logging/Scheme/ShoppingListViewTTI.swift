@@ -2,10 +2,10 @@
 
 import Foundation
 
-public struct BasketViewTTI: LoggingScheme {
+public struct ShoppingListViewTTI: LoggingScheme {
     public var logVersion: Float = 1.0
     public var eventName: String = "Time To Interactive"
-    public var screenName: String = "Basket"
+    public var screenName: String = "ShoppingList"
     public var logData: Array<(String, String)> = []
     
     private init(timeBetweenLoadViewAndDrawView: Double?, timeBetweenDrawViewAndSendRequest: Double?, timeBetweenSendRequestAndReceiveResponse: Double?, timeBetweenReceiveResponseAndBindData: Double?, timeBetweenBindDataAndDrawCoreComponent: Double?) {
@@ -65,7 +65,7 @@ public struct BasketViewTTI: LoggingScheme {
         }
         
         public func build() -> LoggingScheme {
-            return BasketViewTTI(
+            return ShoppingListViewTTI(
                 timeBetweenLoadViewAndDrawView: timeBetweenLoadViewAndDrawView,
                 timeBetweenDrawViewAndSendRequest: timeBetweenDrawViewAndSendRequest,
                 timeBetweenSendRequestAndReceiveResponse: timeBetweenSendRequestAndReceiveResponse,

@@ -9,6 +9,8 @@ final public class ShoppingListViewModel: BaseViewModel {
     @Published private(set) var sections = [ShoppingListSection]()
     
     public let usecase: ShoppingListUsecase
+    private var logsForTTI = Dictionary<TTIPoint, Date>()
+    private var completeLoggingTTI = false
     
     public init(usecase: ShoppingListUsecase) {
         self.usecase = usecase
@@ -36,6 +38,7 @@ final public class ShoppingListViewModel: BaseViewModel {
                     self?.sections.append(.TopFiveProducts(Array(shoppingResultVO.items.prefix(upTo: 5))))
                 }
                 self?.sections.append(.AllProducts(shoppingResultVO.items))
+                self?.loggingTTI(point: .receiveResponse)
             }
             .store(in: &cancellables)
     }
@@ -64,5 +67,17 @@ final public class ShoppingListViewModel: BaseViewModel {
     
     private func loggingProductTapped(productName: String, productPrice: Int, productPosition: String, productIndex: Int) {
         usecase.loggingProductTapped(productName: productName, productPrice: productPrice, productPosition: productPosition, productIndex: productIndex)
+    }
+    
+    func loggingTTI(point: TTIPoint) {
+        if completeLoggingTTI {
+            return
+        }
+        
+        logsForTTI[point] = Date()
+        if point == .drawCoreComponent {
+            usecase.loggingTTI(logs: logsForTTI)
+            completeLoggingTTI = true
+        }
     }
 }

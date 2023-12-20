@@ -19,6 +19,11 @@ final public class BasketView: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    public override func viewDidLoad() {
+        super.viewDidLoad()
+        viewModel.loggingTTI(point: .loadView)
+    }
+    
     public override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         viewModel.loggingViewAppeared()

@@ -5,11 +5,11 @@ import Combine
 import Foundation
 
 final public class BasketViewModel: BaseViewModel {
-    private let usecase: BasketUsecase
-    
     @Published private(set) var contents = [ServerDrivenContentVO]()
+    
+    private let usecase: BasketUsecase
     private var logsForTTI = Dictionary<TTIPoint, Date>()
-    private var didSendTTILog = false
+    private var completeLoggingTTI = false
     
     public init(usecase: BasketUsecase) {
         self.usecase = usecase
@@ -46,14 +46,14 @@ final public class BasketViewModel: BaseViewModel {
     }
     
     func loggingTTI(point: TTIPoint) {
-        if didSendTTILog {
+        if completeLoggingTTI {
             return
         }
         
         logsForTTI[point] = Date()
         if point == .drawCoreComponent {
             usecase.loggingTTI(logs: logsForTTI)
-            didSendTTILog = true
+            completeLoggingTTI = true
         }
     }
 }
