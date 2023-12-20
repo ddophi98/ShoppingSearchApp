@@ -1,12 +1,20 @@
-## ShoppingSearchApp
+# ShoppingSearchApp
 
 <img width="500" src="https://github.com/ddophi98/ShoppingSearchApp/assets/72330884/bc6af6e7-ef6c-486c-b91b-bdf0756500a8"> 
 
 - 배운 개발 기술들을 실제로 적용해보기 위해 만든 프로젝트입니다.
-- 기술스택: UIKit, Tuist, Clean Architecture, 모듈화, MVVM, Server Driven UI, Caching, DI, Coordinator 패턴
+- 기술스택: UIKit, Tuist, Clean Architecture, 모듈화, MVVM, Server Driven UI, Caching, Logging, DI, Coordinator 패턴
+
+## 목차
+- [Clean Architecture + MVVM](#clean-architecture--mvvm)
+- [Server Driven UI](#server-driven-ui)
+- [TableView, CollectionView](#tableview-collectionview)
+- [Caching](#Caching)
+- [Logging](#Logging)
+
 
 ## Clean Architecture + MVVM
-<img width="700" src="https://github.com/ddophi98/ShoppingSearchApp/assets/72330884/a2cb2b17-f78f-406a-9bb8-586a3ba42d3b">
+<img width="700" src="https://github.com/ddophi98/ShoppingSearchApp/assets/72330884/3878668d-cc93-4f54-895a-81aaa0a611fb">
 
 #### 계층별 역할 분리
     Data 계층 : 서버 또는 로컬 저장소로부터 데이터를 가져오고, DTO를 VO로 변환하는 역할을 합니다.
@@ -48,18 +56,19 @@
 #### 상품검색 화면
 <img width="1000" src="https://github.com/ddophi98/ShoppingSearchApp/assets/72330884/b723d2ec-4524-41c6-ad50-0e7c86846d4c">
 
-- 첫번째 방법은 CollectionView만 사용하면서 특정 섹션에 orthogonalScrollingBehavior 속성을 줬습니다.
+- 첫번째 방법은 CollectionView만 사용하는 것이었습니다.
+- UICollectionViewCompositionalLayout을 사용하면서 특정 섹션에 orthogonalScrollingBehavior 속성을 줬습니다.
 - CollectionView만 사용해서 만들 수 있기에 비교적 간단했고 특정 섹션만 스크롤 방향을 변경할 수 있다는 것이 편리했습니다.
 
 #### 장바구니 화면
 <img width="1000" src="https://github.com/ddophi98/ShoppingSearchApp/assets/72330884/77f9ffb4-c0e6-4a76-8670-0a6301f05d95">
 
-- 두번째 방법은 TableView를 먼저 정의하고, TableView의 Cell 중 하나를 CollectionView로 정의하는 방식이었습니다.   
-- 이후 CollectionView의 scrollDirection 속성을 horizontal로 지정했습니다.   
-- TableView, CollectionView를 모두 정의해야했기에 비교적 복잡했고, scrollDirection은 CollectionView의 모든 섹션에 적용되어버리는 제한 사항이 존재합니다.
+- 두번째 방법은 TableView를 먼저 정의하고, TableView의 Cell 중 하나를 CollectionView로 정의하는 것이었습니다.   
+- CollectionView에서는 UICollectionViewFlowLayout를 사용하면서 scrollDirection 속성을 horizontal로 지정했습니다.   
+- TableView, CollectionView를 모두 정의해야했기에 비교적 복잡했고, scrollDirection은 CollectionView의 모든 섹션에 적용되어버리는 제한 사항이 존재했습니다.
 
-## 캐싱
-<img width="500" src="https://github.com/ddophi98/ShoppingSearchApp/assets/72330884/6e0e5070-ae36-42eb-b295-fb614dd0c6e8">
+## Caching
+<img width="500" src="https://github.com/ddophi98/ShoppingSearchApp/assets/72330884/efa67b78-60e0-4275-99b8-46b0aed6d6fb">
 
 
 #### 이미지 캐싱
@@ -71,3 +80,21 @@
 - 물건을 검색하는 경우, 시간이 몇분 지나지 않았다면 서버로부터 같은 Response가 내려올 가능성이 크다고 생각했기 때문에, 빠르게 응답을 처리하기 위해 JSON 캐싱을 하게 됐습니다.
 - 검색어를 키 값으로 사용하여, 해당 키가 존재하면 네트워크 통신 대신 캐시에서 가져오도록 구현했습니다.
 - 물건 검색은 시간이 지나면 결과가 변할 수 있기에, 영구적으로 보관하는 디스크 캐시보다는 메모리 캐시가 적절하다고 생각하여 NSCache를 사용했습니다.
+
+## Logging
+<img width="700" src="https://github.com/ddophi98/ShoppingSearchApp/assets/72330884/4a452664-d33a-4a20-9c05-17123df63755">
+
+#### 로그
+- 로깅은 앱에서 일어나는 각종 이벤트에 대해 로그를 남기는 것입니다.
+- 로그를 분석하여 MAU와 같은 특정 지표를 계산하거나, 사용자의 행동 패턴을 관찰할 수 있습니다.
+- 에러가 발생했을 경우, 어떤 동작들로 인해 문제가 생겼는지 분석하는 것에도 도움이 될 수 있습니다.
+- 보통은 서버에 로그를 기록하지만, 프로젝트 특성 상 로컬 CSV 파일에 기록하게 됐습니다.
+
+#### 스키마
+        공통요소: Time, App Version, OS, Log Version, Event, View
+        개별요소
+        - 상품 탭 이벤트: Product Name, Product Price, Product Position, Product Index
+        - 검색 이벤트: Query
+- 로그 스키마에는 모든 곳에 공통적으로 필요한 요소와 개별적으로 필요한 요소가 존재합니다.
+- 개별적으로 필요한 요소를 위해 처음에는 ```Dictionary<String, String>``` 으로 정의했으나, 스키마를 생성할 때마다 순서가 보장되지 않는 문제 때문에 ```Array<(String, String)>``` 으로 개선했습니다.
+- 스키마 객체를 생성할 때는 빌더 패턴을 활용하여, 상황에 따라 필요한 요소만 수월하게 넣을 수 있도록 했습니다.
