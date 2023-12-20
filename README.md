@@ -11,6 +11,7 @@
 - [TableView, CollectionView](#tableview-collectionview)
 - [Caching](#Caching)
 - [Logging](#Logging)
+- [TTI (Time To Interactive)](#tti-time-to-interactive)
 
 
 ## Clean Architecture + MVVM
