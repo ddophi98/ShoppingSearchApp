@@ -50,6 +50,7 @@
   ex) 현재 화면에서는 광고의 위치를 동적으로 조정할 수 있습니다.
 - 이를 응용한다면 뷰의 위치뿐만 아니라 글씨 크기, 색상 등도 Response로 내려주고 동적으로 업데이트할 수 있습니다.
 - 클라이언트측에서 직접 UI를 수정할 경우, 오래 걸리는 앱 심사와 유저가 앱 업데이트를 하지 않는 문제를 극복하기 위해 해당 기술을 활용할 수 있습니다.
+- [전체 JSON 확인하기](https://gist.githubusercontent.com/ddophi98/14535628aa282fb22a1284d3bebc5a83/raw/03e1a370779df0ea9e2a47d0f88e0205eda48a0e/JsonForServerDrivenUI)
 
 ## TableView, CollectionView
 가로 스크롤, 세로 스크롤이 공존하는 화면을 만들고자 했고 두가지 방법을 시도했습니다.
