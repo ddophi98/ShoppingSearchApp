@@ -30,7 +30,7 @@
     Repository, Datasource는 1:1 관계로 정의했습니다. (Image, Search, ServerDriven)
     Usecase, Repository는 1:N 관계로 정의했습니다.
 
-- ViewModel과 Usecase는 원래는 1:N 관계가 맞지만, 프로젝트 규모가 작다보니 우선은 1:1로 정의했습니다.
+- ViewModel과 Usecase는 원래는 1:N 관계가 맞지만, 프로젝트 규모가 작다보니 우선은 1:1로 정의했습니다.   
   ex) 만약 규모가 커진다면, 광고 관련 Usecase, 상품 관련 Usecase 등으로 세분화하여 1:N 관계로 정의할 수 있을 것입니다.
 - Usecase와 Repository는 1:N 관계로 정의함으로써, 공통적으로 사용되는 Repository를 재사용할 수 있습니다.   
   ex) 모든 Usecase에서 이미지 다운을 위한 ImageRepository를, 로깅을 위한 LoggingRepository를 의존하고 있습니다.    
