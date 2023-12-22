@@ -7,16 +7,18 @@ import Foundation
 final public class BasketViewModel: BaseViewModel {
     @Published private(set) var contents = [ServerDrivenContentVO]()
     
-    private let usecase: BasketUsecase
+    private let productUsecase: ProductUsecase
+    private let loggingUsecase: LoggingUsecase
     private var logsForTTI = Dictionary<TTIPoint, Date>()
     private var completeLoggingTTI = false
     
-    public init(usecase: BasketUsecase) {
-        self.usecase = usecase
+    public init(productUsecase: ProductUsecase, loggingUsecase: LoggingUsecase) {
+        self.productUsecase = productUsecase
+        self.loggingUsecase = loggingUsecase
     }
     
     func getBasketContents() {
-        usecase.getBasketContents()
+        productUsecase.getBasketContents()
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
                 switch completion {
@@ -33,16 +35,16 @@ final public class BasketViewModel: BaseViewModel {
     }
     
     func downloadImage(url: String) -> AnyPublisher<Data, Error> {
-        usecase.downloadImage(url: url)
+        productUsecase.downloadImage(url: url)
     }
     
     func setImageCache(url: String, data: Data) {
-        usecase.setImageCache(url: url, data: data)
+        productUsecase.setImageCache(url: url, data: data)
     }
     
     // --- logging ---
     func loggingViewAppeared() {
-        usecase.loggingViewAppeared()
+        loggingUsecase.loggingBasketViewAppeared()
     }
     
     func loggingTTI(point: TTIPoint) {
@@ -52,7 +54,7 @@ final public class BasketViewModel: BaseViewModel {
         
         logsForTTI[point] = Date()
         if point == .drawCoreComponent {
-            usecase.loggingTTI(logs: logsForTTI)
+            loggingUsecase.loggingBasketViewTTI(logs: logsForTTI)
             completeLoggingTTI = true
         }
     }

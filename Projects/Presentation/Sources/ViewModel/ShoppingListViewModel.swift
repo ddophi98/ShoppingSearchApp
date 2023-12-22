@@ -8,12 +8,14 @@ final public class ShoppingListViewModel: BaseViewModel {
     @Published private(set) var shoppingResultVO: ShoppingResultVO?
     @Published private(set) var sections = [ShoppingListSection]()
     
-    public let usecase: ShoppingListUsecase
+    private let productUsecase: ProductUsecase
+    private let loggingUsecase: LoggingUsecase
     private var logsForTTI = Dictionary<TTIPoint, Date>()
     private var completeLoggingTTI = false
     
-    public init(usecase: ShoppingListUsecase) {
-        self.usecase = usecase
+    public init(productUsecase: ProductUsecase, loggingUsecase: LoggingUsecase) {
+        self.productUsecase = productUsecase
+        self.loggingUsecase = loggingUsecase
     }
     
     enum ShoppingListSection {
@@ -23,7 +25,7 @@ final public class ShoppingListViewModel: BaseViewModel {
     
     func searchShopping(query: String) {
         loggingProductSearched(query: query)
-        usecase.searchShopping(query: query)
+        productUsecase.searchShopping(query: query)
             .sink { [weak self] completion in
                 switch completion {
                 case .failure(let error):
@@ -44,7 +46,7 @@ final public class ShoppingListViewModel: BaseViewModel {
     }
     
     func downloadImage(url: String) -> AnyPublisher<Data, Error> {
-        usecase.downloadImage(url: url)
+        productUsecase.downloadImage(url: url)
     }
     
     func moveToDetailView(item: ShoppingItemVO, position: String, index: Int) {
@@ -53,20 +55,20 @@ final public class ShoppingListViewModel: BaseViewModel {
     }
     
     func setImageCache(url: String, data: Data) {
-        usecase.setImageCache(url: url, data: data)
+        productUsecase.setImageCache(url: url, data: data)
     }
     
     // --- logging ---
     func loggingViewAppeared() {
-        usecase.loggingViewAppeared()
+        loggingUsecase.loggingShoppingListViewAppeared()
     }
     
     private func loggingProductSearched(query: String) {
-        usecase.loggingProductSearched(query: query)
+        loggingUsecase.loggingProductSearched(query: query)
     }
     
     private func loggingProductTapped(productName: String, productPrice: Int, productPosition: String, productIndex: Int) {
-        usecase.loggingProductTapped(productName: productName, productPrice: productPrice, productPosition: productPosition, productIndex: productIndex)
+        loggingUsecase.loggingProductTapped(productName: productName, productPrice: productPrice, productPosition: productPosition, productIndex: productIndex)
     }
     
     func loggingTTI(point: TTIPoint) {
@@ -76,7 +78,7 @@ final public class ShoppingListViewModel: BaseViewModel {
         
         logsForTTI[point] = Date()
         if point == .drawCoreComponent {
-            usecase.loggingTTI(logs: logsForTTI)
+            loggingUsecase.loggingShoppingListTTI(logs: logsForTTI)
             completeLoggingTTI = true
         }
     }

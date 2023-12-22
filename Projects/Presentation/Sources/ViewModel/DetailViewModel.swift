@@ -5,24 +5,26 @@ import Domain
 import Combine
 
 public final class DetailViewModel: BaseViewModel {
-    private let usecase: DetailUsecase
+    private let productUsecase: ProductUsecase
+    private let loggingUsecase: LoggingUsecase
     let item: ShoppingItemVO
     
-    public init(usecase: DetailUsecase, item: ShoppingItemVO) {
-        self.usecase = usecase
+    public init(productUsecase: ProductUsecase, loggingUsecase: LoggingUsecase, item: ShoppingItemVO) {
+        self.productUsecase = productUsecase
+        self.loggingUsecase = loggingUsecase
         self.item = item
     }
     
     func downloadImage(url: String) -> AnyPublisher<Data, Error> {
-        usecase.downloadImage(url: url)
+        productUsecase.downloadImage(url: url)
     }
     
     func setImageCache(url: String, data: Data) {
-        usecase.setImageCache(url: url, data: data)
+        productUsecase.setImageCache(url: url, data: data)
     }
     
     // --- logging ---
     func loggingViewAppeared() {
-        usecase.loggingViewAppeared()
+        loggingUsecase.loggingDetailViewAppeared()
     }
 }
