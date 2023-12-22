@@ -32,7 +32,7 @@ final public class BasketView: UIViewController {
         viewModel.loggingTTI(point: .sendRequest)
     }
     
-    lazy private var viewTitle: UILabel = {
+    private lazy var viewTitle: UILabel = {
         let viewTitle = UILabel()
         viewTitle.text = "장바구니"
         viewTitle.font = .boldSystemFont(ofSize: 30)
@@ -51,7 +51,7 @@ final public class BasketView: UIViewController {
         return line
     }()
     
-    lazy private var tableView: UITableView = {
+    private lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.dataSource = self
         tableView.delegate = self
@@ -61,6 +61,16 @@ final public class BasketView: UIViewController {
         tableView.separatorInset = .init(top: 0, left: 10, bottom: 0, right: 10)
         return tableView
     }()
+    
+    private lazy var errorLabel: UILabel = {
+        let errorLabel = UILabel()
+        errorLabel.font = .boldSystemFont(ofSize: 40)
+        errorLabel.textColor = .white
+        errorLabel.backgroundColor = .init(white: 0.0, alpha: 0.5)
+        errorLabel.textAlignment = .center
+        errorLabel.isHidden = true
+        return errorLabel
+    }()
 
     private func setView() {
         view.backgroundColor = .white
@@ -68,6 +78,7 @@ final public class BasketView: UIViewController {
         view.addSubview(topLine)
         view.addSubview(bottomLine)
         view.addSubview(tableView)
+        view.addSubview(errorLabel)
     }
     
     private func setLayout() {
@@ -89,6 +100,9 @@ final public class BasketView: UIViewController {
             make.top.equalTo(tableView.snp.bottom)
             make.height.equalTo(0.5)
         }
+        errorLabel.snp.makeConstraints { make in
+            make.top.bottom.leading.trailing.equalToSuperview()
+        }
     }
     
     private func setBinding() {
@@ -97,6 +111,22 @@ final public class BasketView: UIViewController {
             .sink { [weak self] _ in
                 self?.tableView.reloadData()
                 self?.viewModel.loggingTTI(point: .bindData)
+            }
+            .store(in: &viewModel.cancellables)
+        
+        viewModel.$error
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] error in
+                guard let self = self,
+                      let error = error else { return }
+                
+                switch error {
+                case .NetworkError(let detail):
+                    errorLabel.text = detail
+                case .UndefinedError:
+                    errorLabel.text = "원인을 알 수 없는 에러 발생"
+                }
+                errorLabel.isHidden = false
             }
             .store(in: &viewModel.cancellables)
     }

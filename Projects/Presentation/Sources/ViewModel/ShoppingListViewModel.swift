@@ -24,10 +24,10 @@ final public class ShoppingListViewModel: BaseViewModel {
     func searchShopping(query: String) {
         loggingProductSearched(query: query)
         usecase.searchShopping(query: query)
-            .sink { completion in
+            .sink { [weak self] completion in
                 switch completion {
                 case .failure(let error):
-                    print(error)
+                    self?.setError(error: error)
                 default:
                     break
                 }

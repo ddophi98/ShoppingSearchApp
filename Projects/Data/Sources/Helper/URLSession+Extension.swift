@@ -7,7 +7,7 @@ extension URLSession {
     func call(url: String) -> AnyPublisher<Data, Error> {
         return self.dataTaskPublisher(for: URL(string: url)!)
             .map { $0.data }
-            .mapError { $0 }
+            .mapError { $0.toCustomError() }
             .eraseToAnyPublisher()
     }
 }

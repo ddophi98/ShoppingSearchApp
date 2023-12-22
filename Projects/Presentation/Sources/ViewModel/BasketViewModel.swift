@@ -18,10 +18,10 @@ final public class BasketViewModel: BaseViewModel {
     func getBasketContents() {
         usecase.getBasketContents()
             .receive(on: DispatchQueue.main)
-            .sink { completion in
+            .sink { [weak self] completion in
                 switch completion {
                 case .failure(let error):
-                    print(error)
+                    self?.setError(error: error)
                 default:
                     break
                 }

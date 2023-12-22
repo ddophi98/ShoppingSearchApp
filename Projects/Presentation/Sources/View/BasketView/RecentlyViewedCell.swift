@@ -76,7 +76,7 @@ final public class RecentlyViewedCell: UICollectionViewCell {
             .sink { completion in
                 switch completion {
                 case .failure(let error):
-                    print(error)
+                    viewModel.setError(error: error)
                 default:
                     break
                 }

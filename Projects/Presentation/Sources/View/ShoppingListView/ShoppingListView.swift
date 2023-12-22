@@ -132,12 +132,38 @@ final public class ShoppingListView: UIViewController {
         return collectionView
     }()
     
+    private lazy var errorLabel: UILabel = {
+        let errorLabel = UILabel()
+        errorLabel.font = .boldSystemFont(ofSize: 40)
+        errorLabel.textColor = .white
+        errorLabel.backgroundColor = .init(white: 0.0, alpha: 0.5)
+        errorLabel.textAlignment = .center
+        errorLabel.isHidden = true
+        return errorLabel
+    }()
+    
     private func setBinding() {
         viewModel.$sections
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
                 self?.collectionView.reloadData()
                 self?.viewModel.loggingTTI(point: .bindData)
+            }
+            .store(in: &viewModel.cancellables)
+        
+        viewModel.$error
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] error in
+                guard let self = self,
+                      let error = error else { return }
+                
+                switch error {
+                case .NetworkError(let detail):
+                    errorLabel.text = detail
+                case .UndefinedError:
+                    errorLabel.text = "원인을 알 수 없는 에러 발생"
+                }
+                errorLabel.isHidden = false
             }
             .store(in: &viewModel.cancellables)
     }
@@ -149,6 +175,7 @@ final public class ShoppingListView: UIViewController {
         view.addSubview(collectionView)
         view.addSubview(topLine)
         view.addSubview(bottomLine)
+        view.addSubview(errorLabel)
     }
     
     private func setLayout() {
@@ -176,6 +203,9 @@ final public class ShoppingListView: UIViewController {
             make.leading.trailing.equalToSuperview()
             make.top.equalTo(collectionView.snp.bottom)
             make.height.equalTo(0.5)
+        }
+        errorLabel.snp.makeConstraints { make in
+            make.top.bottom.leading.trailing.equalToSuperview()
         }
     }
     

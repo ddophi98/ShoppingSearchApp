@@ -75,7 +75,7 @@ final public class AllProductsBlock: UICollectionViewCell {
             .sink { completion in
                 switch completion {
                 case .failure(let error):
-                    print(error)
+                    viewModel.setError(error: error)
                 default:
                     break
                 }

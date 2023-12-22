@@ -13,7 +13,7 @@ final class MoyaWrapper<Provider: TargetType>: MoyaProvider<Provider> {
                 if let response = moyaError.response {
                     print(String(decoding: response.data, as: UTF8.self))
                 }
-                return Fail(error: moyaError)
+                return Fail(error: moyaError.toCustomError())
             })
             .eraseToAnyPublisher()
     }
@@ -24,7 +24,7 @@ final class MoyaWrapper<Provider: TargetType>: MoyaProvider<Provider> {
                 if let response = moyaError.response {
                     print(String(decoding: response.data, as: UTF8.self))
                 }
-                return Fail(error: moyaError)
+                return Fail(error: moyaError.toCustomError())
             })
             .tryMap({ response in
                 caching(response.data)

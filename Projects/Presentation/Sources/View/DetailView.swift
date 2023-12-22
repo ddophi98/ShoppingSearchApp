@@ -48,11 +48,22 @@ final public class DetailView: UIViewController {
         return price
     }()
     
+    private lazy var errorLabel: UILabel = {
+        let errorLabel = UILabel()
+        errorLabel.font = .boldSystemFont(ofSize: 40)
+        errorLabel.textColor = .white
+        errorLabel.backgroundColor = .init(white: 0.0, alpha: 0.5)
+        errorLabel.textAlignment = .center
+        errorLabel.isHidden = true
+        return errorLabel
+    }()
+    
     private func setView() {
         view.backgroundColor = .white
         view.addSubview(productTitle)
         view.addSubview(thumbnail)
         view.addSubview(price)
+        view.addSubview(errorLabel)
     }
     
     private func setLayout() {
@@ -70,15 +81,18 @@ final public class DetailView: UIViewController {
             make.top.equalTo(thumbnail.snp.bottom).offset(30)
             make.centerX.equalToSuperview()
         }
+        errorLabel.snp.makeConstraints { make in
+            make.top.bottom.leading.trailing.equalToSuperview()
+        }
     }
     
     private func downloadImage() {
         viewModel.downloadImage(url: viewModel.item.image)
             .receive(on: DispatchQueue.main)
-            .sink { completion in
+            .sink { [weak self] completion in
                 switch completion {
                 case .failure(let error):
-                    print(error)
+                    self?.viewModel.setError(error: error)
                 default:
                     break
                 }
@@ -86,6 +100,22 @@ final public class DetailView: UIViewController {
                 guard let self = self else { return }
                 self.thumbnail.image = UIImage(data: data)
                 self.viewModel.setImageCache(url: self.viewModel.item.image, data: data)
+            }
+            .store(in: &viewModel.cancellables)
+        
+        viewModel.$error
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] error in
+                guard let self = self,
+                      let error = error else { return }
+                
+                switch error {
+                case .NetworkError(let detail):
+                    errorLabel.text = detail
+                case .UndefinedError:
+                    errorLabel.text = "원인을 알 수 없는 에러 발생"
+                }
+                errorLabel.isHidden = false
             }
             .store(in: &viewModel.cancellables)
     }

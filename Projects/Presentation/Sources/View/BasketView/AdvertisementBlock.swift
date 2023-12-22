@@ -71,7 +71,7 @@ final public class AdvertisementBlock: UITableViewCell {
             .sink { completion in
                 switch completion {
                 case .failure(let error):
-                    print(error)
+                    viewModel.setError(error: error)
                 default:
                     break
                 }
