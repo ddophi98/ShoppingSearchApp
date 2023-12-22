@@ -29,11 +29,11 @@
     View, ViewModel, Usecase는 1:1 관계로 정의했습니다. (ShoppingList, Basket, Detail)
     Repository, Datasource는 1:1 관계로 정의했습니다. (Image, Search, ServerDriven)
     Usecase, Repository는 1:N 관계로 정의했습니다.
-  
-- 이렇게 함으로써 Repository를 재사용할 수 있습니다.   
-  ex) 모든 Usecase에서 이미지 다운 로직을 다루기 위해 ImageRepository를 의존하고 있습니다.   
-- 물론 이러한 관계는 프로젝트의 환경에 맞춰 정의해야하며 정답이 정해져 있는 것은 아닙니다.   
-  ex) ViewModel과 Usecase를 1:N 관계로 정의한다면, 광고 관련 Usecase, 상품 관련 Usecase 등으로도 나눌 수 있을 것입니다.
+
+- ViewModel과 Usecase는 원래는 1:N 관계가 맞지만, 프로젝트 규모가 작다보니 우선은 1:1로 정의했습니다.
+  ex) 만약 규모가 커진다면, 광고 관련 Usecase, 상품 관련 Usecase 등으로 세분화하여 1:N 관계로 정의할 수 있을 것입니다.
+- Usecase와 Repository는 1:N 관계로 정의함으로써, 공통적으로 사용되는 Repository를 재사용할 수 있습니다.   
+  ex) 모든 Usecase에서 이미지 다운을 위한 ImageRepository를, 로깅을 위한 LoggingRepository를 의존하고 있습니다.    
 
 #### DTO -> VO 변환
 - DTO에서 크게 의미가 없다고 생각되는 값은 옵셔널로 정의를 하고, VO로 변환할 때 옵셔널 처리를 통해 자체적으로 값을 설정했습니다.   
