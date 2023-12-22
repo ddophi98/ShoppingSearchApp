@@ -149,13 +149,13 @@ public enum ServerDrivenContentDTO {
 }
 
 public struct RecentlyViewedDTO: Decodable {
-    let title: String?
+    let title: String
     let image: String?
     let price: Int?
     
     func toVO() -> RecentlyViewedVO {
         return RecentlyViewedVO(
-            title: title ?? "",
+            title: title,
             image: image ?? "",
             price: price ?? -1
         )
@@ -163,12 +163,12 @@ public struct RecentlyViewedDTO: Decodable {
 }
 
 public struct WishListDTO: Decodable {
-    let title: String?
+    let title: String
     let price: Int?
     
     func toVO() -> WishListVO {
         return WishListVO(
-            title: title ?? "",
+            title: title,
             price: price ?? -1
         )
     }
@@ -176,12 +176,12 @@ public struct WishListDTO: Decodable {
 
 public struct AdvertisementDTO: Decodable {
     let image: String?
-    let text: String?
+    let text: String
     
     func toVO() -> AdvertisementVO {
         return AdvertisementVO(
             image: image ?? "",
-            text: text ?? ""
+            text: text
         )
     }
 }

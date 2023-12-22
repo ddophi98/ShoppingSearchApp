@@ -50,7 +50,7 @@ public struct ShoppingResultDTO: Decodable {
 }
 
 public struct ShoppingItemDTO: Decodable {
-    let title: String?
+    let title: String
     let link: String?
     let image: String?
     let lprice: String?
@@ -67,7 +67,7 @@ public struct ShoppingItemDTO: Decodable {
     
     func toVO() -> ShoppingItemVO {
         return ShoppingItemVO(
-            title: title ?? "",
+            title: title,
             link: link ?? "",
             image: image ?? "",
             lprice: Int(lprice ?? "") ?? -1,
