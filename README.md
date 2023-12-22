@@ -37,7 +37,7 @@
     Repository, Datasource = <Image, Search, ServerDriven>
 
 - View와 ViewModel, Repository와 Datasource는 밀접하게 관련이 있는 컴포넌트라고 생각하여 각각 1:1로 정의하였습니다.
-- ViewModel과 Usecase, Usecase와 Repository는 1:N 관계로 정의함으로써, 공통적으로 사용되는 Usecase 또는 Repository를 재사용할 수 있습니다.
+- ViewModel과 Usecase, Usecase와 Repository는 1:N 관계로 정의함으로써, 공통적으로 사용되는 Usecase 또는 Repository를 재사용할 수 있습니다.   
   ex) 모든 ViewModel에서 상품 관련 로직을 위해 ProductUsecase에, 로깅 관련 로직을 위해 LoggingUsecase에 의존하고 있습니다.  
 
 #### DTO -> VO 변환
