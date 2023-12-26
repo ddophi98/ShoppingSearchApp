@@ -15,7 +15,8 @@
 
 
 ## Clean Architecture + MVVM
-<img width="700" src="https://github.com/ddophi98/ShoppingSearchApp/assets/72330884/3878668d-cc93-4f54-895a-81aaa0a611fb">
+<img width="700" src="https://github.com/ddophi98/ShoppingSearchApp/assets/72330884/cc41cc4b-94c7-4de7-8d8a-fbec26b4c903">
+
 
 #### 계층별 역할 분리
     Data 계층 : 서버 또는 로컬 저장소로부터 데이터를 가져오고, DTO를 VO로 변환하는 역할을 합니다.
@@ -26,14 +27,18 @@
 - 코드를 수정할 일이 생기더라도 다른 계층에 영향을 주지 않고 해당 계층만 안정적으로 수정할 수 있습니다.
 
 #### 컴포넌트간 관계
-    View, ViewModel, Usecase는 1:1 관계로 정의했습니다. (ShoppingList, Basket, Detail)
-    Repository, Datasource는 1:1 관계로 정의했습니다. (Image, Search, ServerDriven)
+    View, ViewModel은 1:1 관계로 정의했습니다.
+    ViewModel, Usecase는 1:N 관계로 정의했습니다.
     Usecase, Repository는 1:N 관계로 정의했습니다.
+    Repository, Datasource는 1:1 관계로 정의했습니다.
 
-- ViewModel과 Usecase는 원래는 1:N 관계가 맞지만, 프로젝트 규모가 작다보니 우선은 1:1로 정의했습니다.   
-  ex) 만약 규모가 커진다면, 광고 관련 Usecase, 상품 관련 Usecase 등으로 세분화하여 1:N 관계로 정의할 수 있을 것입니다.
-- Usecase와 Repository는 1:N 관계로 정의함으로써, 공통적으로 사용되는 Repository를 재사용할 수 있습니다.   
-  ex) 모든 Usecase에서 이미지 다운을 위한 ImageRepository를, 로깅을 위한 LoggingRepository를 의존하고 있습니다.    
+    View, ViewModel = <ShoppingList, Basket, Detail>
+    Usecase = <Product, Logging>
+    Repository, Datasource = <Image, Search, ServerDriven>
+
+- View와 ViewModel, Repository와 Datasource는 밀접하게 관련이 있는 컴포넌트라고 생각하여 각각 1:1로 정의하였습니다.
+- ViewModel과 Usecase, Usecase와 Repository는 1:N 관계로 정의함으로써, 공통적으로 사용되는 Usecase 또는 Repository를 재사용할 수 있습니다.   
+  ex) 모든 ViewModel에서 상품 관련 로직을 위해 ProductUsecase에, 로깅 관련 로직을 위해 LoggingUsecase에 의존하고 있습니다.  
 
 #### DTO -> VO 변환
 - DTO에서 크게 의미가 없다고 생각되는 값은 옵셔널로 정의를 하고, VO로 변환할 때 옵셔널 처리를 통해 자체적으로 값을 설정했습니다.   
