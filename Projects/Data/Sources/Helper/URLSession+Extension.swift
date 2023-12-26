@@ -2,21 +2,24 @@
 
 import Foundation
 import RxSwift
+import Domain
 
 extension URLSession {
     func call(url: String) -> Single<Data> {
         Single.create { single in
-            let task = self.dataTask(with: URL(string: url)!) { data, response, error in
+            guard let url = URL(string: url) else {
+                single(.failure(CustomError.NetworkError(detail: "URLSession 에러 발생\n[주소가 잘못됐습니다.]")))
+                return Disposables.create()
+            }
+            let task = self.dataTask(with: url) { data, response, error in
                 if let data = data {
                     single(.success(data))
                 } else if let error = error {
-                    single(.failure(error))
+                    single(.failure(CustomError.NetworkError(detail: "URLSession 에러 발생\n[\(error.localizedDescription)]")))
                 }
             }
             task.resume()
-            return Disposables.create {
-                task.cancel()
-            }
+            return Disposables.create()
         }
     }
 }

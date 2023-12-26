@@ -139,6 +139,7 @@ final public class ShoppingListView: UIViewController {
         errorLabel.textColor = .white
         errorLabel.backgroundColor = .init(white: 0.0, alpha: 0.5)
         errorLabel.textAlignment = .center
+        errorLabel.numberOfLines = 0
         errorLabel.isHidden = true
         return errorLabel
     }()
