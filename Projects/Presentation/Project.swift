@@ -8,7 +8,8 @@ let project = Project.makeModule(
     product: .staticFramework,
     dependencies: [
         .Project.Domain,
-        .SPM.SnapKit
+        .SPM.SnapKit,
+        .SPM.RXSwift
     ],
     resources: ["Resources/**"],
     infoPlist: .file(path: "Support/Info.plist")
