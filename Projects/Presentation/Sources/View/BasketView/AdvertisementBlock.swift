@@ -1,6 +1,7 @@
 // Copyright © 2023 com.template. All rights reserved.
 
 import UIKit
+import RxSwift
 
 final public class AdvertisementBlock: UITableViewCell {
     static let id = "AdvertisementBlock"
@@ -67,19 +68,16 @@ final public class AdvertisementBlock: UITableViewCell {
         guard let viewModel = viewModel else { return }
         self.title.text = title
         viewModel.downloadImage(url: imageURL)
-            .receive(on: DispatchQueue.main)
-            .sink { completion in
-                switch completion {
-                case .failure(let error):
-                    viewModel.setError(error: error)
-                default:
-                    break
-                }
-            } receiveValue: { [weak self] data in
-                self?.thumbnail.image = UIImage(data: data)
-                viewModel.setImageCache(url: imageURL, data: data)
-            }
-            .store(in: &viewModel.cancellables)
+            .observe(on: MainScheduler.instance)
+            .subscribe(onSuccess: { [weak self] response in
+                guard let self = self else { return }
+                thumbnail.image = UIImage(data: response)
+                viewModel.setImageCache(url: imageURL, data: response)
+            }, onFailure: { [weak self] error in
+                guard let self = self else { return }
+                viewModel.setError(error: error)
+            })
+            .disposed(by: viewModel.disposeBag)
     }
     
     func setViewModel(viewModel: BasketViewModel) {

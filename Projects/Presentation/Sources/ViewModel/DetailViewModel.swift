@@ -2,11 +2,12 @@
 
 import Foundation
 import Domain
-import Combine
+import RxSwift
 
 public final class DetailViewModel: BaseViewModel {
     private let productUsecase: ProductUsecase
     private let loggingUsecase: LoggingUsecase
+    
     let item: ShoppingItemVO
     
     public init(productUsecase: ProductUsecase, loggingUsecase: LoggingUsecase, item: ShoppingItemVO) {
@@ -15,7 +16,7 @@ public final class DetailViewModel: BaseViewModel {
         self.item = item
     }
     
-    func downloadImage(url: String) -> AnyPublisher<Data, Error> {
+    func downloadImage(url: String) -> Single<Data> {
         productUsecase.downloadImage(url: url)
     }
     

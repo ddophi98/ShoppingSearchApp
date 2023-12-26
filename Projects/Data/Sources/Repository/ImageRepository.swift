@@ -1,8 +1,8 @@
 // Copyright © 2023 com.template. All rights reserved.
 
-import Combine
 import Domain
 import Foundation
+import RxSwift
 
 final public class DefaultImageRepository: ImageRepository {
     private let dataSource: ImageDatasource
@@ -11,7 +11,7 @@ final public class DefaultImageRepository: ImageRepository {
         self.dataSource = dataSource
     }
     
-    public func downloadImage(url: String) -> AnyPublisher<Data, Error> {
+    public func downloadImage(url: String) -> Single<Data> {
         dataSource.downloadImage(url: url)
     }
     

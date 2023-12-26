@@ -2,6 +2,7 @@
 
 import UIKit
 import SnapKit
+import RxSwift
 
 final public class DetailView: UIViewController {
     
@@ -88,36 +89,25 @@ final public class DetailView: UIViewController {
     
     private func downloadImage() {
         viewModel.downloadImage(url: viewModel.item.image)
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] completion in
-                switch completion {
-                case .failure(let error):
-                    self?.viewModel.setError(error: error)
-                default:
-                    break
-                }
-            } receiveValue: { [weak self] data in
+            .observe(on: MainScheduler.instance)
+            .subscribe(onSuccess: { [weak self] response in
                 guard let self = self else { return }
-                self.thumbnail.image = UIImage(data: data)
-                self.viewModel.setImageCache(url: self.viewModel.item.image, data: data)
-            }
-            .store(in: &viewModel.cancellables)
+                thumbnail.image = UIImage(data: response)
+                viewModel.setImageCache(url: viewModel.item.image, data: response)
+            }, onFailure: { [weak self] error in
+                guard let self = self else { return }
+                viewModel.setError(error: error)
+            })
+            .disposed(by: viewModel.disposeBag)
         
-        viewModel.$error
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] error in
-                guard let self = self,
-                      let error = error else { return }
-                
-                switch error {
-                case .NetworkError(let detail):
-                    errorLabel.text = detail
-                case .UndefinedError:
-                    errorLabel.text = "원인을 알 수 없는 에러 발생"
-                }
+        viewModel.errorRelay
+            .observe(on: MainScheduler.instance)
+            .bind { [weak self] errorString in
+                guard let self = self else { return }
+                errorLabel.text = errorString
                 errorLabel.isHidden = false
             }
-            .store(in: &viewModel.cancellables)
+            .disposed(by: viewModel.disposeBag)
     }
     
     public func setCoordinator(_ coordinator: Coordinator) {

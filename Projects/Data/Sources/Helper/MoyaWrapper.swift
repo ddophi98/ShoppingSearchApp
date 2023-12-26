@@ -1,35 +1,21 @@
 // Copyright © 2023 com.template. All rights reserved.
 
 import Moya
-import Combine
-import CombineMoya
+import RxSwift
+import RxMoya
 import Foundation
 
 final class MoyaWrapper<Provider: TargetType>: MoyaProvider<Provider> {
-    func call<Value>(target: Provider) -> AnyPublisher<Value, Error> where Value: Decodable {
-        return self.requestPublisher(target)
+    func call<Value>(target: Provider) -> Single<Value> where Value: Decodable {
+        return self.rx.request(target)
             .map(Value.self)
-            .catch({ moyaError -> Fail in
-                if let response = moyaError.response {
-                    print(String(decoding: response.data, as: UTF8.self))
-                }
-                return Fail(error: moyaError.toCustomError())
-            })
-            .eraseToAnyPublisher()
     }
     
-    func call<Value>(target: Provider, caching: @escaping (Data) -> Void) -> AnyPublisher<Value, Error> where Value: Decodable {
-        return self.requestPublisher(target)
-            .catch({ moyaError -> Fail in
-                if let response = moyaError.response {
-                    print(String(decoding: response.data, as: UTF8.self))
-                }
-                return Fail(error: moyaError.toCustomError())
-            })
-            .tryMap({ response in
+    func call<Value>(target: Provider, caching: @escaping (Data) -> Void) -> Single<Value> where Value: Decodable {
+        return self.rx.request(target)
+            .map { response in
                 caching(response.data)
                 return try response.map(Value.self)
-            })
-            .eraseToAnyPublisher()
+            }
     }
 }

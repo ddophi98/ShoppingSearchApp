@@ -9,7 +9,8 @@ let project = Project.makeModule(
     dependencies: [
         .Project.Domain,
         .SPM.SnapKit,
-        .SPM.RXSwift
+        .SPM.RXSwift,
+        .SPM.RXCocoa
     ],
     resources: ["Resources/**"],
     infoPlist: .file(path: "Support/Info.plist")

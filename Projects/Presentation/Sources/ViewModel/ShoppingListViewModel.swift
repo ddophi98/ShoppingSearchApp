@@ -3,15 +3,17 @@
 import Combine
 import Domain
 import Foundation
+import RxSwift
+import RxCocoa
 
 final public class ShoppingListViewModel: BaseViewModel {
-    @Published private(set) var shoppingResultVO: ShoppingResultVO?
-    @Published private(set) var sections = [ShoppingListSection]()
-    
     private let productUsecase: ProductUsecase
     private let loggingUsecase: LoggingUsecase
+    
     private var logsForTTI = Dictionary<TTIPoint, Date>()
     private var completeLoggingTTI = false
+    private(set) var sections = [ShoppingListSection]()
+    let sectionsChangedRelay = PublishRelay<Bool>()
     
     public init(productUsecase: ProductUsecase, loggingUsecase: LoggingUsecase) {
         self.productUsecase = productUsecase
@@ -26,26 +28,24 @@ final public class ShoppingListViewModel: BaseViewModel {
     func searchShopping(query: String) {
         loggingProductSearched(query: query)
         productUsecase.searchShopping(query: query)
-            .sink { [weak self] completion in
-                switch completion {
-                case .failure(let error):
-                    self?.setError(error: error)
-                default:
-                    break
+            .subscribe(onSuccess: { [weak self] response in
+                guard let self = self else { return }
+                var newSections = [ShoppingListSection]()
+                if response.items.count >= 5 {
+                    newSections.append(.TopFiveProducts(Array(response.items.prefix(upTo: 5))))
                 }
-            } receiveValue: { [weak self] shoppingResultVO in
-                self?.shoppingResultVO = shoppingResultVO
-                self?.sections.removeAll()
-                if shoppingResultVO.items.count >= 5 {
-                    self?.sections.append(.TopFiveProducts(Array(shoppingResultVO.items.prefix(upTo: 5))))
-                }
-                self?.sections.append(.AllProducts(shoppingResultVO.items))
-                self?.loggingTTI(point: .receiveResponse)
-            }
-            .store(in: &cancellables)
+                newSections.append(.AllProducts(response.items))
+                sections = newSections
+                sectionsChangedRelay.accept(true)
+                loggingTTI(point: .receiveResponse)
+            }, onFailure: { [weak self] error in
+                guard let self = self else { return }
+                setError(error: error)
+            })
+            .disposed(by: disposeBag)
     }
     
-    func downloadImage(url: String) -> AnyPublisher<Data, Error> {
+    func downloadImage(url: String) -> Single<Data> {
         productUsecase.downloadImage(url: url)
     }
     

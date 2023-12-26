@@ -2,6 +2,7 @@
 
 import UIKit
 import SnapKit
+import RxSwift
 
 final public class BasketView: UIViewController {
     
@@ -106,29 +107,23 @@ final public class BasketView: UIViewController {
     }
     
     private func setBinding() {
-        viewModel.$contents
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] _ in
-                self?.tableView.reloadData()
-                self?.viewModel.loggingTTI(point: .bindData)
+        viewModel.contentsChangedRelay
+            .observe(on: MainScheduler.instance)
+            .bind { [weak self] _ in
+                guard let self = self else { return }
+                tableView.reloadData()
+                viewModel.loggingTTI(point: .bindData)
             }
-            .store(in: &viewModel.cancellables)
+            .disposed(by: viewModel.disposeBag)
         
-        viewModel.$error
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] error in
-                guard let self = self,
-                      let error = error else { return }
-                
-                switch error {
-                case .NetworkError(let detail):
-                    errorLabel.text = detail
-                case .UndefinedError:
-                    errorLabel.text = "원인을 알 수 없는 에러 발생"
-                }
+        viewModel.errorRelay
+            .observe(on: MainScheduler.instance)
+            .bind { [weak self] errorString in
+                guard let self = self else { return }
+                errorLabel.text = errorString
                 errorLabel.isHidden = false
             }
-            .store(in: &viewModel.cancellables)
+            .disposed(by: viewModel.disposeBag)
     }
     
     public func setCoordinator(_ coordinator: Coordinator) {

@@ -3,6 +3,7 @@
 import UIKit
 import SnapKit
 import Domain
+import RxSwift
 
 final public class RecentlyViewedBlock: UITableViewCell {
     
@@ -45,12 +46,13 @@ final public class RecentlyViewedBlock: UITableViewCell {
     }()
     
     private func setBinding(viewModel: BasketViewModel) {
-        viewModel.$contents
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] _ in
-                self?.collectionView.reloadData()
+        viewModel.contentsChangedRelay
+            .observe(on: MainScheduler.instance)
+            .bind { [weak self] _ in
+                guard let self = self else { return }
+                collectionView.reloadData()
             }
-            .store(in: &viewModel.cancellables)
+            .disposed(by: viewModel.disposeBag)
     }
     
     private func setView() {

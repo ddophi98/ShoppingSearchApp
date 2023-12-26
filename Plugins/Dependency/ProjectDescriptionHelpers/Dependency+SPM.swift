@@ -11,4 +11,5 @@ public extension TargetDependency.SPM {
     static let SnapKit = TargetDependency.external(name: "SnapKit")
     static let RXSwift = TargetDependency.external(name: "RxSwift")
     static let RXMoya = TargetDependency.external(name: "RxMoya")
+    static let RXCocoa = TargetDependency.external(name: "RxCocoa")
 }

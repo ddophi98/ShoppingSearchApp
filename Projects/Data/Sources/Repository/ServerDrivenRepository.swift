@@ -1,7 +1,7 @@
 // Copyright © 2023 com.template. All rights reserved.
 
-import Combine
 import Domain
+import RxSwift
 
 final public class DefaultServerDrivenRepository: ServerDrivenRepository {
     private let datasource: ServerDrivenDatasource
@@ -10,9 +10,8 @@ final public class DefaultServerDrivenRepository: ServerDrivenRepository {
         self.datasource = datasource
     }
     
-    public func getBasketContents() -> AnyPublisher<[ServerDrivenContentVO], Error> {
+    public func getBasketContents() -> Single<[ServerDrivenContentVO]> {
         datasource.getBasketContents()
             .map { $0.blocks.compactMap { $0.content?.toVO() }}
-            .eraseToAnyPublisher()
     }
 }
