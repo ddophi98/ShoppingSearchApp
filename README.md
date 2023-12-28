@@ -7,6 +7,7 @@
 
 ## 목차
 - [Clean Architecture + MVVM](#clean-architecture--mvvm)
+- [RxSwift](#rxswift)
 - [Server Driven UI](#server-driven-ui)
 - [TableView, CollectionView](#tableview-collectionview)
 - [Caching](#Caching)
@@ -51,8 +52,26 @@
 - 코드의 수정이 생기더라도 해당 모듈만 재빌드함으로써 빌드 시간을 줄일 수 있습니다.
 
 #### MVVM
-- Combine 프레임워크를 통해 ViewModel의 데이터가 변경될 시 View가 자동적으로 업데이트되도록 했습니다.
+- RxSwift를 통해 ViewModel의 데이터가 변경될 시 View가 자동적으로 업데이트되도록 했습니다.
 - Data Binding으로 View와 ViewModel 사이의 의존성을 줄일 수 있습니다.
+
+## RxSwift
+클린아키텍쳐 컴포넌트 사이에서 비동기적으로 데이터를 전달해주기 위해, 그리고 MVVM 패턴에서 Data Binding을 위해 RxSwift를 사용했습니다.
+<img width="800" src="https://github.com/ddophi98/ShoppingSearchApp/assets/72330884/d190b302-d360-4d24-98fd-63e0a723e311">
+
+1. Datasource에서 Usecase까지는 Single 객체를 그대로 전달합니다.
+    - completed는 불필요하다고 생각되어, item 또는 error 두가지만 방출하는 Single을 사용했습니다.
+3. ViewModel은 Usecase의 Single 객체를 구독합니다.
+    - Datasource로부터 방출된 데이터를 자신의 프로퍼티에 저장합니다.
+    - 데이터가 변했다는 것을 알리기 위해 PublishRelay에 Void 값을 방출합니다.
+    - ViewModel이 사라지지 않는 이상 구독을 끊을 필요가 없기에, completed와 error가 존재하지 않는 PublishRelay를 사용했습니다.
+4. View는 ViewModel의 PublishRelay를 구독합니다.
+    - View는 ViewModel의 프로퍼티에 접근해 CollectionView를 구성하고 있는 상태입니다.
+    - ViewModel이 신호를 보내면 CollectionView를 업데이트하기 위해 reloadData()를 호출합니다.
+
+> CollectionView, TableView와 RxSwift를 함께 사용할 때는 RxDataSources 프레임워크를 통해 Data Binding을 구현 가능한 것으로 보입니다.   
+> 다만 해당 프로젝트에서는 RxSwift를 집중적으로 공부해보고 싶어 사용하지 않았습니다.
+   
 
 ## Server Driven UI
 <img width="500" src="https://github.com/ddophi98/ShoppingSearchApp/assets/72330884/4048d22e-5310-4ae4-b626-ad2bfd377ed8">
