@@ -2,6 +2,7 @@
 
 import UIKit
 import SnapKit
+import RxSwift
 
 final public class RecentlyViewedCell: UICollectionViewCell {
    
@@ -72,20 +73,15 @@ final public class RecentlyViewedCell: UICollectionViewCell {
         self.title.text = title.removeHtml()
         self.price.text = "\(price)원"
         viewModel.downloadImage(url: imageURL)
-            .receive(on: DispatchQueue.main)
-            .sink { completion in
-                switch completion {
-                case .failure(let error):
-                    viewModel.setError(error: error)
-                default:
-                    break
-                }
-            } receiveValue: { [weak self] data in
-                self?.thumbnail.image = UIImage(data: data)
-                viewModel.setImageCache(url: imageURL, data: data)
-                viewModel.loggingTTI(point: .drawCoreComponent)
-            }
-            .store(in: &viewModel.cancellables)
+            .observe(on: MainScheduler.instance)
+            .subscribe(onSuccess: { [weak self] response in
+                guard let self = self else { return }
+                thumbnail.image = UIImage(data: response)
+                viewModel.setImageCache(url: imageURL, data: response)
+            }, onFailure: { error in
+                viewModel.setError(error: error)
+            })
+            .disposed(by: viewModel.disposeBag)
     }
     
     func setViewModel(viewModel: BasketViewModel) {

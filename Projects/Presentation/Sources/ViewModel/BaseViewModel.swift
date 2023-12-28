@@ -1,18 +1,24 @@
 // Copyright © 2023 com.template. All rights reserved.
 
-import Combine
 import Domain
+import RxSwift
+import RxCocoa
 
 public class BaseViewModel {
     var coordinator: Coordinator?
-    var cancellables = Set<AnyCancellable>()
-    @Published private(set) var error: CustomError?
+    var disposeBag = DisposeBag()
+    let errorRelay = PublishRelay<String>()
     
     func setError(error: Error) {
         if let error = error as? CustomError {
-            self.error = error
+            switch error {
+                case .NetworkError(let detail):
+                    errorRelay.accept(detail)
+                case .UndefinedError:
+                    errorRelay.accept("원인을 알 수 없는 에러 발생")
+            }
         } else {
-            self.error = CustomError.UndefinedError
+            errorRelay.accept("원인을 알 수 없는 에러 발생")
         }
     }
 }

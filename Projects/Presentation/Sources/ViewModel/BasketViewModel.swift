@@ -1,16 +1,18 @@
 // Copyright © 2023 com.template. All rights reserved.
 
 import Domain
-import Combine
 import Foundation
+import RxSwift
+import RxCocoa
 
 final public class BasketViewModel: BaseViewModel {
-    @Published private(set) var contents = [ServerDrivenContentVO]()
-    
     private let productUsecase: ProductUsecase
     private let loggingUsecase: LoggingUsecase
+    
     private var logsForTTI = Dictionary<TTIPoint, Date>()
     private var completeLoggingTTI = false
+    private(set) var contents = [ServerDrivenContentVO]()
+    let contentsChangedRelay = PublishRelay<Bool>()
     
     public init(productUsecase: ProductUsecase, loggingUsecase: LoggingUsecase) {
         self.productUsecase = productUsecase
@@ -19,22 +21,19 @@ final public class BasketViewModel: BaseViewModel {
     
     func getBasketContents() {
         productUsecase.getBasketContents()
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] completion in
-                switch completion {
-                case .failure(let error):
-                    self?.setError(error: error)
-                default:
-                    break
-                }
-            } receiveValue: { [weak self] contents in
-                self?.contents = contents
-                self?.loggingTTI(point: .receiveResponse)
-            }
-            .store(in: &cancellables)
+            .subscribe(onSuccess: { [weak self] response in
+                guard let self = self else { return }
+                contents = response
+                contentsChangedRelay.accept(true)
+                loggingTTI(point: .receiveResponse)
+            }, onFailure: { [weak self] error in
+                guard let self = self else { return }
+                setError(error: error)
+            })
+            .disposed(by: disposeBag)
     }
     
-    func downloadImage(url: String) -> AnyPublisher<Data, Error> {
+    func downloadImage(url: String) -> Single<Data> {
         productUsecase.downloadImage(url: url)
     }
     

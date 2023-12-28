@@ -9,6 +9,8 @@ let project = Project.makeModule(
     dependencies: [
         .Project.Domain,
         .SPM.Moya,
-        .SPM.CombineMoya
+        .SPM.RXSwift,
+        .SPM.RXMoya
     ]
 )
+

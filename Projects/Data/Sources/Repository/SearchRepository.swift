@@ -1,8 +1,8 @@
 // Copyright © 2023 com.template. All rights reserved.
 
-import Combine
 import Domain
 import Foundation
+import RxSwift
 
 final public class DefaultSearchRepository: SearchRepository {
     private let dataSource: SearchDatasource
@@ -11,9 +11,8 @@ final public class DefaultSearchRepository: SearchRepository {
         self.dataSource = dataSource
     }
     
-    public func searchShopping(query: String) -> AnyPublisher<ShoppingResultVO, Error> {
+    public func searchShopping(query: String) -> Single<ShoppingResultVO> {
         dataSource.searchShopping(query: query)
             .map { $0.toVO() }
-            .eraseToAnyPublisher()
     }
 }

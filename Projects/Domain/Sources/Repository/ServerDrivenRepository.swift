@@ -1,7 +1,7 @@
 // Copyright © 2023 com.template. All rights reserved.
 
-import Combine
+import RxSwift
 
 public protocol ServerDrivenRepository {
-    func getBasketContents() -> AnyPublisher<[ServerDrivenContentVO], Error>
+    func getBasketContents() -> Single<[ServerDrivenContentVO]>
 }

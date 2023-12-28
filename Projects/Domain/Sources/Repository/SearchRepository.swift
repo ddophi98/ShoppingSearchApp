@@ -1,8 +1,8 @@
 // Copyright © 2023 com.template. All rights reserved.
 
-import Combine
 import Foundation
+import RxSwift
 
 public protocol SearchRepository {
-    func searchShopping(query: String) -> AnyPublisher<ShoppingResultVO, Error>
+    func searchShopping(query: String) -> Single<ShoppingResultVO>
 }

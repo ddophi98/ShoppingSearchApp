@@ -1,10 +1,10 @@
 // Copyright © 2023 com.template. All rights reserved.
 
-import Combine
 import Foundation
+import RxSwift
 
 public protocol ImageDatasource {
-    func downloadImage(url: String) -> AnyPublisher<Data, Error>
+    func downloadImage(url: String) -> Single<Data>
     func setImageCache(url: NSString, data: NSData)
 }
 
@@ -12,12 +12,10 @@ final public class DefaultImageDatasource: ImageDatasource {
     
     public init() { }
     
-    public func downloadImage(url: String) -> AnyPublisher<Data, Error> {
+    public func downloadImage(url: String) -> Single<Data> {
         let cacheKey = NSString(string: url)
         if let cachedImage = CacheManager.imageCache.object(forKey: cacheKey) {
-            return Just(Data(referencing: cachedImage))
-                .setFailureType(to: Error.self)
-                .eraseToAnyPublisher()
+            return Single.just(Data(referencing: cachedImage))
         } else {
             return URLSession.shared.call(url: url)
         }

@@ -1,13 +1,25 @@
 // Copyright © 2023 com.template. All rights reserved.
 
 import Foundation
-import Combine
+import RxSwift
+import Domain
 
 extension URLSession {
-    func call(url: String) -> AnyPublisher<Data, Error> {
-        return self.dataTaskPublisher(for: URL(string: url)!)
-            .map { $0.data }
-            .mapError { $0.toCustomError() }
-            .eraseToAnyPublisher()
+    func call(url: String) -> Single<Data> {
+        Single.create { single in
+            guard let url = URL(string: url) else {
+                single(.failure(CustomError.NetworkError(detail: "URLSession 에러 발생\n[주소가 잘못됐습니다.]")))
+                return Disposables.create()
+            }
+            let task = self.dataTask(with: url) { data, response, error in
+                if let data = data {
+                    single(.success(data))
+                } else if let error = error {
+                    single(.failure(CustomError.NetworkError(detail: "URLSession 에러 발생\n[\(error.localizedDescription)]")))
+                }
+            }
+            task.resume()
+            return Disposables.create()
+        }
     }
 }

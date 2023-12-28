@@ -25,8 +25,8 @@ extension MoyaError {
 //        case .parameterEncoding(let error):
 //            <#code#>
         default:
-            return .NetworkError(detail: "Moya 에러 발생")
-            
+            return .NetworkError(detail: "Moya 에러 발생\n[\(self.localizedDescription)]")
+
         }
     }
 }

@@ -1,12 +1,12 @@
 // Copyright © 2023 com.template. All rights reserved.
 
-import Combine
 import Foundation
+import RxSwift
 
 public protocol ProductUsecase {
-    func searchShopping(query: String) -> AnyPublisher<ShoppingResultVO, Error>
-    func getBasketContents() -> AnyPublisher<[ServerDrivenContentVO], Error>
-    func downloadImage(url: String) -> AnyPublisher<Data, Error>
+    func searchShopping(query: String) -> Single<ShoppingResultVO>
+    func getBasketContents() -> Single<[ServerDrivenContentVO]>
+    func downloadImage(url: String) -> Single<Data>
     func setImageCache(url: String, data: Data)
 }
 
@@ -22,11 +22,11 @@ final public class DefaultProductUsecase: ProductUsecase {
         self.searchRepository = searchRepository
     }
     
-    public func getBasketContents() -> AnyPublisher<[ServerDrivenContentVO], Error> {
+    public func getBasketContents() -> Single<[ServerDrivenContentVO]> {
         serverDrivenRepository.getBasketContents()
     }
     
-    public func downloadImage(url: String) -> AnyPublisher<Data, Error> {
+    public func downloadImage(url: String) -> Single<Data> {
         imageRepository.downloadImage(url: url)
     }
     
@@ -34,7 +34,7 @@ final public class DefaultProductUsecase: ProductUsecase {
         imageRepository.setImageCache(url: url, data: data)
     }
     
-    public func searchShopping(query: String) -> AnyPublisher<ShoppingResultVO, Error> {
+    public func searchShopping(query: String) -> Single<ShoppingResultVO> {
         searchRepository.searchShopping(query: query)
     }
 }
