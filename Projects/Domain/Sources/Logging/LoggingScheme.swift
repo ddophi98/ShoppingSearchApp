@@ -8,18 +8,3 @@ public protocol LoggingScheme {
     var screenName: String { get set }
     var logData: Array<(String, String)> { get set }
 }
-
-extension LoggingScheme {
-    public func toDTO() -> String {
-        var logString = ""
-        logString += "\(self.logVersion),\(self.eventName),\(self.screenName),"
-        for (idx, (key, value)) in self.logData.enumerated() {
-            logString += "[\(key)] \(value)"
-            if idx != self.logData.count-1 {
-                logString += ","
-            }
-        }
-        logString += "\n"
-        return logString
-    }
-}

@@ -3,7 +3,7 @@
 import Foundation
 
 public protocol LoggingDatasource {
-    func shotLog(_ scheme: String)
+    func shotLog(_ scheme: LoggingSchemeDTO)
 }
 
 final public class DefaultLoggingDatasource: LoggingDatasource {
@@ -12,7 +12,7 @@ final public class DefaultLoggingDatasource: LoggingDatasource {
 
     private let logger = Logger()
     
-    public func shotLog(_ scheme: String) {
-        logger.shotLog(scheme)
+    public func shotLog(_ scheme: LoggingSchemeDTO) {
+        logger.shotLog(scheme.scheme)
     }
 }
