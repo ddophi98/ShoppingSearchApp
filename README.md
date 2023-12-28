@@ -66,7 +66,7 @@
     - 데이터가 변했다는 것을 알리기 위해 PublishRelay에 Void 값을 방출합니다.
     - ViewModel이 사라지지 않는 이상 구독을 끊을 필요가 없기에, completed와 error가 존재하지 않는 PublishRelay를 사용했습니다.
 4. View는 ViewModel의 PublishRelay를 구독합니다.
-    - View는 ViewModel의 프로퍼티에 접근해 CollectionView를 구성하고 있는 상태입니다.
+    - View는 ViewModel의 프로퍼티를 사용하여 CollectionView를 구성하고 있는 상태입니다.
     - ViewModel이 신호를 보내면 CollectionView를 업데이트하기 위해 reloadData()를 호출합니다.
 
 > CollectionView, TableView와 RxSwift를 함께 사용할 때는 RxDataSources 프레임워크를 통해 Data Binding을 구현 가능한 것으로 보입니다.   
