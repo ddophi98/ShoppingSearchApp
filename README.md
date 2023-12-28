@@ -3,7 +3,7 @@
 <img width="500" src="https://github.com/ddophi98/ShoppingSearchApp/assets/72330884/bc6af6e7-ef6c-486c-b91b-bdf0756500a8"> 
 
 - 배운 개발 기술들을 실제로 적용해보기 위해 만든 프로젝트입니다.
-- 기술스택: UIKit, Tuist, RXSwift, Clean Architecture, 모듈화, MVVM, Server Driven UI, Caching, Logging, DI, Coordinator 패턴, TTI
+- 기술스택: UIKit, Tuist, RxSwift, Clean Architecture, 모듈화, MVVM, Server Driven UI, Caching, Logging, DI, Coordinator 패턴, TTI
 
 ## 목차
 - [Clean Architecture + MVVM](#clean-architecture--mvvm)
@@ -69,7 +69,7 @@
     - View는 ViewModel의 프로퍼티를 사용하여 CollectionView를 구성하고 있는 상태입니다.
     - ViewModel이 신호를 보내면 CollectionView를 업데이트하기 위해 reloadData()를 호출합니다.
 
-> CollectionView, TableView와 RxSwift를 함께 사용할 때는 RxDataSources 프레임워크를 통해 Data Binding을 구현 가능한 것으로 보입니다.   
+> CollectionView, TableView와 RxSwift를 함께 사용할 때는 RxDataSources 프레임워크를 통해 Data Binding을 구현할 수 있는 것 같습니다.   
 > 다만 해당 프로젝트에서는 RxSwift를 집중적으로 공부해보고 싶어 사용하지 않았습니다.
    
 
