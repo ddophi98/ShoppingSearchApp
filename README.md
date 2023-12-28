@@ -3,7 +3,7 @@
 <img width="500" src="https://github.com/ddophi98/ShoppingSearchApp/assets/72330884/bc6af6e7-ef6c-486c-b91b-bdf0756500a8"> 
 
 - 배운 개발 기술들을 실제로 적용해보기 위해 만든 프로젝트입니다.
-- 기술스택: UIKit, Tuist, Clean Architecture, 모듈화, MVVM, Server Driven UI, Caching, Logging, DI, Coordinator 패턴, TTI
+- 기술스택: UIKit, Tuist, RXSwift, Clean Architecture, 모듈화, MVVM, Server Driven UI, Caching, Logging, DI, Coordinator 패턴, TTI
 
 ## 목차
 - [Clean Architecture + MVVM](#clean-architecture--mvvm)
@@ -12,7 +12,6 @@
 - [Caching](#Caching)
 - [Logging](#Logging)
 - [TTI (Time To Interactive)](#tti-time-to-interactive)
-
 
 ## Clean Architecture + MVVM
 <img width="700" src="https://github.com/ddophi98/ShoppingSearchApp/assets/72330884/cc41cc4b-94c7-4de7-8d8a-fbec26b4c903">
@@ -132,3 +131,5 @@
 - 각각의 작업 사이의 시간차를 계산함으로써 구간마다 걸리는 시간을 로그로 기록했습니다.
 - 프로젝트 특성에 따라 측정하고자 하는 작업이나 구간이 달라질 수 있습니다.    
   ex) MTS 앱이라면 차트가 완성되는 시점을 측정해야할 것입니다.
+
+
