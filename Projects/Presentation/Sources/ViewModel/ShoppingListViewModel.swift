@@ -13,7 +13,7 @@ final public class ShoppingListViewModel: BaseViewModel {
     private var logsForTTI = Dictionary<TTIPoint, Date>()
     private var completeLoggingTTI = false
     private(set) var sections = [ShoppingListSection]()
-    let sectionsChangedRelay = PublishRelay<Bool>()
+    let sectionsAreChanged = PublishRelay<Void>()
     
     public init(productUsecase: ProductUsecase, loggingUsecase: LoggingUsecase) {
         self.productUsecase = productUsecase
@@ -36,7 +36,7 @@ final public class ShoppingListViewModel: BaseViewModel {
                 }
                 newSections.append(.AllProducts(response.items))
                 sections = newSections
-                sectionsChangedRelay.accept(true)
+                sectionsAreChanged.accept(())
                 loggingTTI(point: .receiveResponse)
             }, onFailure: { [weak self] error in
                 guard let self = self else { return }

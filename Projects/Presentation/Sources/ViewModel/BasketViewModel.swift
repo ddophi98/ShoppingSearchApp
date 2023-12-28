@@ -12,7 +12,7 @@ final public class BasketViewModel: BaseViewModel {
     private var logsForTTI = Dictionary<TTIPoint, Date>()
     private var completeLoggingTTI = false
     private(set) var contents = [ServerDrivenContentVO]()
-    let contentsChangedRelay = PublishRelay<Bool>()
+    let contentsAreChanged = PublishRelay<Void>()
     
     public init(productUsecase: ProductUsecase, loggingUsecase: LoggingUsecase) {
         self.productUsecase = productUsecase
@@ -24,7 +24,7 @@ final public class BasketViewModel: BaseViewModel {
             .subscribe(onSuccess: { [weak self] response in
                 guard let self = self else { return }
                 contents = response
-                contentsChangedRelay.accept(true)
+                contentsAreChanged.accept(())
                 loggingTTI(point: .receiveResponse)
             }, onFailure: { [weak self] error in
                 guard let self = self else { return }

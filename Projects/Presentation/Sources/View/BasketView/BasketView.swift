@@ -108,7 +108,7 @@ final public class BasketView: UIViewController {
     }
     
     private func setBinding() {
-        viewModel.contentsChangedRelay
+        viewModel.contentsAreChanged
             .observe(on: MainScheduler.instance)
             .bind { [weak self] _ in
                 guard let self = self else { return }
