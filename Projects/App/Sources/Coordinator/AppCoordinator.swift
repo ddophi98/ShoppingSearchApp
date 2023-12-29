@@ -9,8 +9,6 @@ final class AppCoordinator: Coordinator {
     private let firstTabNavigationController = UINavigationController()
     private let secondTabNavigationController = UINavigationController()
     
-    var parentCoordinator: Coordinator?
-    var children: [Coordinator] = []
     let navigationController: UINavigationController
     let container: Container
     
@@ -37,41 +35,24 @@ final class AppCoordinator: Coordinator {
         case "basket":
             startWithBasket()
         case "detail":
-            guard let params = URLComponents(url: url, resolvingAgainstBaseURL: false)?.queryItems,
-                  let id = Int(params.first(where: { $0.name == "id" })?.value ?? "")
-            else { break }
-            startWithDetail(id: id)
+            if let params = URLComponents(url: url, resolvingAgainstBaseURL: false)?.queryItems,
+               let id = Int(params.first(where: { $0.name == "id" })?.value ?? "") {
+                startWithDetail(id: id)
+            }
+            else {
+                startWithShoppingList()
+            }
         default:
             startWithShoppingList()
         }
-    }
-    
-    private func setFirstTabCoordinator() -> FirstTabCoordinator {
-        let firstTabCoordinator = FirstTabCoordinator(container: container, navigationController: firstTabNavigationController)
-        firstTabCoordinator.parentCoordinator = self
-        children.append(firstTabCoordinator)
-        
-        return firstTabCoordinator
-    }
-    
-    private func setSecondTabCoordinator() -> SecondTabCoordinator {
-        let secondTabCoordinator = SecondTabCoordinator(container: container, navigationController: secondTabNavigationController)
-        secondTabCoordinator.parentCoordinator = self
-        children.append(secondTabCoordinator)
-        
-        return secondTabCoordinator
-    }
-    
-    private func setTabView() {
-        
     }
     
     private func startWithShoppingList() {
         let tabView = container.resolve(TabView.self, arguments: firstTabNavigationController, secondTabNavigationController)!
         navigationController.viewControllers = [tabView]
         
-        let firstTabCoordinator = setFirstTabCoordinator()
-        let secondTabCoordinator = setSecondTabCoordinator()
+        let firstTabCoordinator = FirstTabCoordinator(container: container, navigationController: firstTabNavigationController)
+        let secondTabCoordinator = SecondTabCoordinator(container: container, navigationController: secondTabNavigationController)
         
         firstTabCoordinator.start()
         secondTabCoordinator.start()
@@ -82,8 +63,8 @@ final class AppCoordinator: Coordinator {
         tabView.selectedIndex = 1
         navigationController.viewControllers = [tabView]
         
-        let firstTabCoordinator = setFirstTabCoordinator()
-        let secondTabCoordinator = setSecondTabCoordinator()
+        let firstTabCoordinator = FirstTabCoordinator(container: container, navigationController: firstTabNavigationController)
+        let secondTabCoordinator = SecondTabCoordinator(container: container, navigationController: secondTabNavigationController)
         
         firstTabCoordinator.start()
         secondTabCoordinator.start()
@@ -93,8 +74,8 @@ final class AppCoordinator: Coordinator {
         let tabView = container.resolve(TabView.self, arguments: firstTabNavigationController, secondTabNavigationController)!
         navigationController.viewControllers = [tabView]
         
-        let firstTabCoordinator = setFirstTabCoordinator()
-        let secondTabCoordinator = setSecondTabCoordinator()
+        let firstTabCoordinator = FirstTabCoordinator(container: container, navigationController: firstTabNavigationController)
+        let secondTabCoordinator = SecondTabCoordinator(container: container, navigationController: secondTabNavigationController)
         
         firstTabCoordinator.start()
         // 원래라면 id 값으로 특정 상품 조회할 것이라고 예상됨, 현재는 임시 데이터 사용

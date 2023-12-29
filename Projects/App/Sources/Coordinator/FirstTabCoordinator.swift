@@ -7,8 +7,6 @@ import UIKit
 import Swinject
 
 final class FirstTabCoordinator: Coordinator, FirstTabNavigation {
-    var parentCoordinator: Coordinator?
-    var children: [Coordinator] = []
     let navigationController: UINavigationController
     let container: Container
     
