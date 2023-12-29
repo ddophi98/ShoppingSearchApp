@@ -51,3 +51,22 @@ public struct ShoppingItemVO: Codable {
         self.category4 = category4
     }
 }
+
+extension ShoppingItemVO {
+    public static let sample = ShoppingItemVO(
+        title: "[KAKAO FRIENDS] 2024 카카오프렌즈 탁상용 캘린더",
+        link: "https://search.shopping.naver.com/gate.nhn?id=87086173890",
+        image: "https://shopping-phinf.pstatic.net/main_8708617/87086173890.jpg",
+        lprice: 7000,
+        hprice: -1,
+        mallName: "더블유컨셉",
+        productId: 87086173890,
+        productType: 2,
+        brand: "",
+        maker: "",
+        category1: "생활/건강",
+        category2: "문구/사무용품",
+        category3: "다이어리/플래너",
+        category4: "다이어리"
+    )
+}
