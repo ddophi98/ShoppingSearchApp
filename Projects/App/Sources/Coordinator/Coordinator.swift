@@ -4,7 +4,7 @@ import Domain
 import UIKit
 import Swinject
 
-public protocol Coordinator: AnyObject {
+protocol Coordinator: AnyObject {
     var parentCoordinator: Coordinator? { get set }
     var children: [Coordinator] { get set }
     var navigationController : UINavigationController { get }
