@@ -158,7 +158,7 @@
 
 - iOS에서 Deep Link를 사용하기 위해서는 크게 URI Scheme 방식과 Universal Link 방식으로 나누어집니다.
 - Universal Link 방식은 특정 도메인 주소를 소유하고 있어야 하기에, URI Scheme 방식으로 구현했습니다.
-- Deep Link 정책은 프로젝트 특성에 따라 달라질 수 있으며, 해당 프로젝트에서는 아래와 같은 정책을 사용했습니다.
+- Deep Link 정책은 프로젝트 특성에 따라 달라질 수 있으며, 해당 프로젝트는 아래와 같은 정책을 사용했습니다.
     - 기존에 존재하던 화면은 모두 없애버리고, Deep Link로 이동한 화면만 나타나게 하기   
     - Detail 화면과 같이 depth가 있는 경우, 이전 화면도 Navigation 스택에 집어넣기
   
