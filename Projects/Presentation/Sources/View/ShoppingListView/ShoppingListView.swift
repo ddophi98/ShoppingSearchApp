@@ -206,7 +206,7 @@ final public class ShoppingListView: UIViewController {
         }
     }
     
-    public func setCoordinator(_ coordinator: Coordinator) {
+    public func setCoordinator(_ coordinator: FirstTabNavigation) {
         viewModel.coordinator = coordinator
     }
 }

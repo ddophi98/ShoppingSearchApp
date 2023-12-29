@@ -8,9 +8,16 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     var window: UIWindow?
     private let injector: Injector
+    private let appCoordinator: AppCoordinator
+    private let navigationController: UINavigationController
     
     override init() {
-        self.injector = DependencyInjector(container: Container())
+        let container = Container()
+        
+        navigationController = UINavigationController()
+        appCoordinator = AppCoordinator(container: container, navigationController: navigationController)
+
+        injector = DependencyInjector(container: container)
         injector.assemble([
             DomainAssembly(),
             DataAssembly(),
@@ -23,7 +30,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: windowScene)
-        window?.rootViewController = injector.resolve(TabView.self)
+        window?.rootViewController = navigationController
         window?.makeKeyAndVisible()
+        
+        appCoordinator.start()
     }
 }

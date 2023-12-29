@@ -5,7 +5,6 @@ import RxSwift
 import RxCocoa
 
 public class BaseViewModel {
-    var coordinator: Coordinator?
     var disposeBag = DisposeBag()
     let errorRelay = PublishRelay<String>()
     

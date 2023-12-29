@@ -111,7 +111,7 @@ final public class DetailView: UIViewController {
             .disposed(by: viewModel.disposeBag)
     }
     
-    public func setCoordinator(_ coordinator: Coordinator) {
+    public func setCoordinator(_ coordinator: FirstTabNavigation) {
         viewModel.coordinator = coordinator
     }
 }

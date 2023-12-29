@@ -8,11 +8,11 @@ import RxCocoa
 final public class BasketViewModel: BaseViewModel {
     private let productUsecase: ProductUsecase
     private let loggingUsecase: LoggingUsecase
-    
     private var logsForTTI = Dictionary<TTIPoint, Date>()
     private var completeLoggingTTI = false
     private(set) var contents = [ServerDrivenContentVO]()
     let contentsAreChanged = PublishRelay<Void>()
+    var coordinator: SecondTabNavigation?
     
     public init(productUsecase: ProductUsecase, loggingUsecase: LoggingUsecase) {
         self.productUsecase = productUsecase

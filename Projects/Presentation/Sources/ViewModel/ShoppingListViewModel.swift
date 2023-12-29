@@ -9,11 +9,11 @@ import RxCocoa
 final public class ShoppingListViewModel: BaseViewModel {
     private let productUsecase: ProductUsecase
     private let loggingUsecase: LoggingUsecase
-    
     private var logsForTTI = Dictionary<TTIPoint, Date>()
     private var completeLoggingTTI = false
     private(set) var sections = [ShoppingListSection]()
     let sectionsAreChanged = PublishRelay<Void>()
+    var coordinator: FirstTabNavigation?
     
     public init(productUsecase: ProductUsecase, loggingUsecase: LoggingUsecase) {
         self.productUsecase = productUsecase

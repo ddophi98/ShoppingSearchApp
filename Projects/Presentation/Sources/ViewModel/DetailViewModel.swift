@@ -7,7 +7,7 @@ import RxSwift
 public final class DetailViewModel: BaseViewModel {
     private let productUsecase: ProductUsecase
     private let loggingUsecase: LoggingUsecase
-    
+    var coordinator: FirstTabNavigation?
     let item: ShoppingItemVO
     
     public init(productUsecase: ProductUsecase, loggingUsecase: LoggingUsecase, item: ShoppingItemVO) {

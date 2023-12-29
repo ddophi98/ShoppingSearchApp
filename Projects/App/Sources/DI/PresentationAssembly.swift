@@ -34,16 +34,8 @@ public struct PresentationAssembly: Assembly {
             let viewModel = resolver.resolve(DetailViewModel.self, argument: item)!
             return DetailView(viewModel: viewModel)
         }
-        container.register(TabView.self) { resolver in
-            let firstNavigationController = UINavigationController()
-            let firstCoordinator = MainCoordinator(navigationController: firstNavigationController, container: container)
-            firstCoordinator.initFirstTab()
-            
-            let secondNavigationController = UINavigationController()
-            let secondCoordinator = MainCoordinator(navigationController: secondNavigationController, container: container)
-            secondCoordinator.initSecondTab()
-            
-            return TabView(firstView: firstNavigationController, secondView: secondNavigationController)
+        container.register(TabView.self) { (resolver, nc1: UINavigationController, nc2: UINavigationController ) in
+            return TabView(firstView: nc1, secondView: nc2)
         }
     }
 }
