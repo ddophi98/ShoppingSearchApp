@@ -4,7 +4,7 @@
 
 - 배운 개발 기술들을 실제로 적용해보기 위해 만든 프로젝트입니다.
 - 기술스택: Tuist, UIKit, Clean Architecture, 모듈화, DI, MVVM, Coordinator 패턴, Server Driven UI, Caching, Logging, TTI, Deep Link
-- 라이브러리: Moya, SnapKit, RxSwfit, Swinject
+- 외부 라이브러리: Moya, SnapKit, RxSwfit, Swinject
 
 ## 목차
 - [Clean Architecture + MVVM](#clean-architecture--mvvm)
