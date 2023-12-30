@@ -3,7 +3,8 @@
 <img width="500" src="https://github.com/ddophi98/ShoppingSearchApp/assets/72330884/bc6af6e7-ef6c-486c-b91b-bdf0756500a8"> 
 
 - 배운 개발 기술들을 실제로 적용해보기 위해 만든 프로젝트입니다.
-- 기술스택: Tuist, UIKit, RxSwift, Clean Architecture, 모듈화, DI, MVVM, Coordinator 패턴, Server Driven UI, Caching, Logging, TTI, Deep Link
+- 기술스택: Tuist, UIKit, Clean Architecture, 모듈화, DI, MVVM, Coordinator 패턴, Server Driven UI, Caching, Logging, TTI, Deep Link
+- 라이브러리: Moya, SnapKit, RxSwfit, Swinject
 
 ## 목차
 - [Clean Architecture + MVVM](#clean-architecture--mvvm)
