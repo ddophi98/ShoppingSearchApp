@@ -130,7 +130,7 @@
         - 상품 탭 이벤트: Product Name, Product Price, Product Position, Product Index
         - 검색 이벤트: Query
 - 로그 스키마에는 모든 곳에 공통적으로 필요한 요소와 개별적으로 필요한 요소가 존재합니다.
-- 개별적으로 필요한 요소를 위해 처음에는 ```Dictionary<String, String>``` 으로 정의했으나, 스키마를 생성할 때마다 순서가 보장되지 않는 문제 때문에 ```Array<(String, String)>``` 으로 개선했습니다.
+- 개별 요소를 저장하기 위해 처음에는 ```Dictionary<String, String>``` 으로 정의했으나, 같은 로그 스키마라도 순서가 보장되지 않는 문제 때문에 ```Array<(String, String)>``` 으로 개선했습니다.
 - 스키마 객체를 생성할 때는 빌더 패턴을 활용하여, 상황에 따라 필요한 요소만 수월하게 넣을 수 있도록 했습니다.
 
 ## TTI (Time To Interactive)
