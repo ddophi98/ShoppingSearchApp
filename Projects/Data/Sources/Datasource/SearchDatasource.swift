@@ -20,7 +20,10 @@ final public class DefaultSearchDatasource: SearchDatasource {
                 .map { try JSONDecoder().decode(ShoppingResultDTO.self, from: $0)}
         } else {
             return moyaProvider.call(target: .shopping(query: query)) { jsonData in
-                CacheManager.jsonCache.setObject(NSData(data: jsonData), forKey: cacheKey)
+                let cacheKey = NSString(string: query)
+                if CacheManager.jsonCache.object(forKey: cacheKey) == nil {
+                    CacheManager.jsonCache.setObject(NSData(data: jsonData), forKey: cacheKey)
+                }
             }
         }
     }
