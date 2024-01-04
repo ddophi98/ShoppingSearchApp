@@ -64,8 +64,17 @@ public extension Project {
 
 extension Scheme {
     static func makeScheme(target: ConfigurationName, name: String) -> Scheme {
+        let schemeName: String
+        if target == .debug {
+            schemeName = "\(name)-debug"
+        } else if target == .release {
+            schemeName = "\(name)-release"
+        } else {
+            schemeName = name
+        }
+        
         return Scheme(
-            name: name,
+            name: schemeName,
             shared: true,
             buildAction: .buildAction(targets: ["\(name)"]),
             testAction: .targets(
