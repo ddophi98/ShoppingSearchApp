@@ -7,6 +7,7 @@ import UIKit
 final public class AllProductsBlock: UICollectionViewCell {
     static let id = "AllProductsBlock"
     private var viewModel: ShoppingListViewModel?
+    private var disposeBag = DisposeBag()
     
     override public init(frame: CGRect) {
         super.init(frame: frame)
@@ -74,6 +75,11 @@ final public class AllProductsBlock: UICollectionViewCell {
             }, onFailure: { error in
                 viewModel.setError(error: error)
             })
-            .disposed(by: viewModel.disposeBag)
+            .disposed(by: disposeBag)
+    }
+    
+    public override func prepareForReuse() {
+        // 재사용하게 되면 다른 셀이 구독했던게 남아있으므로 명시적으로 구독 해제해주기
+        disposeBag = DisposeBag()
     }
 }

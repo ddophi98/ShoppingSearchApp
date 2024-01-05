@@ -9,6 +9,7 @@ final public class RecentlyViewedBlock: UITableViewCell {
     static let id = "RecentlyViewedBlock"
     private var viewModel: BasketViewModel?
     private var items: [RecentlyViewedVO]?
+    private var disposeBag = DisposeBag()
     
     override public init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -51,7 +52,7 @@ final public class RecentlyViewedBlock: UITableViewCell {
                 guard let self = self else { return }
                 collectionView.reloadData()
             }
-            .disposed(by: viewModel.disposeBag)
+            .disposed(by: disposeBag)
     }
     private func setView() {
         selectionStyle = .none
@@ -75,6 +76,11 @@ final public class RecentlyViewedBlock: UITableViewCell {
         self.viewModel = viewModel
         self.items = items
         setBinding()
+    }
+    
+    public override func prepareForReuse() {
+        // 재사용하게 되면 다른 셀이 구독했던게 남아있으므로 명시적으로 구독 해제해주기
+        disposeBag = DisposeBag()
     }
 }
 
