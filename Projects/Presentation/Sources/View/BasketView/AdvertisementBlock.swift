@@ -1,7 +1,7 @@
 // Copyright © 2023 com.template. All rights reserved.
 
-import UIKit
 import RxSwift
+import UIKit
 
 final public class AdvertisementBlock: UITableViewCell {
     static let id = "AdvertisementBlock"
@@ -23,13 +23,11 @@ final public class AdvertisementBlock: UITableViewCell {
         label.text = "⚠️ 광고"
         return label
     }()
-    
     lazy private var thumbnail: UIImageView = {
         let thumbnail = UIImageView()
         thumbnail.contentMode = .scaleAspectFit
         return thumbnail
     }()
-    
     lazy private var title: UILabel = {
         let title = UILabel()
         title.textAlignment = .left
@@ -45,13 +43,11 @@ final public class AdvertisementBlock: UITableViewCell {
         addSubview(thumbnail)
         addSubview(title)
     }
-    
     private func setLayout() {
         advertisementLabel.snp.makeConstraints { make in
             make.leading.equalToSuperview().offset(15)
             make.top.equalToSuperview().offset(15)
         }
-        
         thumbnail.snp.makeConstraints { make in
             make.leading.equalToSuperview().offset(15)
             make.top.equalTo(advertisementLabel.snp.bottom).offset(10)
@@ -64,24 +60,19 @@ final public class AdvertisementBlock: UITableViewCell {
         }
     }
     
-    func setCell(imageURL: String, title: String) {
-        guard let viewModel = viewModel else { return }
+    func setCell(viewModel: BasketViewModel, imageURL: String, title: String) {
+        self.viewModel = viewModel
         self.title.text = title
         viewModel.downloadImage(url: imageURL)
             .observe(on: MainScheduler.instance)
             .subscribe(onSuccess: { [weak self] response in
                 guard let self = self else { return }
                 thumbnail.image = UIImage(data: response)
-                viewModel.setImageCache(url: imageURL, data: response)
             }, onFailure: { [weak self] error in
                 guard let self = self else { return }
                 viewModel.setError(error: error)
             })
             .disposed(by: viewModel.disposeBag)
-    }
-    
-    func setViewModel(viewModel: BasketViewModel) {
-        self.viewModel = viewModel
     }
 }
 

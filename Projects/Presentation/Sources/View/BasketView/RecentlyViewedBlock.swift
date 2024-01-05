@@ -1,12 +1,11 @@
 // Copyright © 2023 com.template. All rights reserved.
 
-import UIKit
-import SnapKit
 import Domain
 import RxSwift
+import SnapKit
+import UIKit
 
 final public class RecentlyViewedBlock: UITableViewCell {
-    
     static let id = "RecentlyViewedBlock"
     private var viewModel: BasketViewModel?
     private var items: [RecentlyViewedVO]?
@@ -27,13 +26,12 @@ final public class RecentlyViewedBlock: UITableViewCell {
         title.font = .systemFont(ofSize: 20)
         return title
     }()
-    
     lazy private var collectionView: UICollectionView = {
         let collectionViewFlowLayout: UICollectionViewFlowLayout = {
             let layout = UICollectionViewFlowLayout()
             layout.scrollDirection = .horizontal
             layout.minimumLineSpacing = 20.0
-            layout.itemSize = .init(width: RecentlyViewedCell.cellWidth, height: RecentlyViewedCell.cellHeight)
+            layout.itemSize = .init(width: 100, height: 150)
             layout.sectionInset = .init(top: 0, left: 30, bottom: 0, right: 30)
             return layout
         }()
@@ -45,7 +43,8 @@ final public class RecentlyViewedBlock: UITableViewCell {
         return collectionView
     }()
     
-    private func setBinding(viewModel: BasketViewModel) {
+    private func setBinding() {
+        guard let  viewModel = viewModel else { return }
         viewModel.contentsAreChanged
             .observe(on: MainScheduler.instance)
             .bind { [weak self] _ in
@@ -54,7 +53,6 @@ final public class RecentlyViewedBlock: UITableViewCell {
             }
             .disposed(by: viewModel.disposeBag)
     }
-    
     private func setView() {
         selectionStyle = .none
         backgroundColor = .systemGray6
@@ -62,7 +60,6 @@ final public class RecentlyViewedBlock: UITableViewCell {
         contentView.addSubview(collectionView)
         
     }
-    
     private func setLayout() {
         title.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(20)
@@ -74,13 +71,10 @@ final public class RecentlyViewedBlock: UITableViewCell {
         }
     }
     
-    func setViewModel(viewModel: BasketViewModel) {
+    func setItems(viewModel: BasketViewModel, items: [RecentlyViewedVO]) {
         self.viewModel = viewModel
-        setBinding(viewModel: viewModel)
-    }
-    
-    func setItems(items: [RecentlyViewedVO]) {
         self.items = items
+        setBinding()
     }
 }
 
@@ -95,8 +89,7 @@ extension RecentlyViewedBlock: UICollectionViewDataSource {
         else { return UICollectionViewCell() }
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RecentlyViewedCell.id, for: indexPath) as! RecentlyViewedCell
-        cell.setViewModel(viewModel: viewModel)
-        cell.setCell(idx: indexPath.row, imageURL: item.image, title: item.title, price: item.price)
+        cell.setCell(viewModel: viewModel, imageURL: item.image, title: item.title, price: item.price)
         return cell
     }
 }

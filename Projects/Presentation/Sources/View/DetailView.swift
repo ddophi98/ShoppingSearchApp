@@ -1,11 +1,10 @@
 // Copyright © 2023 com.template. All rights reserved.
 
-import UIKit
-import SnapKit
 import RxSwift
+import SnapKit
+import UIKit
 
 final public class DetailView: UIViewController {
-    
     private let viewModel: DetailViewModel
     
     public init(viewModel: DetailViewModel) {
@@ -13,6 +12,7 @@ final public class DetailView: UIViewController {
         super.init(nibName: nil, bundle: nil)
         setView()
         setLayout()
+        setBinding()
         downloadImage()
     }
     
@@ -22,7 +22,7 @@ final public class DetailView: UIViewController {
     
     public override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        viewModel.loggingViewAppeared()
+        viewModel.loggingDrawView()
     }
     
     lazy private var productTitle: UILabel = {
@@ -33,13 +33,11 @@ final public class DetailView: UIViewController {
         productTitle.text = viewModel.item.title.removeHtml()
         return productTitle
     }()
-    
     lazy private var thumbnail: UIImageView = {
         let thumbnail = UIImageView()
         thumbnail.contentMode = .scaleAspectFit
         return thumbnail
     }()
-    
     lazy private var price: UILabel = {
         let price = UILabel()
         price.textAlignment = .left
@@ -48,8 +46,7 @@ final public class DetailView: UIViewController {
         price.text = "\(viewModel.item.lprice)원"
         return price
     }()
-    
-    private lazy var errorLabel: UILabel = {
+    lazy private var errorLabel: UILabel = {
         let errorLabel = UILabel()
         errorLabel.font = .boldSystemFont(ofSize: 40)
         errorLabel.textColor = .white
@@ -60,6 +57,16 @@ final public class DetailView: UIViewController {
         return errorLabel
     }()
     
+    private func setBinding() {
+        viewModel.errorRelay
+            .observe(on: MainScheduler.instance)
+            .bind { [weak self] errorString in
+                guard let self = self else { return }
+                errorLabel.text = errorString
+                errorLabel.isHidden = false
+            }
+            .disposed(by: viewModel.disposeBag)
+    }
     private func setView() {
         view.backgroundColor = .white
         view.addSubview(productTitle)
@@ -67,7 +74,6 @@ final public class DetailView: UIViewController {
         view.addSubview(price)
         view.addSubview(errorLabel)
     }
-    
     private func setLayout() {
         productTitle.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide).offset(20)
@@ -87,7 +93,6 @@ final public class DetailView: UIViewController {
             make.top.bottom.leading.trailing.equalToSuperview()
         }
     }
-    
     private func downloadImage() {
         viewModel.downloadImage(url: viewModel.item.image)
             .observe(on: MainScheduler.instance)
@@ -98,15 +103,6 @@ final public class DetailView: UIViewController {
                 guard let self = self else { return }
                 viewModel.setError(error: error)
             })
-            .disposed(by: viewModel.disposeBag)
-        
-        viewModel.errorRelay
-            .observe(on: MainScheduler.instance)
-            .bind { [weak self] errorString in
-                guard let self = self else { return }
-                errorLabel.text = errorString
-                errorLabel.isHidden = false
-            }
             .disposed(by: viewModel.disposeBag)
     }
 }

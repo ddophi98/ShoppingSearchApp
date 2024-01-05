@@ -1,11 +1,10 @@
 // Copyright © 2023 com.template. All rights reserved.
 
-import UIKit
-import SnapKit
 import RxSwift
+import SnapKit
+import UIKit
 
 final public class AllProductsBlock: UICollectionViewCell {
-    
     static let id = "AllProductsBlock"
     private var viewModel: ShoppingListViewModel?
     
@@ -24,14 +23,18 @@ final public class AllProductsBlock: UICollectionViewCell {
         thumbnail.contentMode = .scaleAspectFit
         return thumbnail
     }()
-    
+    lazy private var stackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.spacing = 8
+        return stackView
+    }()
     lazy private var title: UILabel = {
         let title = UILabel()
         title.textAlignment = .left
         title.font = .systemFont(ofSize: 20)
         return title
     }()
-    
     lazy private var price: UILabel = {
         let price = UILabel()
         price.textAlignment = .left
@@ -40,20 +43,12 @@ final public class AllProductsBlock: UICollectionViewCell {
         return price
     }()
     
-    lazy private var stackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .vertical
-        stackView.spacing = 8
-        return stackView
-    }()
-    
     private func setView() {
         addSubview(thumbnail)
         addSubview(stackView)
         stackView.addArrangedSubview(title)
         stackView.addArrangedSubview(price)
     }
-    
     private func setLayout() {
         thumbnail.snp.makeConstraints { make in
             make.leading.equalToSuperview()
@@ -67,8 +62,8 @@ final public class AllProductsBlock: UICollectionViewCell {
         }
     }
     
-    func setCell(imageURL: String, title: String, price: Int) {
-        guard let viewModel = viewModel else { return }
+    func setCell(viewModel: ShoppingListViewModel, imageURL: String, title: String, price: Int) {
+        self.viewModel = viewModel
         self.title.text = title.removeHtml()
         self.price.text = "\(price)원"
         viewModel.downloadImage(url: imageURL)
@@ -76,15 +71,9 @@ final public class AllProductsBlock: UICollectionViewCell {
             .subscribe(onSuccess: { [weak self] response in
                 guard let self = self else { return }
                 thumbnail.image = UIImage(data: response)
-                viewModel.setImageCache(url: imageURL, data: response)
-            }, onFailure: { [weak self] error in
-                guard let self = self else { return }
+            }, onFailure: { error in
                 viewModel.setError(error: error)
             })
             .disposed(by: viewModel.disposeBag)
-    }
-    
-    func setViewModel(viewModel: ShoppingListViewModel) {
-        self.viewModel = viewModel
     }
 }

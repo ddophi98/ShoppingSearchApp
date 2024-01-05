@@ -1,14 +1,12 @@
 // Copyright © 2023 com.template. All rights reserved.
 
-import UIKit
-import SnapKit
 import RxSwift
+import SnapKit
+import UIKit
 
 final public class TopFiveProductsBlock: UICollectionViewCell {
-   
     static let id = "TopFiveProductsBlock"
     private var viewModel: ShoppingListViewModel?
-    private var idx: Int?
     
     override public init(frame: CGRect) {
         super.init(frame: frame)
@@ -25,14 +23,12 @@ final public class TopFiveProductsBlock: UICollectionViewCell {
         thumbnail.contentMode = .scaleAspectFit
         return thumbnail
     }()
-    
     lazy private var title: UILabel = {
         let title = UILabel()
         title.textAlignment = .center
         title.font = .systemFont(ofSize: 20)
         return title
     }()
-    
     lazy private var price: UILabel = {
         let price = UILabel()
         price.textAlignment = .center
@@ -46,7 +42,6 @@ final public class TopFiveProductsBlock: UICollectionViewCell {
         addSubview(title)
         addSubview(price)
     }
-    
     private func setLayout() {
         thumbnail.snp.makeConstraints { make in
             make.top.equalToSuperview()
@@ -64,10 +59,8 @@ final public class TopFiveProductsBlock: UICollectionViewCell {
         }
     }
     
-    func setCell(idx: Int, imageURL: String, title: String, price: Int) {
-        guard let viewModel = viewModel else { return }
-        
-        self.idx = idx
+    func setCell(viewModel: ShoppingListViewModel, imageURL: String, title: String, price: Int) {
+        self.viewModel = viewModel
         self.title.text = title.removeHtml()
         self.price.text = "\(price)원"
         viewModel.downloadImage(url: imageURL)
@@ -75,15 +68,10 @@ final public class TopFiveProductsBlock: UICollectionViewCell {
             .subscribe(onSuccess: { [weak self] response in
                 guard let self = self else { return }
                 thumbnail.image = UIImage(data: response)
-                viewModel.setImageCache(url: imageURL, data: response)
             }, onFailure: { [weak self] error in
                 guard let self = self else { return }
                 viewModel.setError(error: error)
             })
             .disposed(by: viewModel.disposeBag)
-    }
-    
-    func setViewModel(viewModel: ShoppingListViewModel) {
-        self.viewModel = viewModel
     }
 }

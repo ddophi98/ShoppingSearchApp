@@ -1,11 +1,12 @@
 // Copyright © 2023 com.template. All rights reserved.
 
 import Domain
-import RxSwift
 import RxCocoa
+import RxSwift
 
+// 모든 ViewModel이 공통적으로 갖는 프로퍼티 및 메소드 정의
 public class BaseViewModel {
-    var disposeBag = DisposeBag()
+    let disposeBag = DisposeBag()
     let errorRelay = PublishRelay<String>()
     
     func setError(error: Error) {

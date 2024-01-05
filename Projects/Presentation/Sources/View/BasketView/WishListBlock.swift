@@ -22,7 +22,6 @@ final public class WishListBlock: UITableViewCell {
         title.font = .systemFont(ofSize: 15)
         return title
     }()
-    
     lazy private var price: UILabel = {
         let price = UILabel()
         price.textAlignment = .left
@@ -36,7 +35,6 @@ final public class WishListBlock: UITableViewCell {
         addSubview(title)
         addSubview(price)
     }
-    
     private func setLayout() {
         title.snp.makeConstraints { make in
             make.leading.equalToSuperview().offset(10)
@@ -48,13 +46,10 @@ final public class WishListBlock: UITableViewCell {
             make.top.equalTo(title.snp.bottom).offset(10)
         }
     }
-    
-    func setCell(title: String, price: Int) {
+
+    func setCell(viewModel: BasketViewModel, title: String, price: Int) {
+        self.viewModel = viewModel
         self.title.text = title
         self.price.text = "\(price)원"
-    }
-    
-    func setViewModel(viewModel: BasketViewModel) {
-        self.viewModel = viewModel
     }
 }

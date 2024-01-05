@@ -20,7 +20,6 @@ final public class ShoppingListHeader: UICollectionReusableView {
         title.font = .boldSystemFont(ofSize: 20)
         return title
     }()
-    
     private lazy var line: UIView = {
         let line = UIView()
         line.backgroundColor = .systemGray2
@@ -31,7 +30,6 @@ final public class ShoppingListHeader: UICollectionReusableView {
         addSubview(title)
         title.addSubview(line)
     }
-    
     private func setLayout() {
         title.snp.makeConstraints { make in
             make.leading.equalToSuperview().offset(10)

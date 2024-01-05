@@ -3,7 +3,6 @@
 import UIKit
 
 public class TabView: UITabBarController {
-    
     private let firstView: UIViewController
     private let secondView: UIViewController
     

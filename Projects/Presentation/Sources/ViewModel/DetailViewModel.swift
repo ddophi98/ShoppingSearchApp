@@ -1,13 +1,14 @@
 // Copyright © 2023 com.template. All rights reserved.
 
-import Foundation
 import Domain
+import Foundation
 import RxSwift
 
-public final class DetailViewModel: BaseViewModel {
+final public class DetailViewModel: BaseViewModel {
     private let productUsecase: ProductUsecase
     private let loggingUsecase: LoggingUsecase
     private let coordinator: FirstTabNavigation
+    
     let item: ShoppingItemVO
     
     public init(productUsecase: ProductUsecase, loggingUsecase: LoggingUsecase, coordinator: FirstTabNavigation, item: ShoppingItemVO) {
@@ -21,8 +22,8 @@ public final class DetailViewModel: BaseViewModel {
         productUsecase.downloadImage(url: url)
     }
     
-    // --- logging ---
-    func loggingViewAppeared() {
+    // --- 로깅 관련 메소드 ---
+    func loggingDrawView() {
         loggingUsecase.loggingDetailViewAppeared()
     }
 }
