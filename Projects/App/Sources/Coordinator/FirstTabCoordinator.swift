@@ -1,10 +1,9 @@
 // Copyright © 2023 com.shoppingSearch. All rights reserved.
 
-import Foundation
 import Domain
 import Presentation
-import UIKit
 import Swinject
+import UIKit
 
 final class FirstTabCoordinator: Coordinator, FirstTabNavigation {
     let navigationController: UINavigationController

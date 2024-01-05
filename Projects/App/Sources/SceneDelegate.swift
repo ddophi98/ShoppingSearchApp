@@ -1,23 +1,21 @@
 // Copyright © 2023 com.template. All rights reserved.
 
-import UIKit
 import Swinject
-import Presentation
+import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
-    
     var window: UIWindow?
-    private let injector: Injector
-    private let appCoordinator: AppCoordinator
     private let navigationController: UINavigationController
+    private let appCoordinator: AppCoordinator
+    private let injector: DependencyInjector
     
     override init() {
         let container = Container()
         
         navigationController = UINavigationController()
         appCoordinator = AppCoordinator(container: container, navigationController: navigationController)
-
         injector = DependencyInjector(container: container)
+        
         injector.assemble([
             DomainAssembly(),
             DataAssembly(),
@@ -32,10 +30,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow(windowScene: windowScene)
         window?.rootViewController = navigationController
         window?.makeKeyAndVisible()
-        
         appCoordinator.start()
     }
     
+    // 딥링크 발생시 해당 코드 실행됨
     func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
         guard let url = URLContexts.first?.url else { return }
         appCoordinator.handleDeepLink(url: url)
