@@ -2,21 +2,22 @@
 
 import Domain
 import Foundation
-import RxSwift
 import RxCocoa
+import RxSwift
 
 final public class BasketViewModel: BaseViewModel {
     private let productUsecase: ProductUsecase
     private let loggingUsecase: LoggingUsecase
+    private let coordinator: SecondTabNavigation
     private var logsForTTI = Dictionary<TTIPoint, Date>()
     private var completeLoggingTTI = false
     private(set) var contents = [ServerDrivenContentVO]()
     let contentsAreChanged = PublishRelay<Void>()
-    var coordinator: SecondTabNavigation?
     
-    public init(productUsecase: ProductUsecase, loggingUsecase: LoggingUsecase) {
+    public init(productUsecase: ProductUsecase, loggingUsecase: LoggingUsecase, coordinator: SecondTabNavigation) {
         self.productUsecase = productUsecase
         self.loggingUsecase = loggingUsecase
+        self.coordinator = coordinator
     }
     
     func getBasketContents() {
@@ -35,10 +36,6 @@ final public class BasketViewModel: BaseViewModel {
     
     func downloadImage(url: String) -> Single<Data> {
         productUsecase.downloadImage(url: url)
-    }
-    
-    func setImageCache(url: String, data: Data) {
-        productUsecase.setImageCache(url: url, data: data)
     }
     
     // --- logging ---

@@ -205,10 +205,6 @@ final public class ShoppingListView: UIViewController {
             make.top.bottom.leading.trailing.equalToSuperview()
         }
     }
-    
-    public func setCoordinator(_ coordinator: FirstTabNavigation) {
-        viewModel.coordinator = coordinator
-    }
 }
 
 extension ShoppingListView: UITextFieldDelegate {

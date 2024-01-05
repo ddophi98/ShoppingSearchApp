@@ -126,10 +126,6 @@ final public class BasketView: UIViewController {
             }
             .disposed(by: viewModel.disposeBag)
     }
-    
-    public func setCoordinator(_ coordinator: SecondTabNavigation) {
-        viewModel.coordinator = coordinator
-    }
 }
 
 extension BasketView: UITableViewDataSource {

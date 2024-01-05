@@ -14,8 +14,7 @@ final class SecondTabCoordinator: Coordinator, SecondTabNavigation {
     }
     
     func start() {
-        let basketView = container.resolve(BasketView.self)!
-        basketView.setCoordinator(self)
+        let basketView = container.resolve(BasketView.self, argument: self)!
         navigationController.pushViewController(basketView, animated: false)
     }
 }

@@ -94,7 +94,6 @@ final public class DetailView: UIViewController {
             .subscribe(onSuccess: { [weak self] response in
                 guard let self = self else { return }
                 thumbnail.image = UIImage(data: response)
-                viewModel.setImageCache(url: viewModel.item.image, data: response)
             }, onFailure: { [weak self] error in
                 guard let self = self else { return }
                 viewModel.setError(error: error)
@@ -109,9 +108,5 @@ final public class DetailView: UIViewController {
                 errorLabel.isHidden = false
             }
             .disposed(by: viewModel.disposeBag)
-    }
-    
-    public func setCoordinator(_ coordinator: FirstTabNavigation) {
-        viewModel.coordinator = coordinator
     }
 }

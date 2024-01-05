@@ -9,15 +9,16 @@ import RxCocoa
 final public class ShoppingListViewModel: BaseViewModel {
     private let productUsecase: ProductUsecase
     private let loggingUsecase: LoggingUsecase
+    private let coordinator: FirstTabNavigation
     private var logsForTTI = Dictionary<TTIPoint, Date>()
     private var completeLoggingTTI = false
     private(set) var sections = [ShoppingListSection]()
     let sectionsAreChanged = PublishRelay<Void>()
-    var coordinator: FirstTabNavigation?
     
-    public init(productUsecase: ProductUsecase, loggingUsecase: LoggingUsecase) {
+    public init(productUsecase: ProductUsecase, loggingUsecase: LoggingUsecase, coordinator: FirstTabNavigation) {
         self.productUsecase = productUsecase
         self.loggingUsecase = loggingUsecase
+        self.coordinator = coordinator
     }
     
     enum ShoppingListSection {
@@ -51,11 +52,7 @@ final public class ShoppingListViewModel: BaseViewModel {
     
     func moveToDetailView(item: ShoppingItemVO, position: String, index: Int) {
         loggingProductTapped(productName: item.title.removeHtml(), productPrice: item.lprice, productPosition: position, productIndex: index)
-        coordinator?.moveToDetailView(item: item)
-    }
-    
-    func setImageCache(url: String, data: Data) {
-        productUsecase.setImageCache(url: url, data: data)
+        coordinator.moveToDetailView(item: item)
     }
     
     // --- logging ---

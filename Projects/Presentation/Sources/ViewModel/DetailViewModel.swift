@@ -7,21 +7,18 @@ import RxSwift
 public final class DetailViewModel: BaseViewModel {
     private let productUsecase: ProductUsecase
     private let loggingUsecase: LoggingUsecase
-    var coordinator: FirstTabNavigation?
+    private let coordinator: FirstTabNavigation
     let item: ShoppingItemVO
     
-    public init(productUsecase: ProductUsecase, loggingUsecase: LoggingUsecase, item: ShoppingItemVO) {
+    public init(productUsecase: ProductUsecase, loggingUsecase: LoggingUsecase, coordinator: FirstTabNavigation, item: ShoppingItemVO) {
         self.productUsecase = productUsecase
         self.loggingUsecase = loggingUsecase
+        self.coordinator = coordinator
         self.item = item
     }
     
     func downloadImage(url: String) -> Single<Data> {
         productUsecase.downloadImage(url: url)
-    }
-    
-    func setImageCache(url: String, data: Data) {
-        productUsecase.setImageCache(url: url, data: data)
     }
     
     // --- logging ---

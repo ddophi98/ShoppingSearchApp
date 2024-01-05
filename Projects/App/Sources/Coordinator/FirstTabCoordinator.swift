@@ -15,14 +15,12 @@ final class FirstTabCoordinator: Coordinator, FirstTabNavigation {
     }
     
     func start() {
-        let shoppingListView = container.resolve(ShoppingListView.self)!
-        shoppingListView.setCoordinator(self)
+        let shoppingListView = container.resolve(ShoppingListView.self, argument: self)!
         navigationController.pushViewController(shoppingListView, animated: false)
     }
     
     func moveToDetailView(item: ShoppingItemVO) {
-        let detailView = container.resolve(DetailView.self, argument: item)!
-        detailView.setCoordinator(self)
+        let detailView = container.resolve(DetailView.self, arguments: self, item)!
         navigationController.pushViewController(detailView, animated: true)
     }
 }
