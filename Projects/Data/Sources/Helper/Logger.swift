@@ -3,7 +3,7 @@
 import Foundation
 
 final class Logger {
-    // 모든 로그에 공통적으로 들어갈 요소1 (앱이 실행되자마자 값 설정 가능)
+    // --- 모든 로그에 공통적으로 들어갈 요소 (값도 모두 똑같음) ---
     private let appVersion: String = {
         if let info = Bundle.main.infoDictionary,
            let buildNumber = info["CFBundleVersion"] as? String {
@@ -11,8 +11,6 @@ final class Logger {
         }
         return "nil"
     }()
-    
-    // 모든 로그에 공통적으로 들어갈 요소2 (앱이 실행되자마자 값 설정 가능)
     private let os: String = {
         let os = ProcessInfo.processInfo.operatingSystemVersion
         return String(os.majorVersion) + "." + String(os.minorVersion) + "." + String(os.patchVersion)
