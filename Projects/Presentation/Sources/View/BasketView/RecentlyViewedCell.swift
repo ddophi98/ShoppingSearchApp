@@ -76,6 +76,7 @@ final public class RecentlyViewedCell: UICollectionViewCell {
     }
     
     public override func prepareForReuse() {
+        super.prepareForReuse()
         // 재사용하게 되면 다른 셀이 구독했던게 남아있으므로 명시적으로 구독 해제해주기
         disposeBag = DisposeBag()
     }
