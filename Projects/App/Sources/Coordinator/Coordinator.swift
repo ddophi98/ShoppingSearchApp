@@ -1,8 +1,7 @@
 // Copyright © 2023 com.template. All rights reserved.
 
-import Domain
-import UIKit
 import Swinject
+import UIKit
 
 protocol Coordinator: AnyObject {
     var navigationController : UINavigationController { get }

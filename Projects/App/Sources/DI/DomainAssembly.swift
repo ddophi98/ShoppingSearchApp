@@ -1,10 +1,11 @@
 // Copyright © 2023 com.template. All rights reserved.
 
-import Swinject
 import Domain
+import Swinject
 
-public struct DomainAssembly: Assembly {
-    public func assemble(container: Swinject.Container) {
+struct DomainAssembly: Assembly {
+    func assemble(container: Swinject.Container) {
+        // --- Usecase ---
         container.register(ProductUsecase.self) { resolver in
             let serverDrivenRepository = resolver.resolve(ServerDrivenRepository.self)!
             let imageRepository = resolver.resolve(ImageRepository.self)!
@@ -15,6 +16,5 @@ public struct DomainAssembly: Assembly {
             let loggingRepository = resolver.resolve(LoggingRepository.self)!
             return DefaultLoggingUsecase(loggingRepository: loggingRepository)
         }
-        
     }
 }

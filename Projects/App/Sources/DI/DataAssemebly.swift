@@ -1,11 +1,12 @@
 // Copyright © 2023 com.template. All rights reserved.
 
-import Swinject
 import Data
 import Domain
+import Swinject
 
-public struct DataAssembly: Assembly {
-    public func assemble(container: Swinject.Container) {
+struct DataAssembly: Assembly {
+    func assemble(container: Swinject.Container) {
+        // --- Datasource ---
         container.register(SearchDatasource.self) { _ in
             return DefaultSearchDatasource()
         }
@@ -18,10 +19,8 @@ public struct DataAssembly: Assembly {
         container.register(LoggingDatasource.self) { _ in
             return DefaultLoggingDatasource()
         }
-        container.register(LoggingRepository.self) { resolver in
-            let datasource = resolver.resolve(LoggingDatasource.self)!
-            return DefaultLoggingRepository(dataSource: datasource)
-        }
+        
+        // --- Repository ---
         container.register(SearchRepository.self) { resolver in
             let datasource = resolver.resolve(SearchDatasource.self)!
             return DefaultSearchRepository(dataSource: datasource)
@@ -33,6 +32,10 @@ public struct DataAssembly: Assembly {
         container.register(ServerDrivenRepository.self) { resolver in
             let datasource = resolver.resolve(ServerDrivenDatasource.self)!
             return DefaultServerDrivenRepository(datasource: datasource)
+        }
+        container.register(LoggingRepository.self) { resolver in
+            let datasource = resolver.resolve(LoggingDatasource.self)!
+            return DefaultLoggingRepository(dataSource: datasource)
         }
     }
 }

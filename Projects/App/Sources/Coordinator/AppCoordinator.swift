@@ -81,6 +81,5 @@ final class AppCoordinator: Coordinator {
         // 원래라면 id 값으로 특정 상품 조회할 것이라고 예상됨, 현재는 임시 데이터 사용
         firstTabCoordinator.moveToDetailView(item: ShoppingItemVO.sample)
         secondTabCoordinator.start()
-        
     }
 }
