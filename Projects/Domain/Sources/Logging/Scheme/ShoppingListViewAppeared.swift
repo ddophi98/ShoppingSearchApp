@@ -1,17 +1,15 @@
 // Copyright © 2023 com.shoppingSearch. All rights reserved.
 
-import Foundation
-
-public struct ShoppingListViewAppeared: LoggingScheme {
-    public var logVersion: Float = 1.0
-    public var eventName: String = "ViewAppeared"
-    public var screenName: String = "ShoppingList"
-    public var logData: Array<(String, String)> = []
+struct ShoppingListViewAppeared: LoggingSchemeVO {
+    let logVersion: Float = 1.0
+    let eventName: String = "ViewAppeared"
+    let screenName: String = "ShoppingList"
+    var logData: Array<(String, String)> = []
     
     private init() { }
     
-    public class Builder {
-        public func build() -> LoggingScheme {
+    final class Builder {
+        func build() -> LoggingSchemeVO {
             return ShoppingListViewAppeared()
         }
     }

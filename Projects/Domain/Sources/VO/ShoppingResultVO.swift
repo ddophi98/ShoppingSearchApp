@@ -52,6 +52,7 @@ public struct ShoppingItemVO: Codable {
     }
 }
 
+// 특정 상황에서 쓰일 수 있는 가짜 데이터 정의
 extension ShoppingItemVO {
     public static let sample = ShoppingItemVO(
         title: "[KAKAO FRIENDS] 2024 카카오프렌즈 탁상용 캘린더",

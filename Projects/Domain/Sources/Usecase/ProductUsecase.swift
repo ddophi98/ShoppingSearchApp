@@ -7,11 +7,9 @@ public protocol ProductUsecase {
     func searchShopping(query: String) -> Single<ShoppingResultVO>
     func getBasketContents() -> Single<[ServerDrivenContentVO]>
     func downloadImage(url: String) -> Single<Data>
-    func setImageCache(url: String, data: Data)
 }
 
 final public class DefaultProductUsecase: ProductUsecase {
-    
     private let serverDrivenRepository: ServerDrivenRepository
     private let imageRepository: ImageRepository
     private let searchRepository: SearchRepository
@@ -25,15 +23,9 @@ final public class DefaultProductUsecase: ProductUsecase {
     public func getBasketContents() -> Single<[ServerDrivenContentVO]> {
         serverDrivenRepository.getBasketContents()
     }
-    
     public func downloadImage(url: String) -> Single<Data> {
         imageRepository.downloadImage(url: url)
     }
-    
-    public func setImageCache(url: String, data: Data) {
-        imageRepository.setImageCache(url: url, data: data)
-    }
-    
     public func searchShopping(query: String) -> Single<ShoppingResultVO> {
         searchRepository.searchShopping(query: query)
     }

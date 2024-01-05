@@ -3,9 +3,14 @@
 import Foundation
 
 public protocol LoggingUsecase {
+    // --- Detail 화면 ---
     func loggingDetailViewAppeared()
+    
+    // --- Basket 화면 ---
     func loggingBasketViewAppeared()
     func loggingBasketViewTTI(logs: Dictionary<TTIPoint, Date>)
+    
+    // --- ShoppingList 화면 ---
     func loggingShoppingListViewAppeared()
     func loggingShoppingListTTI(logs: Dictionary<TTIPoint, Date>)
     func loggingProductSearched(query: String)
@@ -13,23 +18,23 @@ public protocol LoggingUsecase {
 }
 
 final public class DefaultLoggingUsecase: LoggingUsecase {
-    
     private let loggingRepository: LoggingRepository
     
     public init(loggingRepository: LoggingRepository) {
         self.loggingRepository = loggingRepository
     }
     
+    // --- Detail 화면 ---
     public func loggingDetailViewAppeared() {
         let scheme = DetailViewAppeared.Builder().build()
         loggingRepository.shotLog(scheme)
     }
     
+    // --- Basket 화면 ---
     public func loggingBasketViewAppeared() {
         let scheme = BasketViewAppeared.Builder().build()
         loggingRepository.shotLog(scheme)
     }
-    
     public func loggingBasketViewTTI(logs: Dictionary<TTIPoint, Date>) {
         guard let loadViewTime = logs[.loadView],
               let drawViewTime = logs[.drawView],
@@ -48,11 +53,11 @@ final public class DefaultLoggingUsecase: LoggingUsecase {
         loggingRepository.shotLog(scheme)
     }
     
+    // --- ShoppingList 화면 ---
     public func loggingShoppingListViewAppeared() {
         let scheme = ShoppingListViewAppeared.Builder().build()
         loggingRepository.shotLog(scheme)
     }
-    
     public func loggingShoppingListTTI(logs: Dictionary<TTIPoint, Date>) {
         guard let loadViewTime = logs[.loadView],
               let drawViewTime = logs[.drawView],
@@ -70,14 +75,12 @@ final public class DefaultLoggingUsecase: LoggingUsecase {
             .build()
         loggingRepository.shotLog(scheme)
     }
-    
     public func loggingProductSearched(query: String) {
         let scheme = ShoppingProductSearched.Builder()
             .setQuery(query)
             .build()
         loggingRepository.shotLog(scheme)
     }
-    
     public func loggingProductTapped(productName: String, productPrice: Int, productPosition: String, productIndex: Int) {
         let scheme = ShoppingProductTapped.Builder()
             .setProductName(productName)
