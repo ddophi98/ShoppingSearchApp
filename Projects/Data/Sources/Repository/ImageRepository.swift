@@ -14,8 +14,4 @@ final public class DefaultImageRepository: ImageRepository {
     public func downloadImage(url: String) -> Single<Data> {
         dataSource.downloadImage(url: url)
     }
-    
-    public func setImageCache(url: String, data: Data) {
-        dataSource.setImageCache(url: NSString(string: url), data: NSData(data: data))
-    }
 }

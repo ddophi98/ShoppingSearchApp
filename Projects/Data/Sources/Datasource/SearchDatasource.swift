@@ -1,6 +1,7 @@
 // Copyright © 2023 com.template. All rights reserved.
 
 import Foundation
+import Moya
 import RxSwift
 
 public protocol SearchDatasource {
@@ -8,21 +9,20 @@ public protocol SearchDatasource {
 }
 
 final public class DefaultSearchDatasource: SearchDatasource {
+    private let moyaProvider = MoyaProvider<SearchAPI>()
     
     public init() { }
     
-    private let moyaProvider = MoyaWrapper<SearchAPI>()
-    
     public func searchShopping(query: String) -> Single<ShoppingResultDTO> {
-        let cacheKey = NSString(string: query)
-        if let cachedJSON = CacheManager.jsonCache.object(forKey: cacheKey) {
-            return Single.just(Data(referencing: cachedJSON))
+        if let cachedJSON = CacheManager.jsonCache.object(forKey: query) {
+            // JSON 자체이기 때문에 디코딩 작업 필요
+            return Single.just(cachedJSON)
                 .map { try JSONDecoder().decode(ShoppingResultDTO.self, from: $0)}
         } else {
+            // 클로저로 캐시 저장 로직 넘겨주기
             return moyaProvider.call(target: .shopping(query: query)) { jsonData in
-                let cacheKey = NSString(string: query)
-                if CacheManager.jsonCache.object(forKey: cacheKey) == nil {
-                    CacheManager.jsonCache.setObject(NSData(data: jsonData), forKey: cacheKey)
+                if CacheManager.jsonCache.object(forKey: query) == nil {
+                    CacheManager.jsonCache.setObject(jsonData, forKey: query)
                 }
             }
         }

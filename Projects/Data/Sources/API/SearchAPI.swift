@@ -1,9 +1,10 @@
 // Copyright © 2023 com.template. All rights reserved.
 
-import Moya
 import Foundation
+import Moya
 
 /*
+ API 사용법
  https://developers.naver.com/docs/serviceapi/search/shopping/shopping.md#%EC%87%BC%ED%95%91-%EA%B2%80%EC%83%89-%EA%B2%B0%EA%B3%BC-%EC%A1%B0%ED%9A%8C
  */
 

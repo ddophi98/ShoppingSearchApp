@@ -1,13 +1,13 @@
 // Copyright © 2023 com.shoppingSearch. All rights reserved.
 
-import Foundation
 import Domain
 
 public struct LoggingSchemeDTO {
     let scheme: String
 }
 
-extension LoggingScheme {
+extension LoggingSchemeVO {
+    // CSV 파일에 저장할 수 있는 형태로 바꾸기
     func toDTO() -> LoggingSchemeDTO {
         var logString = ""
         logString += "\(self.logVersion),\(self.eventName),\(self.screenName),"

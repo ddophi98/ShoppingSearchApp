@@ -1,7 +1,6 @@
 // Copyright © 2023 com.template. All rights reserved.
 
 import Domain
-import Foundation
 import RxSwift
 
 final public class DefaultSearchRepository: SearchRepository {

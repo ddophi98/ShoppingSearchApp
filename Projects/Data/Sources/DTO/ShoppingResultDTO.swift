@@ -27,7 +27,6 @@
  }
  */
 
-
 import Domain
 
 public struct ShoppingResultDTO: Decodable {
@@ -36,7 +35,6 @@ public struct ShoppingResultDTO: Decodable {
     let start: Int?
     let display: Int?
     let items: [ShoppingItemDTO]
-    
     
     func toVO() -> ShoppingResultVO {
         return ShoppingResultVO(

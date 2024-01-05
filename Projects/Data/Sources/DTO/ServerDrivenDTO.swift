@@ -108,6 +108,7 @@ public struct ServerDrivenBlockDTO: Decodable {
         case content
     }
     
+    // 어떤 타입의 content가 올지 모르기 때문에, 수동으로 디코딩해주기
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         blockType = try container.decode(String.self, forKey: .blockType)
@@ -115,6 +116,7 @@ public struct ServerDrivenBlockDTO: Decodable {
     }
 }
 
+// 서버로부터 받을 수 있는 content를 enum으로 정의해두기
 public enum ServerDrivenContentDTO {
     case RecentlyViewed([RecentlyViewedDTO])
     case WishList(WishListDTO)

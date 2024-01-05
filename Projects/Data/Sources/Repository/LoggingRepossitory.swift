@@ -1,7 +1,6 @@
 // Copyright © 2023 com.template. All rights reserved.
 
 import Domain
-import Foundation
 
 final public class DefaultLoggingRepository: LoggingRepository {
     private let dataSource: LoggingDatasource
@@ -10,7 +9,7 @@ final public class DefaultLoggingRepository: LoggingRepository {
         self.dataSource = dataSource
     }
     
-    public func shotLog(_ scheme: LoggingScheme) {
-        dataSource.shotLog(scheme.toDTO())
+    public func shotLog(_ loggingSchemeVO: LoggingSchemeVO) {
+        dataSource.shotLog(loggingSchemeVO.toDTO())
     }
 }

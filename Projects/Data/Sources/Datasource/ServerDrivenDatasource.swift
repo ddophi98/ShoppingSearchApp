@@ -1,6 +1,6 @@
 // Copyright © 2023 com.template. All rights reserved.
 
-import Foundation
+import Moya
 import RxSwift
 
 public protocol ServerDrivenDatasource {
@@ -8,10 +8,9 @@ public protocol ServerDrivenDatasource {
 }
 
 final public class DefaultServerDrivenDatasource: ServerDrivenDatasource {
+    private let moyaProvider = MoyaProvider<ServerDrivenAPI>()
     
     public init() { }
-    
-    private let moyaProvider = MoyaWrapper<ServerDrivenAPI>()
     
     public func getBasketContents() -> Single<ServerDrivenDTO> {
         moyaProvider.call(target: .basket)
