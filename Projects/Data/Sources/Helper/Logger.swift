@@ -47,6 +47,7 @@ final class Logger {
             let header = "Time,AppVersion,OS,LogVersion,Event,View,Others\n"
             guard let log = (header + schemeWithAppInfo).data(using: .utf8) else { return }
             try? log.write(to: filePath)
+            print("[파일 생성] " + filePath.path)
         }
     }
 }
