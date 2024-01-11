@@ -33,7 +33,7 @@ final class Logger {
     func shotLog(_ scheme: String) {
         let time = dateFormatter.string(from: Date())
         let schemeWithAppInfo = "\(time),\(appVersion),\(os)," + scheme
-        
+ 
         if fileManager.fileExists(atPath: filePath.path) {
             // 파일이 이미 존재한다면 기존 텍스트의 다음줄부터 작성하기
             guard let log = schemeWithAppInfo.data(using: .utf8) else { return }
@@ -47,7 +47,10 @@ final class Logger {
             let header = "Time,AppVersion,OS,LogVersion,Event,View,Others\n"
             guard let log = (header + schemeWithAppInfo).data(using: .utf8) else { return }
             try? log.write(to: filePath)
-            print("[파일 생성] " + filePath.path)
+            
+            #if DEBUG
+            print("[로그 작성 파일 경로] " + filePath.path)
+            #endif
         }
     }
 }
