@@ -6,11 +6,6 @@ import Foundation
 import RxSwift
 import RxCocoa
 
-enum ShoppingListSection {
-    case TopFiveProducts([ShoppingItemVO])
-    case AllProducts([ShoppingItemVO])
-}
-
 final public class ShoppingListViewModel: BaseViewModel {
     private let productUsecase: ProductUsecase
     private let loggingUsecase: LoggingUsecase
@@ -33,13 +28,7 @@ final public class ShoppingListViewModel: BaseViewModel {
         productUsecase.searchShopping(query: query)
             .subscribe(onSuccess: { [weak self] response in
                 guard let self = self else { return }
-                var newSections = [ShoppingListSection]()
-                // 상품이 5개가 넘는다면 Top5 상품 섹션도 보여주기
-                if response.items.count >= 5 {
-                    newSections.append(.TopFiveProducts(Array(response.items.prefix(upTo: 5))))
-                }
-                newSections.append(.AllProducts(response.items))
-                sections = newSections
+                sections = response
                 sectionsAreChanged.accept(())
                 loggingReceiveResponse()
             }, onFailure: { [weak self] error in
