@@ -9,6 +9,7 @@ final class BasketViewModelTest: BaseTestCase {
     let productUsecase = MockProductUsecase()
     let loggingUsecase = MockLoggingUsecase()
     let coordinator = MockSecondTabNavigation()
+    
     lazy var viewModel = BasketViewModel(
         productUsecase: productUsecase,
         loggingUsecase: loggingUsecase,

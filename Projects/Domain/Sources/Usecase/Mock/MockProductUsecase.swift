@@ -6,33 +6,27 @@ import RxSwift
 final public class MockProductUsecase: ProductUsecase {
     public init() { }
     
-    private var searchShoppingResult: ShoppingResultVO?
+    private var searchShoppingResult: [ShoppingListSection]?
     private var getBasketContentsResult: [ServerDrivenContentVO]?
     private var downloadImageResult: Data?
     
-    public func setSearchShoppingResult(_ searchShoppingResult: ShoppingResultVO) {
+    public func setSearchShoppingResult(_ searchShoppingResult: [ShoppingListSection]?) {
         self.searchShoppingResult = searchShoppingResult
     }
     
-    public func setGetBasketContentsResult(_ getBasketContentsResult: [ServerDrivenContentVO]) {
+    public func setGetBasketContentsResult(_ getBasketContentsResult: [ServerDrivenContentVO]?) {
         self.getBasketContentsResult = getBasketContentsResult
     }
     
-    public func setdownloadImageResult(_ downloadImageResult: Data) {
+    public func setdownloadImageResult(_ downloadImageResult: Data?) {
         self.downloadImageResult = downloadImageResult
     }
     
-    public func searchShopping(query: String) -> Single<ShoppingResultVO> {
+    public func searchShopping(query: String) -> Single<[ShoppingListSection]> {
         if let result = searchShoppingResult {
             Single.just(result)
         } else {
-            Single.just( ShoppingResultVO(
-                lastBuildDate: "",
-                total: -1,
-                start: -1,
-                display:-1,
-                items: []
-            ))
+            Single.just([])
         }
     }
     
