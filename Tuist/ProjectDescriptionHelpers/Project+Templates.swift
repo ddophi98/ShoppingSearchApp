@@ -67,8 +67,6 @@ extension Scheme {
         let schemeName: String
         if target == .debug {
             schemeName = "\(name)-debug"
-        } else if target == .release {
-            schemeName = "\(name)-release"
         } else {
             schemeName = name
         }
@@ -76,7 +74,7 @@ extension Scheme {
         return Scheme(
             name: schemeName,
             shared: true,
-            buildAction: .buildAction(targets: ["\(name)"]),
+            buildAction: .buildAction(targets: ["\(name)", "\(name)Tests"]),
             testAction: .targets(
                 ["\(name)Tests"],
                 configuration: target,
